@@ -1,0 +1,255 @@
+{
+  "timeline": [
+    {
+      "id": "announcement",
+      "phase": "Election Announcement",
+      "icon": "📢",
+      "description": "The Election Commission of India announces the election schedule, including dates for nominations, voting, and results.",
+      "details": [
+        "Model Code of Conduct comes into effect immediately",
+        "Government cannot announce new policies or schemes",
+        "Election Commission sets up monitoring mechanisms",
+        "Dates for each phase are officially notified"
+      ],
+      "duration": "6-8 weeks before voting"
+    },
+    {
+      "id": "nomination",
+      "phase": "Nomination Filing",
+      "icon": "📝",
+      "description": "Candidates file their nomination papers with the Returning Officer of their constituency.",
+      "details": [
+        "Candidates submit Form 2A/2B with required documents",
+        "Security deposit of ₹25,000 (General) or ₹12,500 (SC/ST) required",
+        "Affidavit declaring criminal cases, assets, and education mandatory",
+        "Scrutiny of nominations follows within a few days"
+      ],
+      "duration": "1-2 weeks"
+    },
+    {
+      "id": "withdrawal",
+      "phase": "Withdrawal of Candidature",
+      "icon": "🔄",
+      "description": "Last date for candidates to withdraw their nominations. Final list of contesting candidates is published.",
+      "details": [
+        "Candidates may withdraw for strategic or personal reasons",
+        "Final list published after withdrawal deadline",
+        "Election symbols allotted to candidates",
+        "Campaign intensifies after final list"
+      ],
+      "duration": "2-3 days after scrutiny"
+    },
+    {
+      "id": "campaign",
+      "phase": "Election Campaign",
+      "icon": "📣",
+      "description": "Political parties and candidates campaign to win voter support through rallies, advertisements, and outreach.",
+      "details": [
+        "Door-to-door canvassing and public rallies",
+        "TV, radio, print, and social media advertising",
+        "Campaign must stop 48 hours before polling (silence period)",
+        "Expenditure limits apply to all candidates",
+        "No appeals to religion, caste, or communal feelings allowed"
+      ],
+      "duration": "2-4 weeks"
+    },
+    {
+      "id": "polling",
+      "phase": "Polling Day",
+      "icon": "🗳️",
+      "description": "Voters cast their votes at designated polling stations using Electronic Voting Machines (EVMs).",
+      "details": [
+        "Voting hours typically 7 AM to 6 PM",
+        "Voter must carry valid photo ID (EPIC or approved alternatives)",
+        "Indelible ink applied on left index finger",
+        "EVMs with VVPAT ensure transparency",
+        "Booth-level officers manage polling stations",
+        "Special arrangements for elderly and disabled voters"
+      ],
+      "duration": "1 day (may be multi-phase)"
+    },
+    {
+      "id": "counting",
+      "phase": "Vote Counting",
+      "icon": "📊",
+      "description": "Votes are counted at designated counting centers under strict supervision.",
+      "details": [
+        "Postal ballots counted first",
+        "EVM votes counted round-by-round",
+        "VVPAT slips verified for random 5 machines per constituency",
+        "Counting agents from all candidates present",
+        "Results declared constituency by constituency"
+      ],
+      "duration": "1-2 days"
+    },
+    {
+      "id": "results",
+      "phase": "Results Declaration",
+      "icon": "🏆",
+      "description": "The Election Commission officially declares the results and the winning candidates.",
+      "details": [
+        "Results published on ECI website in real-time",
+        "Winning candidate gets certificate of election",
+        "Government formation process begins",
+        "Election petitions can be filed within 45 days"
+      ],
+      "duration": "Same day as counting"
+    }
+  ],
+  "guides": [
+    {
+      "id": "voter-registration",
+      "title": "Voter Registration",
+      "icon": "📋",
+      "description": "How to register as a voter and get your Voter ID (EPIC) card",
+      "steps": [
+        {
+          "title": "Check Eligibility",
+          "content": "You must be an Indian citizen, at least 18 years old on the qualifying date (January 1st of the year of revision of electoral roll), of sound mind, and not disqualified under any law."
+        },
+        {
+          "title": "Gather Documents",
+          "content": "Keep ready: Proof of age (birth certificate, school certificate, passport), Proof of address (utility bills, bank passbook, ration card), and passport-size photographs."
+        },
+        {
+          "title": "Fill Form 6",
+          "content": "Fill Form 6 (Application for inclusion in Electoral Roll) online at voters.eci.gov.in or the Voter Helpline App. You can also get a physical form from the nearest Electoral Registration Office."
+        },
+        {
+          "title": "Submit Application",
+          "content": "Submit the form online with uploaded documents or physically at the Electoral Registration Office. Keep your application reference number safe."
+        },
+        {
+          "title": "Verification Visit",
+          "content": "A Booth Level Officer (BLO) will visit your address for verification. Ensure someone is home and keep your original documents ready for verification."
+        },
+        {
+          "title": "Receive Voter ID",
+          "content": "Once verified and approved, your name will be added to the electoral roll. You will receive your EPIC (Voter ID) card. You can also download the e-EPIC from the Voter Helpline App."
+        }
+      ]
+    },
+    {
+      "id": "voting-process",
+      "title": "How to Vote",
+      "icon": "🗳️",
+      "description": "Step-by-step guide for casting your vote on election day",
+      "steps": [
+        {
+          "title": "Find Your Polling Station",
+          "content": "Check your polling station details on the Voter Helpline App or voters.eci.gov.in. Your polling station is assigned based on your registered address."
+        },
+        {
+          "title": "Carry Valid ID",
+          "content": "Bring your EPIC (Voter ID) card or any of the 12 approved photo IDs: Aadhaar, Passport, Driving License, PAN Card, MNREGA Job Card, Bank Passbook with photo, etc."
+        },
+        {
+          "title": "Arrive at Polling Station",
+          "content": "Visit your assigned polling station during voting hours (typically 7 AM - 6 PM). Follow the queue and wait for your turn."
+        },
+        {
+          "title": "Identity Verification",
+          "content": "The polling officer will verify your identity, check your name in the voter list, and apply indelible ink on your left index finger."
+        },
+        {
+          "title": "Cast Your Vote",
+          "content": "Enter the voting compartment, find your preferred candidate/party on the EVM ballot unit, and press the blue button next to their name and symbol. Check the VVPAT slip to confirm your choice."
+        },
+        {
+          "title": "Exit and Collect Slip",
+          "content": "After voting, exit the polling booth. You may receive a voter slip as proof of having voted. Your vote is secret and protected by law."
+        }
+      ]
+    },
+    {
+      "id": "postal-ballot",
+      "title": "Postal Ballot Voting",
+      "icon": "📮",
+      "description": "How to vote via postal ballot if you're eligible",
+      "steps": [
+        {
+          "title": "Check Eligibility",
+          "content": "Postal ballot is available for: Service voters (armed forces, government employees posted away), Voters on election duty, Senior citizens (80+), Persons with disabilities, COVID-affected voters, and essential service workers."
+        },
+        {
+          "title": "Apply for Postal Ballot",
+          "content": "Submit Form 12 to the Returning Officer of your constituency. The application must be submitted within the prescribed time after notification of election."
+        },
+        {
+          "title": "Receive Ballot Paper",
+          "content": "The Returning Officer will dispatch the postal ballot paper to your registered address along with instructions and a declaration form."
+        },
+        {
+          "title": "Mark Your Vote",
+          "content": "Mark your vote on the ballot paper in privacy. Place it in the inner cover, then in the outer cover along with the signed declaration."
+        },
+        {
+          "title": "Return the Ballot",
+          "content": "Post the sealed cover back to the Returning Officer. It must reach before the counting date to be valid."
+        }
+      ]
+    },
+    {
+      "id": "election-complaints",
+      "title": "Filing Election Complaints",
+      "icon": "⚖️",
+      "description": "How to report election violations and file complaints",
+      "steps": [
+        {
+          "title": "Identify the Violation",
+          "content": "Common violations include: voter bribery, booth capturing, hate speech, misuse of government machinery, exceeding expenditure limits, and campaign during silence period."
+        },
+        {
+          "title": "Use cVIGIL App",
+          "content": "Download the cVIGIL app by ECI. Take a photo or video of the violation with GPS location. Submit it through the app for immediate action."
+        },
+        {
+          "title": "Contact Election Commission",
+          "content": "Call the ECI helpline at 1950, email complaints@eci.gov.in, or visit the National Grievance Services portal at ngsp.in."
+        },
+        {
+          "title": "Track Your Complaint",
+          "content": "Every complaint gets a unique tracking ID. You can track the status through the cVIGIL app or the ECI website. Flying squads respond within minutes."
+        }
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "question": "What is the minimum voting age in India?",
+      "answer": "18 years. You must be at least 18 years old on the qualifying date (January 1st of the year of revision of electoral roll)."
+    },
+    {
+      "question": "What is NOTA?",
+      "answer": "NOTA stands for 'None Of The Above'. It is an option on the EVM that allows voters to reject all candidates. However, even if NOTA gets the most votes, the candidate with the next highest votes wins."
+    },
+    {
+      "question": "What is the Model Code of Conduct?",
+      "answer": "The Model Code of Conduct (MCC) is a set of guidelines issued by the Election Commission for political parties and candidates to follow during elections. It covers general conduct, meetings, processions, polling day behavior, and use of government machinery."
+    },
+    {
+      "question": "Can I vote if I don't have my Voter ID card?",
+      "answer": "Yes! You can use any of the 12 approved alternative photo IDs including Aadhaar, Passport, Driving License, PAN Card, MNREGA Job Card, or Bank Passbook with photo."
+    },
+    {
+      "question": "What is EVM and VVPAT?",
+      "answer": "EVM (Electronic Voting Machine) is the device used for casting votes electronically. VVPAT (Voter Verifiable Paper Audit Trail) is attached to the EVM and prints a paper slip showing the candidate's name and symbol, allowing voters to verify their vote."
+    },
+    {
+      "question": "How are election results declared?",
+      "answer": "After polling, EVMs are stored in strong rooms under CCTV. On counting day, postal ballots are counted first, followed by EVM votes. Results are declared round by round and published on the ECI website in real-time."
+    }
+  ],
+  "glossary": [
+    { "term": "EPIC", "definition": "Electors Photo Identity Card - the official voter ID card" },
+    { "term": "EVM", "definition": "Electronic Voting Machine used for casting votes" },
+    { "term": "VVPAT", "definition": "Voter Verifiable Paper Audit Trail for vote verification" },
+    { "term": "ECI", "definition": "Election Commission of India - the constitutional body conducting elections" },
+    { "term": "MCC", "definition": "Model Code of Conduct - guidelines for parties during elections" },
+    { "term": "BLO", "definition": "Booth Level Officer - the field-level election officer" },
+    { "term": "NOTA", "definition": "None Of The Above - option to reject all candidates" },
+    { "term": "RO", "definition": "Returning Officer - oversees election in a constituency" },
+    { "term": "Lok Sabha", "definition": "The lower house of Indian Parliament (House of the People)" },
+    { "term": "Vidhan Sabha", "definition": "State Legislative Assembly" }
+  ]
+}
