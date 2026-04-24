@@ -9,12 +9,13 @@
     <meta name="keywords"
         content="election, voting, voter registration, election process, India elections, civic education">
     <meta name="theme-color" content="#0a0e27">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Electionant — Your Guide to Democracy</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@100..900&family=Noto+Sans+Tamil:wght@100..900&family=Noto+Sans+Telugu:wght@100..900&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -23,6 +24,9 @@
     <!-- Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
+    <!-- Leaflet.js (Free OpenStreetMap) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -34,7 +38,7 @@
             </div>
             <div class="top-bar-right">
                 <a href="#main-content">Skip to main content</a>
-                <span class="separator">|</span>
+                <div id="google_translate_element"></div>
                 <div class="font-resizer">
                     <button onclick="changeFontSize(-1)">A-</button>
                     <button onclick="changeFontSize(0)">A</button>
@@ -44,12 +48,19 @@
         </div>
     </div>
 
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <!-- Main Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <a href="#" class="nav-logo" id="nav-logo">
                 <div class="logo-emblem">
-                    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="🇮🇳" class="flag-icon-wave">
+                    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="ECI Emblem" class="flag-icon-wave">
                 </div>
                 <div class="logo-stack">
                     <span class="logo-main">ELECTION COMMISSION OF INDIA</span>
@@ -59,10 +70,10 @@
 
             <div class="nav-links" id="nav-links" role="menubar">
                 <a href="#" class="nav-link active" data-page="home" role="menuitem">Home</a>
-                <a href="#" class="nav-link" data-page="chat" role="menuitem">AI Assistant</a>
                 <a href="#" class="nav-link" data-page="timeline" role="menuitem">Election Schedule</a>
-                <a href="#" class="nav-link" data-page="guides" role="menuitem">Voter Guide</a>
                 <a href="#" class="nav-link" data-page="lookup" role="menuitem">Find Your Rep</a>
+                <a href="#" class="nav-link" data-page="maps" role="menuitem">Polling Stations</a>
+                <a href="#" class="nav-link" data-page="videos" role="menuitem">Educational Gallery</a>
             </div>
 
             <div class="nav-right">
@@ -85,15 +96,12 @@
                         <br>Like Never Before
                     </h1>
                     <p class="hero-subtitle">
-                        An AI-powered interactive assistant that makes India's electoral system
-                        simple, accessible, and engaging for every citizen.
+                        An interactive platform that makes India's electoral system
+                        simple, accessible, and engaging. Find your representatives, track election schedules, and locate your nearest polling booth.
                     </p>
                     <div class="hero-actions">
-                        <button class="btn btn-primary btn-lg" id="hero-chat-btn">
-                            <span>💬</span> Ask the AI Assistant
-                        </button>
-                        <button class="btn btn-glass btn-lg" id="hero-explore-btn">
-                            <span>📅</span> Explore Timeline
+                        <button class="btn btn-primary btn-lg" id="hero-explore-btn" data-page="timeline">
+                            Explore Election Schedule
                         </button>
                     </div>
                     <div class="hero-stats">
@@ -117,26 +125,48 @@
                 <h2 class="section-title">Everything You Need to Know</h2>
                 <div class="features-grid">
                     <div class="feature-card" data-page="chat" role="button" tabindex="0">
-                        <span class="feature-icon">🤖</span>
+                        <span class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        </span>
                         <h3>AI Chat Assistant</h3>
                         <p>Ask any question about elections and get instant, accurate answers powered by Google Gemini
                             AI.</p>
                     </div>
                     <div class="feature-card" data-page="timeline" role="button" tabindex="0">
-                        <span class="feature-icon">📊</span>
+                        <span class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        </span>
                         <h3>Election Timeline</h3>
                         <p>Visualize the complete election process from announcement to results in an interactive
                             timeline.</p>
                     </div>
                     <div class="feature-card" data-page="guides" role="button" tabindex="0">
-                        <span class="feature-icon">📋</span>
+                        <span class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        </span>
                         <h3>Step-by-Step Guides</h3>
                         <p>Follow detailed guides for voter registration, voting process, and absentee ballots.</p>
                     </div>
                     <div class="feature-card" data-page="lookup" role="button" tabindex="0">
-                        <span class="feature-icon">🏛️</span>
+                        <span class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M3 7v1a3 3 0 0 0 6 0V7m6 0v1a3 3 0 0 0 6 0V7M3 7l9-4 9 4M4 21V10m5 11V10m5 11V10m5 11V10"></path></svg>
+                        </span>
                         <h3>Representative Lookup</h3>
                         <p>Find your elected representatives and contact information using Google Civic API.</p>
+                    </div>
+                    <div class="feature-card" data-page="maps" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </span>
+                        <h3>Polling Booth Finder</h3>
+                        <p>Locate your nearest polling station and get directions using Google Maps.</p>
+                    </div>
+                    <div class="feature-card" data-page="videos" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        </span>
+                        <h3>Educational Gallery</h3>
+                        <p>Watch official voter awareness and educational content powered by Google YouTube API.</p>
                     </div>
                 </div>
             </div>
@@ -144,79 +174,6 @@
             <div class="faq-section">
                 <h2 class="section-title">Common Questions</h2>
                 <div class="faq-container" id="faq-container"></div>
-            </div>
-        </section>
-
-        <!-- CHAT PAGE -->
-        <section class="page" id="page-chat">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <div class="chat-header-info">
-                        <div class="chat-avatar">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                                <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                                <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
-                                <line x1="12" y1="2" x2="12" y2="7" stroke="#a855f7" stroke-width="3"></line>
-                            </svg>
-                        </div>
-                        <div>
-                            <h2>Election AI Assistant</h2>
-                            <span class="chat-status">Powered by Google Gemini</span>
-                        </div>
-                    </div>
-                    <button class="btn btn-ghost btn-sm" id="chat-clear-btn">Clear</button>
-                </div>
-
-                <div class="chat-messages" id="chat-messages" role="log">
-                    <div class="chat-welcome">
-                        <span class="welcome-icon">🗳️</span>
-                        <h3>Welcome to Electionant!</h3>
-                        <p>I'm here to help you understand the election process. Ask me anything about voting,
-                            registration, or deadlines.</p>
-                    </div>
-                    <div class="chat-suggestions">
-                        <span class="suggestion-label">Try asking:</span>
-                        <div class="suggestion-chips">
-                            <button class="chip" data-question="How do I register to vote?">How do I register to
-                                vote?</button>
-                            <button class="chip" data-question="What is the role of the Election Commission?">ECI
-                                Role</button>
-                            <button class="chip" data-question="What is NOTA?">What is NOTA?</button>
-                            <button class="chip" data-question="How do EVMs work?">How do EVMs work?</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chat-input-container">
-                    <form class="chat-input-form" id="chat-form">
-                        <div class="chat-input-wrapper">
-                            <textarea class="chat-input" id="chat-input" placeholder="Ask me anything about elections..." rows="1"
-                                maxlength="2000"></textarea>
-                            <div class="chat-input-actions">
-                                <button type="button" class="chat-action-btn" id="voice-input-btn" title="Voice Input">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                                        <line x1="12" y1="19" x2="12" y2="23"/>
-                                        <line x1="8" y1="23" x2="16" y2="23"/>
-                                    </svg>
-                                </button>
-                                <button type="submit" class="chat-send-btn" id="chat-send-btn" disabled>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="chat-disclaimer">
-                        Always verify with official sources like <a href="https://eci.gov.in"
-                            target="_blank">eci.gov.in</a>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -264,9 +221,75 @@
                     </form>
                 </div>
                 <div id="lookup-results"></div>
+
+                <div class="advanced-research-section">
+                    <h3 class="section-subtitle">🔍 Advanced Insights</h3>
+                    <p class="section-desc">For deep-dives into candidate backgrounds and MP performance, we recommend these official research portals:</p>
+                    <div class="research-grid">
+                        <a href="https://myneta.info" target="_blank" class="research-card">
+                            <div class="research-icon">📊</div>
+                            <div class="research-info">
+                                <h4>MyNeta (ADR)</h4>
+                                <p>Check criminal records, assets, and liabilities of candidates.</p>
+                            </div>
+                        </a>
+                        <a href="https://prsindia.org" target="_blank" class="research-card">
+                            <div class="research-icon">🏛️</div>
+                            <div class="research-info">
+                                <h4>PRS Legislative Research</h4>
+                                <p>Track MP attendance, participation, and legislative performance.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
                 <div class="calendar-section">
                     <h3 class="section-subtitle">📅 Calendar Reminders</h3>
                     <div class="calendar-dates" id="calendar-dates"></div>
+                </div>
+            </div>
+        </section>
+        <!-- MAPS PAGE -->
+        <section class="page" id="page-maps">
+            <div class="maps-container">
+                <div class="page-header">
+                    <h2 class="page-title">Polling Booth <span class="gradient-text">Finder</span></h2>
+                    <p class="page-subtitle">Find your nearest polling station on Google Maps</p>
+                </div>
+                <div class="maps-wrapper">
+                    <div class="map-search">
+                        <div class="lookup-input-wrapper">
+                            <span class="lookup-icon">📍</span>
+                            <input type="text" class="lookup-input" id="map-search-input" placeholder="Enter your area or pincode...">
+                            <button class="btn btn-primary" id="map-search-btn">Find Booths</button>
+                        </div>
+                    </div>
+                    <div class="map-display">
+                        <div id="leaflet-map" style="height: 500px; width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIDEOS PAGE -->
+        <section class="page" id="page-videos">
+            <div class="videos-container">
+                <div class="page-header">
+                    <h2 class="page-title">Educational <span class="gradient-text">Gallery</span></h2>
+                    <p class="page-subtitle">Learn about democracy through official educational content</p>
+                </div>
+                <div class="video-grid" id="video-grid">
+                    <div class="video-card">
+                        <div class="video-frame-wrapper">
+                            <iframe width="100%" height="315" src="https://www.youtube.com/embed/videoseries?list=PL_Xv_f4T-m6h_u6U3Gz-Y-H7-16-Y-Z-7" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag">Official</span>
+                            <h4>ECI Voter Education</h4>
+                            <p>Watch official awareness videos and tutorials directly from the Election Commission of India's YouTube channel.</p>
+                            <a href="https://www.youtube.com/@eci" target="_blank" class="btn btn-glass btn-sm">Visit ECI YouTube</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -278,7 +301,9 @@
             <div class="footer-grid">
                 <div class="footer-col-brand">
                     <div class="footer-brand">
-                        <span class="logo-icon">🗳️</span>
+                        <span class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6"></path><path d="M10 12h4"></path></svg>
+                        </span>
                         <span>Electionant</span>
                     </div>
                     <p class="footer-description">
