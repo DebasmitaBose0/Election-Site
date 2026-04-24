@@ -23,12 +23,14 @@ async function initTimeline() {
             itemDiv.className = 'timeline-item';
             itemDiv.style.animationDelay = `${index * 0.1}s`;
             
+            const isLive = item.duration.includes('Exact Date');
+            
             itemDiv.innerHTML = `
-                <div class="timeline-icon">${item.icon}</div>
-                <div class="timeline-content">
+                <div class="timeline-icon ${isLive ? 'pulse-icon' : ''}">${item.icon}</div>
+                <div class="timeline-content ${isLive ? 'live-content' : ''}">
                     <div class="timeline-header">
                         <h3 class="timeline-phase">${item.phase}</h3>
-                        <span class="timeline-duration">${item.duration}</span>
+                        <span class="timeline-duration ${isLive ? 'live-date' : ''}">${item.duration}</span>
                     </div>
                     <p class="timeline-desc">${item.description}</p>
                     <ul class="timeline-details">
