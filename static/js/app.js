@@ -8,6 +8,33 @@
 // ═══════════════════════════════════════
 let currentFontSize = 0;
 
+// Global Toast System
+window.showToast = (message, type = 'info') => {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    let icon = 'ℹ️';
+    if (type === 'success') icon = '✅';
+    if (type === 'error') icon = '❌';
+
+    toast.innerHTML = `
+        <span>${icon}</span>
+        <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-20px)';
+        toast.style.transition = 'all 0.5s ease';
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+};
+
 window.changeFontSize = (step) => {
     const html = document.documentElement;
     const baseSize = 16;
@@ -35,8 +62,14 @@ window.showToast = (message, type = 'info') => {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     toast.style.animation = 'slideIn 0.3s ease forwards';
+    const icons = {
+        success: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+        error: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+        info: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+    };
+
     toast.innerHTML = `
-        <div class="toast-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</div>
+        <div class="toast-icon">${icons[type] || icons.info}</div>
         <div class="toast-message">${message}</div>
     `;
     
@@ -92,6 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pageId === 'timeline') initTimeline();
         if (pageId === 'guides') initGuides();
         if (pageId === 'lookup') initLookup();
+        if (pageId === 'maps') initMaps();
+        if (pageId === 'videos') initVideos();
         
         // Update URL hash without reload
         window.history.pushState(null, '', `#${pageId}`);
@@ -262,5 +297,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initFAQ();
 
+// ═══════════════════════════════════════
+// Google Maps Integration
+// ═══════════════════════════════════════
+let map; // Global map instance
 
+function initMaps() {
+    console.log('OpenStreetMap (Leaflet) initialized');
+    const searchBtn = document.getElementById('map-search-btn');
+    const searchInput = document.getElementById('map-search-input');
+    const mapContainer = document.getElementById('leaflet-map');
+
+    if (!searchBtn || !searchInput || !mapContainer) return;
+
+    // Initialize map if not already done
+    if (!map) {
+        map = L.map('leaflet-map').setView([20.5937, 78.9629], 5); // Center of India
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+    }
+
+    // Search Logic
+    const handleSearch = async () => {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        showToast(`Locating ${query}...`, 'info');
+
+        try {
+            // Use free Nominatim API for geocoding
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', India')}`);
+            const data = await response.json();
+
+            if (data && data.length > 0) {
+                const { lat, lon, display_name } = data[0];
+                const coords = [parseFloat(lat), parseFloat(lon)];
+                
+                map.setView(coords, 14);
+                
+                // Add marker
+                L.marker(coords).addTo(map)
+                    .bindPopup(`<b>${query}</b><br>Potential Polling Area`)
+                    .openPopup();
+            } else {
+                showToast('Location not found. Try a more specific area name.', 'error');
+            }
+        } catch (error) {
+            console.error('Map Search Error:', error);
+            showToast('Search failed. Please check your connection.', 'error');
+        }
+    };
+
+    // Remove old listeners
+    const newBtn = searchBtn.cloneNode(true);
+    searchBtn.parentNode.replaceChild(newBtn, searchBtn);
+    newBtn.addEventListener('click', handleSearch);
+}
+
+// ═══════════════════════════════════════
+// YouTube Integration
+// ═══════════════════════════════════════
+function initVideos() {
+    console.log('YouTube Gallery initialized');
+}
 });
