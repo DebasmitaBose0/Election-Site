@@ -1,0 +1,61 @@
+{
+  "states": {
+    "West Bengal": {
+      "next_election_due": 2026,
+      "last_election": 2021,
+      "assembly_term_years": 5,
+      "status": "Due in 2026",
+      "context": "The current West Bengal Legislative Assembly term expires in 2026. Elections are typically held in several phases between March and May."
+    },
+    "Uttar Pradesh": {
+      "next_election_due": 2027,
+      "last_election": 2022,
+      "assembly_term_years": 5,
+      "status": "Expected in 2027",
+      "context": "The Uttar Pradesh Vidhan Sabha term runs until early 2027. The last elections were held in early 2022."
+    },
+    "Maharashtra": {
+      "next_election_due": 2024,
+      "last_election": 2019,
+      "assembly_term_years": 5,
+      "status": "Expected Late 2024",
+      "context": "Maharashtra's legislative assembly term is due to expire in late 2024. Political activity usually intensifies 6 months prior."
+    },
+    "Tamil Nadu": {
+      "next_election_due": 2026,
+      "last_election": 2021,
+      "assembly_term_years": 5,
+      "status": "Due in 2026",
+      "context": "The Tamil Nadu Assembly term expires in May 2026. Elections are usually held in a single phase."
+    },
+    "Karnataka": {
+      "next_election_due": 2028,
+      "last_election": 2023,
+      "assembly_term_years": 5,
+      "status": "Expected 2028",
+      "context": "Karnataka last voted in May 2023. The next state election is expected in mid-2028."
+    },
+    "Delhi": {
+      "next_election_due": 2025,
+      "last_election": 2020,
+      "assembly_term_years": 5,
+      "status": "Due early 2025",
+      "context": "The Delhi Legislative Assembly term expires in February 2025. The schedule is typically announced in January."
+    },
+    "Bihar": {
+      "next_election_due": 2025,
+      "last_election": 2020,
+      "assembly_term_years": 5,
+      "status": "Due late 2025",
+      "context": "Bihar Assembly elections are due in late 2025. The current term expires in November 2025."
+    }
+  },
+  "national": {
+    "Lok Sabha": {
+      "next_election_due": 2029,
+      "last_election": 2024,
+      "status": "Expected in 2029",
+      "context": "The 18th Lok Sabha term runs until 2029. General elections are held nationwide every 5 years."
+    }
+  }
+}
