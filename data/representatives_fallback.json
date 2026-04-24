@@ -1,0 +1,50 @@
+{
+  "Barrackpore": {
+    "normalized_address": {
+      "line1": "Barrackpore",
+      "city": "North 24 Parganas",
+      "state": "West Bengal"
+    },
+    "representatives": [
+      {
+        "name": "Arjun Singh",
+        "office": "Member of Parliament (Lok Sabha)",
+        "party": "All India Trinamool Congress",
+        "phones": ["033-25920000"],
+        "urls": ["https://sansad.in/ls/members"],
+        "photo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Arjun_Singh_MP.jpg/220px-Arjun_Singh_MP.jpg"
+      },
+      {
+        "name": "Raj Chakraborty",
+        "office": "Member of Legislative Assembly (MLA) - Barrackpore",
+        "party": "All India Trinamool Congress",
+        "phones": ["033-25860000"],
+        "urls": ["https://wbassembly.gov.in/"],
+        "photo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Raj_Chakraborty.jpg/220px-Raj_Chakraborty.jpg"
+      }
+    ]
+  },
+  "Kolkata": {
+    "normalized_address": {
+      "line1": "Kolkata",
+      "city": "Kolkata",
+      "state": "West Bengal"
+    },
+    "representatives": [
+      {
+        "name": "Sudip Bandyopadhyay",
+        "office": "Member of Parliament (Kolkata Uttar)",
+        "party": "All India Trinamool Congress",
+        "phones": ["011-23710000"],
+        "urls": ["https://sansad.in/ls/members"]
+      },
+      {
+        "name": "Mala Roy",
+        "office": "Member of Parliament (Kolkata Dakshin)",
+        "party": "All India Trinamool Congress",
+        "phones": ["011-23720000"],
+        "urls": ["https://sansad.in/ls/members"]
+      }
+    ]
+  }
+}
