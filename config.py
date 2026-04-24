@@ -29,6 +29,12 @@ class Config:
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '')
     GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI', 'http://localhost:5000/auth/callback')
 
+    # Google Maps API
+    GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', '')
+
+    # Google YouTube API
+    GOOGLE_YOUTUBE_API_KEY = os.getenv('GOOGLE_YOUTUBE_API_KEY', '')
+
     # Google Civic Information API
     GOOGLE_CIVIC_API_KEY = os.getenv('GOOGLE_CIVIC_API_KEY', '')
 
@@ -58,3 +64,13 @@ class Config:
     def is_civic_configured(cls) -> bool:
         """Check if Civic Information API is configured."""
         return bool(cls.GOOGLE_CIVIC_API_KEY)
+
+    @classmethod
+    def is_maps_configured(cls) -> bool:
+        """Check if Google Maps API is configured."""
+        return bool(cls.GOOGLE_MAPS_API_KEY)
+
+    @classmethod
+    def is_youtube_configured(cls) -> bool:
+        """Check if Google YouTube API is configured."""
+        return bool(cls.GOOGLE_YOUTUBE_API_KEY)
