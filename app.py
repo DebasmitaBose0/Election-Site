@@ -75,6 +75,8 @@ def index():
         gemini_configured=Config.is_gemini_configured(),
         oauth_configured=Config.is_oauth_configured(),
         civic_configured=Config.is_civic_configured(),
+        maps_key=Config.GOOGLE_MAPS_API_KEY,
+        youtube_key=Config.GOOGLE_YOUTUBE_API_KEY,
     )
 
 
@@ -84,7 +86,6 @@ def index():
 
 @app.route('/api/chat', methods=['POST'])
 @limiter.limit("20 per minute")
-@csrf.exempt
 def chat():
     """Handle chat messages via Google Gemini AI Service for Electionant."""
     data = request.get_json()
@@ -119,8 +120,33 @@ def chat():
 
 @app.route('/api/timeline')
 def get_timeline():
-    """Get election timeline data."""
-    return jsonify({'timeline': ELECTION_DATA.get('timeline', [])})
+    """Get election timeline data enriched with live API dates."""
+    base_timeline = ELECTION_DATA.get('timeline', [])
+    live_elections = civic_service.get_all_elections()
+    
+    if live_elections and not live_elections.get('error'):
+        elections = live_elections.get('data', [])
+        for item in base_timeline:
+            # STRICT FILTER: Only look for Indian elections
+            # We check for "India", "IN", or specific Indian state keywords in the name or division
+            indian_keywords = ['india', 'west bengal', 'maharashtra', 'tamil nadu', 'karnataka', 'delhi', 'up', 'bihar']
+            relevant = next((e for e in elections if 
+                            any(kw in e.get('name', '').lower() for kw in indian_keywords) or 
+                            'ocd-division/country:in' in e.get('ocdDivisionId', '').lower()), None)
+            
+            if relevant:
+                # Update with exact data from API
+                if 'Polling' in item['phase'] or 'Election' in item['phase']:
+                    item['duration'] = f"Exact Date: {relevant.get('electionDay')}"
+                    item['description'] = f"The {relevant.get('name')} is officially scheduled for this day."
+            else:
+                # If no Indian API data found, reset to "To be announced"
+                # This prevents "West Virginia" from being confused with "West Bengal"
+                if 'duration' in item and any(x in item['duration'] for x in ['weeks', 'days', 'Exact Date']):
+                    item['duration'] = "To be announced"
+                    item['description'] = "The official schedule for the Indian elections will be updated here as soon as the Election Commission of India releases the notification."
+
+    return jsonify({'timeline': base_timeline})
 
 
 @app.route('/api/guides')
@@ -168,7 +194,7 @@ def get_glossary():
 @app.route('/api/representatives')
 @limiter.limit("10 per minute")
 def get_representatives():
-    """Look up representatives by address."""
+    """Look up representatives by address with AI fallback."""
     address = request.args.get('address', '')
     address = sanitize_input(address, max_length=500)
 
@@ -177,10 +203,54 @@ def get_representatives():
 
     result = civic_service.get_representatives(address)
 
+    # If API fails or returns no representatives, trigger AI Fallback
+    if result.get('error') or not result.get('data', {}).get('representatives'):
+        print(f"DEBUG: Civic API empty/failed for {address}. Falling back to AI Brain...")
+        ai_data = get_ai_representatives(address)
+        if ai_data:
+            return jsonify(ai_data)
+
     if result.get('error'):
         return jsonify({'error': result['error']}), 400
 
     return jsonify(result['data'])
+
+
+def get_ai_representatives(address):
+    """Helper to fetch representatives using Gemini AI."""
+    try:
+        prompt = f"""Find the current elected representatives for the following address in India: {address}
+        You MUST return ONLY a JSON object in this EXACT format (no other text):
+        {{
+            "normalized_address": {{
+                "line1": "{address}",
+                "city": "City Name",
+                "state": "State Name"
+            }},
+            "representatives": [
+                {{
+                    "name": "Full Name",
+                    "office": "Office Title (e.g. Member of Parliament)",
+                    "party": "Political Party Name",
+                    "phones": ["Phone Number"],
+                    "urls": ["Official Website URL"],
+                    "photo_url": ""
+                    }}
+                ]
+            }}
+            Identify the current MP (Member of Parliament) and MLA (Member of Legislative Assembly) for this location."""
+        
+        response_text = gemini_service.execute_chat(prompt)
+        
+        import json
+        import re
+        json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group(0))
+        return None
+    except Exception as e:
+        print(f"DEBUG: AI Fallback Error in app.py: {e}")
+        return None
 
 
 # ──────────────────────────────────────────
@@ -195,7 +265,6 @@ def get_calendar_dates():
 
 
 @app.route('/api/calendar/add', methods=['POST'])
-@csrf.exempt
 @login_required
 def add_to_calendar():
     """Add an election event to user's Google Calendar."""
@@ -324,8 +393,10 @@ def internal_error(e):
 
 if __name__ == '__main__':
     print("\n🗳️  Electionant is starting...")
-    print(f"   Gemini AI:  {'✅ Configured' if Config.is_gemini_configured() else '❌ Not configured'}")
-    print(f"   OAuth 2.0:  {'✅ Configured' if Config.is_oauth_configured() else '❌ Not configured'}")
-    print(f"   Civic API:  {'✅ Configured' if Config.is_civic_configured() else '❌ Not configured'}")
-    print(f"\n   Open http://localhost:5000 in your browser\n")
+    print(f"   Gemini AI:  {'✅ Configured' if Config.is_gemini_configured() else '❌ Not Found'}")
+    print(f"   OAuth 2.0:  {'✅ Configured' if Config.is_oauth_configured() else '⚠️ Limited'}")
+    print(f"   Civic API:  {'✅ Configured' if Config.is_civic_configured() else '❌ Not Found'}")
+    print(f"   Maps API:   {'✅ Configured' if Config.is_maps_configured() else '❌ Not Found'}")
+    print(f"   YouTube:    {'✅ Configured' if Config.is_youtube_configured() else '❌ Not Found'}")
+    print(f"   Open http://localhost:5000 in your browser\n")
     app.run(debug=True, host='0.0.0.0', port=5000)
