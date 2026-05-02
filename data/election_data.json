@@ -2,100 +2,202 @@
   "timeline": [
     {
       "id": "announcement",
-      "phase": "Election Announcement",
+      "phase": "📢 Election Announcement",
       "icon": "📢",
-      "description": "The Election Commission of India announces the election schedule, including dates for nominations, voting, and results.",
+      "description": "The Election Commission of India officially announced the schedule for the 2026 State Legislative Assembly Elections.",
       "details": [
-        "Model Code of Conduct comes into effect immediately",
-        "Government cannot announce new policies or schemes",
-        "Election Commission sets up monitoring mechanisms",
-        "Dates for each phase are officially notified"
+        "Announcement Date: 15 March 2026",
+        "Model Code of Conduct came into effect immediately",
+        "States Covered: West Bengal, Tamil Nadu, Kerala, Assam, Puducherry",
+        "Government cannot announce new policies or schemes from this date",
+        "Election Commission sets up monitoring and flying squads"
       ],
-      "duration": "6-8 weeks before voting"
+      "duration": "15 March 2026"
     },
     {
-      "id": "nomination",
-      "phase": "Nomination Filing",
-      "icon": "📝",
-      "description": "Candidates file their nomination papers with the Returning Officer of their constituency.",
+      "id": "states-covered",
+      "phase": "🏛️ States Going to Polls",
+      "icon": "🏛️",
+      "description": "Five states and one union territory are covered in the 2026 Assembly Elections.",
       "details": [
-        "Candidates submit Form 2A/2B with required documents",
-        "Security deposit of ₹25,000 (General) or ₹12,500 (SC/ST) required",
-        "Affidavit declaring criminal cases, assets, and education mandatory",
-        "Scrutiny of nominations follows within a few days"
+        "West Bengal — 294 constituencies (2 phases)",
+        "Tamil Nadu — 234 constituencies (single phase)",
+        "Kerala — 140 constituencies (single phase)",
+        "Assam — 126 constituencies (single phase)",
+        "Puducherry — 30 constituencies (single phase)"
       ],
-      "duration": "1-2 weeks"
+      "duration": "5 States + 1 UT"
     },
     {
-      "id": "withdrawal",
-      "phase": "Withdrawal of Candidature",
-      "icon": "🔄",
-      "description": "Last date for candidates to withdraw their nominations. Final list of contesting candidates is published.",
-      "details": [
-        "Candidates may withdraw for strategic or personal reasons",
-        "Final list published after withdrawal deadline",
-        "Election symbols allotted to candidates",
-        "Campaign intensifies after final list"
-      ],
-      "duration": "2-3 days after scrutiny"
-    },
-    {
-      "id": "campaign",
-      "phase": "Election Campaign",
-      "icon": "📣",
-      "description": "Political parties and candidates campaign to win voter support through rallies, advertisements, and outreach.",
-      "details": [
-        "Door-to-door canvassing and public rallies",
-        "TV, radio, print, and social media advertising",
-        "Campaign must stop 48 hours before polling (silence period)",
-        "Expenditure limits apply to all candidates",
-        "No appeals to religion, caste, or communal feelings allowed"
-      ],
-      "duration": "2-4 weeks"
-    },
-    {
-      "id": "polling",
-      "phase": "Polling Day",
+      "id": "polling-phase-1",
+      "phase": "🗳️ Phase 1 — Polling Day",
       "icon": "🗳️",
-      "description": "Voters cast their votes at designated polling stations using Electronic Voting Machines (EVMs).",
+      "description": "First phase of polling across Kerala, Assam, and Puducherry.",
       "details": [
-        "Voting hours typically 7 AM to 6 PM",
-        "Voter must carry valid photo ID (EPIC or approved alternatives)",
-        "Indelible ink applied on left index finger",
-        "EVMs with VVPAT ensure transparency",
-        "Booth-level officers manage polling stations",
-        "Special arrangements for elderly and disabled voters"
+        "Kerala — 9 April 2026 (All 140 seats)",
+        "Assam — 9 April 2026 (All 126 seats)",
+        "Puducherry — 9 April 2026 (All 30 seats)",
+        "Polling Time: 7:00 AM – 6:00 PM",
+        "Voters must carry valid photo ID (EPIC or approved alternatives)",
+        "EVMs with VVPAT ensure transparency at all booths"
       ],
-      "duration": "1 day (may be multi-phase)"
+      "duration": "Exact Date: 2026-04-09"
+    },
+    {
+      "id": "polling-phase-2",
+      "phase": "🗳️ Phase 2 — Polling Day",
+      "icon": "🗳️",
+      "description": "Polling in Tamil Nadu and the first phase of West Bengal.",
+      "details": [
+        "Tamil Nadu — 23 April 2026 (All 234 seats)",
+        "West Bengal — 23 April 2026 (Phase 1)",
+        "Polling Time: 7:00 AM – 6:00 PM",
+        "Special arrangements for elderly (80+) and disabled voters",
+        "Booth-level officers manage polling stations across all states"
+      ],
+      "duration": "Exact Date: 2026-04-23"
+    },
+    {
+      "id": "polling-phase-3",
+      "phase": "🗳️ Phase 3 — West Bengal",
+      "icon": "🗳️",
+      "description": "Second and final phase of polling in West Bengal covering remaining constituencies.",
+      "details": [
+        "West Bengal — 29 April 2026 (Phase 2 — remaining seats)",
+        "Polling Time: 7:00 AM – 6:00 PM",
+        "Heavy security deployment in sensitive areas",
+        "Central Armed Police Forces (CAPF) deployed at all booths"
+      ],
+      "duration": "Exact Date: 2026-04-29"
+    },
+    {
+      "id": "repolling",
+      "phase": "⚠️ Repolling (West Bengal)",
+      "icon": "⚠️",
+      "description": "Repolling ordered by ECI in select booths in West Bengal due to reported irregularities.",
+      "details": [
+        "Repolling Date: 2 May 2026",
+        "Ordered due to irregularities and complaints at specific booths",
+        "Affected booths re-conducted under enhanced security",
+        "CCTV and webcasting mandatory at all repolling stations"
+      ],
+      "duration": "Exact Date: 2026-05-02"
     },
     {
       "id": "counting",
-      "phase": "Vote Counting",
+      "phase": "📊 Vote Counting",
       "icon": "📊",
-      "description": "Votes are counted at designated counting centers under strict supervision.",
+      "description": "Votes counted simultaneously across all five states at designated counting centers under strict supervision.",
       "details": [
+        "Counting Date: 4 May 2026",
         "Postal ballots counted first",
         "EVM votes counted round-by-round",
         "VVPAT slips verified for random 5 machines per constituency",
         "Counting agents from all candidates present",
-        "Results declared constituency by constituency"
+        "Results declared constituency by constituency on ECI website"
       ],
-      "duration": "1-2 days"
+      "duration": "Exact Date: 2026-05-04"
     },
     {
       "id": "results",
-      "phase": "Results Declaration",
+      "phase": "🏆 Results Declaration",
       "icon": "🏆",
-      "description": "The Election Commission officially declares the results and the winning candidates.",
+      "description": "The Election Commission officially declares the results and winning candidates for all 5 states.",
       "details": [
         "Results published on ECI website in real-time",
-        "Winning candidate gets certificate of election",
-        "Government formation process begins",
+        "Winning candidates receive certificate of election",
+        "Government formation process begins in each state",
+        "New Chief Ministers invited to form government by respective Governors",
         "Election petitions can be filed within 45 days"
       ],
-      "duration": "Same day as counting"
+      "duration": "4 May 2026"
     }
   ],
+  "state_elections": {
+    "West Bengal": {
+      "has_election": true,
+      "total_seats": 294,
+      "phases": 2,
+      "schedule": [
+        { "phase": "Phase 1", "date": "23 April 2026", "seats": "147 constituencies" },
+        { "phase": "Phase 2", "date": "29 April 2026", "seats": "147 constituencies" },
+        { "phase": "Repolling", "date": "2 May 2026", "seats": "Select booths (irregularities)" }
+      ],
+      "counting_date": "4 May 2026",
+      "polling_time": "7:00 AM – 6:00 PM"
+    },
+    "Tamil Nadu": {
+      "has_election": true,
+      "total_seats": 234,
+      "phases": 1,
+      "schedule": [
+        { "phase": "Single Phase", "date": "23 April 2026", "seats": "All 234 constituencies" }
+      ],
+      "counting_date": "4 May 2026",
+      "polling_time": "7:00 AM – 6:00 PM"
+    },
+    "Kerala": {
+      "has_election": true,
+      "total_seats": 140,
+      "phases": 1,
+      "schedule": [
+        { "phase": "Single Phase", "date": "9 April 2026", "seats": "All 140 constituencies" }
+      ],
+      "counting_date": "4 May 2026",
+      "polling_time": "7:00 AM – 6:00 PM"
+    },
+    "Assam": {
+      "has_election": true,
+      "total_seats": 126,
+      "phases": 1,
+      "schedule": [
+        { "phase": "Single Phase", "date": "9 April 2026", "seats": "All 126 constituencies" }
+      ],
+      "counting_date": "4 May 2026",
+      "polling_time": "7:00 AM – 6:00 PM"
+    },
+    "Puducherry": {
+      "has_election": true,
+      "total_seats": 30,
+      "phases": 1,
+      "schedule": [
+        { "phase": "Single Phase", "date": "9 April 2026", "seats": "All 30 constituencies" }
+      ],
+      "counting_date": "4 May 2026",
+      "polling_time": "7:00 AM – 6:00 PM"
+    },
+    "Andhra Pradesh": { "has_election": false },
+    "Arunachal Pradesh": { "has_election": false },
+    "Bihar": { "has_election": false },
+    "Chhattisgarh": { "has_election": false },
+    "Goa": { "has_election": false },
+    "Gujarat": { "has_election": false },
+    "Haryana": { "has_election": false },
+    "Himachal Pradesh": { "has_election": false },
+    "Jharkhand": { "has_election": false },
+    "Karnataka": { "has_election": false },
+    "Madhya Pradesh": { "has_election": false },
+    "Maharashtra": { "has_election": false },
+    "Manipur": { "has_election": false },
+    "Meghalaya": { "has_election": false },
+    "Mizoram": { "has_election": false },
+    "Nagaland": { "has_election": false },
+    "Odisha": { "has_election": false },
+    "Punjab": { "has_election": false },
+    "Rajasthan": { "has_election": false },
+    "Sikkim": { "has_election": false },
+    "Telangana": { "has_election": false },
+    "Tripura": { "has_election": false },
+    "Uttar Pradesh": { "has_election": false },
+    "Uttarakhand": { "has_election": false },
+    "Delhi": { "has_election": false },
+    "Jammu & Kashmir": { "has_election": false },
+    "Ladakh": { "has_election": false },
+    "Chandigarh": { "has_election": false },
+    "Dadra & Nagar Haveli and Daman & Diu": { "has_election": false },
+    "Lakshadweep": { "has_election": false },
+    "Andaman & Nicobar Islands": { "has_election": false }
+  },
   "guides": [
     {
       "id": "voter-registration",
@@ -145,7 +247,7 @@
         },
         {
           "title": "Arrive at Polling Station",
-          "content": "Visit your assigned polling station during voting hours (typically 7 AM - 6 PM). Follow the queue and wait for your turn."
+          "content": "Visit your assigned polling station during voting hours (7:00 AM - 6:00 PM). Follow the queue and wait for your turn."
         },
         {
           "title": "Identity Verification",
@@ -238,6 +340,14 @@
     {
       "question": "How are election results declared?",
       "answer": "After polling, EVMs are stored in strong rooms under CCTV. On counting day, postal ballots are counted first, followed by EVM votes. Results are declared round by round and published on the ECI website in real-time."
+    },
+    {
+      "question": "Which states are voting in the 2026 Assembly Elections?",
+      "answer": "West Bengal, Tamil Nadu, Kerala, Assam, and Puducherry are going to polls in the 2026 State Legislative Assembly Elections. Polling is conducted in multiple phases from April 9 to April 29, 2026."
+    },
+    {
+      "question": "When is the counting date for the 2026 elections?",
+      "answer": "Vote counting for all states will take place on 4 May 2026. Results will be declared on the same day and published in real-time on the ECI website."
     }
   ],
   "glossary": [
@@ -249,6 +359,7 @@
     { "term": "BLO", "definition": "Booth Level Officer - the field-level election officer" },
     { "term": "NOTA", "definition": "None Of The Above - option to reject all candidates" },
     { "term": "RO", "definition": "Returning Officer - oversees election in a constituency" },
+    { "term": "CAPF", "definition": "Central Armed Police Forces - deployed for election security" },
     { "term": "Lok Sabha", "definition": "The lower house of Indian Parliament (House of the People)" },
     { "term": "Vidhan Sabha", "definition": "State Legislative Assembly" }
   ]
