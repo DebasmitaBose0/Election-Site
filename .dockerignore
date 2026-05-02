@@ -1,0 +1,15 @@
+.git
+.gitignore
+.env
+__pycache__
+*.pyc
+*.pyo
+venv/
+env/
+.pytest_cache/
+tests/
+scratch/
+Flagimage.png
+*.md
+.vscode/
+.idea/
