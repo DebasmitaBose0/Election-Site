@@ -19,7 +19,7 @@ class CivicService:
         self._cache = {}  # Simple in-memory cache for efficiency
         self.ai_service = None # Set dynamically to avoid circular import
 
-    def get_representatives(self, address: str) -> dict:
+    def get_representatives(self, address: str, skip_ai: bool = False) -> dict:
         """Look up elected representatives by address with local fallback."""
         if not self.configured:
             return {'error': 'Civic API not configured', 'data': None}
@@ -68,14 +68,61 @@ class CivicService:
                 # ONLY cache if we actually found representatives
                 if formatted_data['data']['representatives']:
                     self._cache[clean_address] = formatted_data
-                
-                return formatted_data
-            else:
-                return {'error': f'Civic API returned status {response.status_code}', 'data': None}
+                    return formatted_data
+            
+            # 4. LEVEL 4: AI FALLBACK (FINAL RESORT FOR 100% COVERAGE)
+            if not skip_ai:
+                print(f"DEBUG: Level 4: Attempting AI Discovery for {address}")
+                ai_data = self._get_ai_representatives(address)
+                if ai_data:
+                    res = {'data': ai_data, 'error': None}
+                    self._cache[clean_address] = res
+                    return res
+
+            return {'error': 'No representative data found.', 'data': None}
 
         except Exception as e:
             print(f"DEBUG: Civic API Exception: {e}")
             return {'error': 'Unable to fetch representative data.', 'data': None}
+
+    def _get_ai_representatives(self, address: str) -> dict:
+        """Use Gemini to discover representatives when all APIs fail."""
+        if not self.ai_service:
+            from services.gemini_service import gemini_service
+            self.ai_service = gemini_service
+            
+        prompt = f"""Identify the current political representatives (MPs and MLAs) for the following location in India: "{address}".
+        
+        Provide the output ONLY as a valid JSON object with the following structure:
+        {{
+            "normalized_address": {{"line1": "Place Name", "city": "City Name", "state": "State Name"}},
+            "representatives": [
+                {{
+                    "name": "Name of Person",
+                    "office": "Specific Office Title (e.g. Member of Parliament - Lok Sabha)",
+                    "party": "Political Party Name",
+                    "phones": ["Optional phone"],
+                    "urls": ["Optional official link"],
+                    "photo_url": ""
+                }}
+            ]
+        }}
+        
+        Ensure the data is accurate for the 2024-2026 timeframe."""
+        
+        try:
+            result = self.ai_service.chat(prompt)
+            if result and result.get('response'):
+                import json
+                import re
+                # Extract JSON from potential markdown markers
+                text = result['response']
+                json_match = re.search(r'(\{.*\})', text, re.DOTALL)
+                if json_match:
+                    return json.loads(json_match.group(1))
+        except Exception as e:
+            print(f"DEBUG: AI Representative Discovery Failed: {e}")
+            return None
 
     def get_election_info(self, address: str) -> dict:
         """
@@ -154,6 +201,8 @@ class CivicService:
                         'phones': official.get('phones', []),
                         'urls': official.get('urls', []),
                         'emails': official.get('emails', []),
+                        'channels': official.get('channels', []),
+                        'address': official.get('address', []),
                         'photo_url': official.get('photoUrl', ''),
                     })
 
