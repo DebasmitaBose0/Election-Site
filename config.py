@@ -27,7 +27,7 @@ class Config:
     # Google OAuth 2.0
     GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '')
-    GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI', 'http://localhost:5000/auth/callback')
+    GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI', 'http://localhost:5002/auth/callback')
 
     # Google Maps API
     GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', '')
@@ -37,6 +37,9 @@ class Config:
 
     # Google Civic Information API
     GOOGLE_CIVIC_API_KEY = os.getenv('GOOGLE_CIVIC_API_KEY', '')
+
+    # GNews API (for live election headlines)
+    GNEWS_API_KEY = os.getenv('GNEWS_API_KEY', '')
 
     # Google Calendar API Scopes
     GOOGLE_CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar.events']
@@ -74,3 +77,8 @@ class Config:
     def is_youtube_configured(cls) -> bool:
         """Check if Google YouTube API is configured."""
         return bool(cls.GOOGLE_YOUTUBE_API_KEY)
+
+    @classmethod
+    def is_gnews_configured(cls) -> bool:
+        """Check if GNews API is configured."""
+        return bool(cls.GNEWS_API_KEY)
