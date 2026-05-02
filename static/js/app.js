@@ -81,7 +81,66 @@ window.showToast = (message, type = 'info') => {
     }, 4000);
 };
 
+// Preloader Logic
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.style.display = 'none', 850); // Wait for transition (800ms)
+        }, 1500); // Allow the 1.5s progress bar animation to complete
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Chat Interface Logic
+    const chatToggle = document.getElementById('chat-toggle-btn');
+    const chatOverlay = document.getElementById('chat-overlay');
+    const chatClose = document.getElementById('chat-close-btn');
+
+    if (chatToggle && chatOverlay) {
+        chatToggle.addEventListener('click', () => {
+            const isVisible = chatOverlay.style.display === 'block';
+            chatOverlay.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible && !window.chatInitialized) {
+                if (typeof initChat === 'function') {
+                    initChat();
+                    window.chatInitialized = true;
+                }
+            }
+        });
+    }
+
+    if (chatClose && chatOverlay) {
+        chatClose.addEventListener('click', () => {
+            chatOverlay.style.display = 'none';
+        });
+    }
+
+    // Live News Ticker Logic
+    async function initNewsTicker() {
+        const track = document.querySelector('.ticker-track');
+        if (!track) return;
+
+        try {
+            const response = await fetch('/api/live-news');
+            const data = await response.json();
+            
+            if (data.headlines && data.headlines.length > 0) {
+                // Clear existing and add new live headlines
+                track.innerHTML = data.headlines.map(text => `<span>${text}</span>`).join('');
+                
+                // Duplicate headlines for a seamless infinite loop
+                const originalHtml = track.innerHTML;
+                track.innerHTML = originalHtml + originalHtml;
+            }
+        } catch (error) {
+            console.error("Failed to fetch live news:", error);
+        }
+    }
+
+    initNewsTicker();
+
     // SPA State Management
     const state = {
         currentPage: 'home',
@@ -204,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const target = +entry.target.dataset.count;
+                const suffix = entry.target.dataset.suffix || '';
                 let count = 0;
                 const duration = 2000;
                 const increment = target / (duration / 16);
@@ -211,10 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const updateCount = () => {
                     count += increment;
                     if (count < target) {
-                        entry.target.innerText = Math.ceil(count);
+                        entry.target.innerText = Math.ceil(count) + suffix;
                         requestAnimationFrame(updateCount);
                     } else {
-                        entry.target.innerText = target;
+                        entry.target.innerText = target + suffix;
                     }
                 };
                 updateCount();
@@ -298,67 +358,203 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
 
 // ═══════════════════════════════════════
-// Google Maps Integration
+// OpenStreetMap Integration (Free - No Billing Required)
 // ═══════════════════════════════════════
-let map; // Global map instance
+let map;
+let leafletMarker;
+let boothMarkers = [];
 
 function initMaps() {
-    console.log('OpenStreetMap (Leaflet) initialized');
+    console.log('Leaflet Map initialized with premium styling');
+    const mapContainer = document.getElementById('google-map');
     const searchBtn = document.getElementById('map-search-btn');
     const searchInput = document.getElementById('map-search-input');
-    const mapContainer = document.getElementById('leaflet-map');
+    const infoOverlay = document.getElementById('map-info-overlay');
+    const locationNameDisplay = document.getElementById('overlay-location-name');
 
-    if (!searchBtn || !searchInput || !mapContainer) return;
+    if (!mapContainer || !searchInput || !window.L) return;
 
-    // Initialize map if not already done
     if (!map) {
-        map = L.map('leaflet-map').setView([20.5937, 78.9629], 5); // Center of India
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+        map = L.map(mapContainer, {
+            zoomControl: false, // We'll use a custom tidy position
+            scrollWheelZoom: true
+        }).setView([20.5937, 78.9629], 5);
+
+        L.control.zoom({ position: 'topright' }).addTo(map);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 19
         }).addTo(map);
+        
+        setTimeout(() => map.invalidateSize(), 300);
     }
 
-    // Search Logic
-    const handleSearch = async () => {
+    const handleSearch = () => {
         const query = searchInput.value.trim();
         if (!query) return;
 
-        showToast(`Locating ${query}...`, 'info');
+        window.showToast(`Locating ${query}...`, 'info');
 
-        try {
-            // Use free Nominatim API for geocoding
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', India')}`);
-            const data = await response.json();
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', India')}&limit=1`)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    const lat = parseFloat(data[0].lat);
+                    const lon = parseFloat(data[0].lon);
+                    const displayName = data[0].display_name.split(',')[0];
+                    
+                    map.setView([lat, lon], 15);
 
-            if (data && data.length > 0) {
-                const { lat, lon, display_name } = data[0];
-                const coords = [parseFloat(lat), parseFloat(lon)];
-                
-                map.setView(coords, 14);
-                
-                // Add marker
-                L.marker(coords).addTo(map)
-                    .bindPopup(`<b>${query}</b><br>Potential Polling Area`)
-                    .openPopup();
-            } else {
-                showToast('Location not found. Try a more specific area name.', 'error');
-            }
-        } catch (error) {
-            console.error('Map Search Error:', error);
-            showToast('Search failed. Please check your connection.', 'error');
-        }
+                    // Update Overlay
+                    if (infoOverlay) infoOverlay.style.display = 'block';
+                    if (locationNameDisplay) locationNameDisplay.textContent = displayName;
+
+                    if (leafletMarker) map.removeLayer(leafletMarker);
+                    
+                    // Custom User Marker Icon
+                    const userIcon = L.divIcon({
+                        className: 'user-marker-icon',
+                        html: '📍',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15]
+                    });
+
+                    leafletMarker = L.marker([lat, lon], { icon: userIcon }).addTo(map)
+                        .bindPopup(`<div class="premium-popup"><h4>${displayName}</h4><p>Search Result Area</p></div>`)
+                        .openPopup();
+                    
+                    findBooths(lat, lon, displayName);
+                } else {
+                    window.showToast('Location not found', 'error');
+                }
+            });
     };
 
-    // Remove old listeners
-    const newBtn = searchBtn.cloneNode(true);
-    searchBtn.parentNode.replaceChild(newBtn, searchBtn);
-    newBtn.addEventListener('click', handleSearch);
+    searchBtn.onclick = handleSearch;
 }
 
-// ═══════════════════════════════════════
-// YouTube Integration
-// ═══════════════════════════════════════
-function initVideos() {
-    console.log('YouTube Gallery initialized');
+function findBooths(lat, lon, locationName) {
+    const boothCountDisplay = document.getElementById('overlay-booth-count');
+    
+    // Clear old booth markers
+    boothMarkers.forEach(m => map.removeLayer(m));
+    boothMarkers = [];
+
+    const overpassQuery = `
+        [out:json][timeout:25];
+        (
+            node["amenity"="polling_station"](around:5000, ${lat}, ${lon});
+            way["amenity"="polling_station"](around:5000, ${lat}, ${lon});
+            node["polling_station"="yes"](around:5000, ${lat}, ${lon});
+            way["polling_station"="yes"](around:5000, ${lat}, ${lon});
+            node["amenity"="school"](around:3000, ${lat}, ${lon});
+            way["amenity"="school"](around:3000, ${lat}, ${lon});
+            node["amenity"="community_centre"](around:3000, ${lat}, ${lon});
+            way["amenity"="community_centre"](around:3000, ${lat}, ${lon});
+        );
+        out center;
+    `;
+
+    fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        body: overpassQuery
+    })
+    .then(res => res.json())
+    .then(data => {
+        const elements = data.elements || [];
+        if (boothCountDisplay) boothCountDisplay.textContent = elements.length;
+
+        const boothIcon = L.divIcon({
+            className: 'booth-marker-icon',
+            html: '🗳️',
+            iconSize: [26, 26],
+            iconAnchor: [13, 13]
+        });
+
+        elements.forEach(el => {
+            let itemLat = el.lat;
+            let itemLon = el.lon;
+
+            // Handle Way centers for buildings/areas
+            if (el.type === 'way' && el.center) {
+                itemLat = el.center.lat;
+                itemLon = el.center.lon;
+            }
+
+            if (itemLat && itemLon) {
+                const name = (el.tags && el.tags.name) ? el.tags.name : 'Polling Booth';
+                const marker = L.marker([itemLat, itemLon], { icon: boothIcon }).addTo(map)
+                .bindPopup(`
+                    <div class="premium-popup">
+                        <h4>🗳️ ${name}</h4>
+                        <p>Verified Polling Station</p>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${el.lat},${el.lon}" target="_blank" class="directions-link">
+                            📍 Get Directions
+                        </a>
+                    </div>
+                `);
+                boothMarkers.push(marker);
+            }
+        });
+        
+        if (elements.length > 0) {
+            window.showToast(`Identified ${elements.length} booths!`, 'success');
+        } else {
+            window.showToast('Scanning area... No specific coordinates found.', 'info');
+        }
+    });
 }
+
+// Free Autocomplete (Nominatim)
+(function() {
+    let debounceTimer;
+    function setupAutocomplete(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        const dropdown = document.createElement('div');
+        dropdown.className = 'autocomplete-dropdown';
+        dropdown.style.cssText = 'position:absolute;z-index:10000;background:#1a1f3a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-height:200px;overflow-y:auto;display:none;width:100%;left:0;top:100%;box-shadow:0 8px 24px rgba(0,0,0,0.4);';
+        input.parentElement.style.position = 'relative';
+        input.parentElement.appendChild(dropdown);
+
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            if (query.length < 3) { dropdown.style.display = 'none'; return; }
+
+            debounceTimer = setTimeout(() => {
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', India')}&limit=5&countrycodes=in`)
+                    .then(res => res.json())
+                    .then(data => {
+                        dropdown.innerHTML = '';
+                        if (data.length === 0) { dropdown.style.display = 'none'; return; }
+                        data.forEach(item => {
+                            const option = document.createElement('div');
+                            option.textContent = item.display_name;
+                            option.style.cssText = 'padding:10px 14px;cursor:pointer;font-size:0.85rem;color:#ccc;border-bottom:1px solid rgba(255,255,255,0.05);';
+                            option.addEventListener('click', () => {
+                                input.value = item.display_name;
+                                dropdown.style.display = 'none';
+                            });
+                            dropdown.appendChild(option);
+                        });
+                        dropdown.style.display = 'block';
+                    });
+            }, 400);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !dropdown.contains(e.target)) dropdown.style.display = 'none';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setupAutocomplete('lookup-input');
+        setupAutocomplete('map-search-input');
+        initMaps(); // Re-init since we're using a direct call now
+    });
+})();
 });
