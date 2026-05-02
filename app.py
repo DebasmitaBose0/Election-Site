@@ -118,36 +118,63 @@ def chat():
 # Election Data API
 # ──────────────────────────────────────────
 
+@app.route('/api/live-news')
+def get_live_news():
+    """Fetch real-time election headlines from GNews and local curated dates."""
+    news = []
+    
+    # 1. Fetch from GNews API if configured (Real-time Indian Election News)
+    if Config.is_gnews_configured():
+        try:
+            import requests
+            url = f"https://gnews.io/api/v4/search?q=election+OR+voting+OR+poll&country=in&lang=en&token={Config.GNEWS_API_KEY}"
+            response = requests.get(url, timeout=5)
+            if response.ok:
+                data = response.json()
+                articles = data.get('articles', [])
+                for art in articles[:5]:
+                    news.append(f"📰 {art['title']}")
+        except Exception as e:
+            print(f"DEBUG: GNews API Error: {e}")
+
+    # 2. Add verified upcoming dates from local data
+    try:
+        with open(DATA_PATH, 'r', encoding='utf-8') as f:
+            local_data = json.load(f)
+            timeline = local_data.get('timeline', [])
+        
+        for event in timeline:
+            event_date = datetime.strptime(event['date'], '%Y-%m-%d')
+            if event_date >= datetime.now():
+                news.append(f"🗳️ {event['title']}: {event_date.strftime('%d %B %Y')}")
+    except Exception as e:
+        print(f"DEBUG: Local News Data Error: {e}")
+
+    # 3. Fallback/Static High-Authority Headlines (if list is short)
+    if len(news) < 3:
+        news.extend([
+            "📢 ECI: Voter registration for 2026 Assembly Elections is now OPEN.",
+            "🛡️ Safety First: ECI reinforces ethical voting guidelines for upcoming state polls.",
+            "📱 Use the 'Voter Helpline App' for instant registration and booth details."
+        ])
+    
+    return jsonify({'headlines': news})
+
+
 @app.route('/api/timeline')
 def get_timeline():
-    """Get election timeline data enriched with live API dates."""
-    base_timeline = ELECTION_DATA.get('timeline', [])
-    live_elections = civic_service.get_all_elections()
-    
-    if live_elections and not live_elections.get('error'):
-        elections = live_elections.get('data', [])
-        for item in base_timeline:
-            # STRICT FILTER: Only look for Indian elections
-            # We check for "India", "IN", or specific Indian state keywords in the name or division
-            indian_keywords = ['india', 'west bengal', 'maharashtra', 'tamil nadu', 'karnataka', 'delhi', 'up', 'bihar']
-            relevant = next((e for e in elections if 
-                            any(kw in e.get('name', '').lower() for kw in indian_keywords) or 
-                            'ocd-division/country:in' in e.get('ocdDivisionId', '').lower()), None)
-            
-            if relevant:
-                # Update with exact data from API
-                if 'Polling' in item['phase'] or 'Election' in item['phase']:
-                    item['duration'] = f"Exact Date: {relevant.get('electionDay')}"
-                    item['description'] = f"The {relevant.get('name')} is officially scheduled for this day."
-            else:
-                # If no Indian API data found, reset to "To be announced"
-                # This prevents "West Virginia" from being confused with "West Bengal"
-                if 'duration' in item and any(x in item['duration'] for x in ['weeks', 'days', 'Exact Date']):
-                    item['duration'] = "To be announced"
-                    item['description'] = "The official schedule for the Indian elections will be updated here as soon as the Election Commission of India releases the notification."
+    """Get election timeline data from curated ECI schedule."""
+    with open(DATA_PATH, 'r', encoding='utf-8') as f:
+        fresh_data = json.load(f)
+    return jsonify({'timeline': fresh_data.get('timeline', [])})
 
-    return jsonify({'timeline': base_timeline})
 
+@app.route('/api/state-elections')
+def get_state_elections():
+    """Get state-wise election schedule data."""
+    with open(DATA_PATH, 'r', encoding='utf-8') as f:
+        fresh_data = json.load(f)
+    return jsonify(fresh_data.get('state_elections', {}))
 
 @app.route('/api/guides')
 def get_guides():
@@ -240,8 +267,10 @@ def get_ai_representatives(address):
             }}
             Identify the current MP (Member of Parliament) and MLA (Member of Legislative Assembly) for this location."""
         
-        response_text = gemini_service.execute_chat(prompt)
-        
+        result = gemini_service.chat(prompt)
+        response_text = result.get('response', '') if result else ''
+        if not response_text:
+            return None
         import json
         import re
         json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
@@ -392,11 +421,13 @@ def internal_error(e):
 # ──────────────────────────────────────────
 
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5002))
+    is_dev = os.environ.get('FLASK_ENV', 'development') == 'development'
+
     print("\n🗳️  Electionant is starting...")
     print(f"   Gemini AI:  {'✅ Configured' if Config.is_gemini_configured() else '❌ Not Found'}")
     print(f"   OAuth 2.0:  {'✅ Configured' if Config.is_oauth_configured() else '⚠️ Limited'}")
     print(f"   Civic API:  {'✅ Configured' if Config.is_civic_configured() else '❌ Not Found'}")
-    print(f"   Maps API:   {'✅ Configured' if Config.is_maps_configured() else '❌ Not Found'}")
     print(f"   YouTube:    {'✅ Configured' if Config.is_youtube_configured() else '❌ Not Found'}")
-    print(f"   Open http://localhost:5000 in your browser\n")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print(f"   Open http://localhost:{port} in your browser\n")
+    app.run(debug=is_dev, host='0.0.0.0', port=port)
