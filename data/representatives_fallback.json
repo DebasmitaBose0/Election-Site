@@ -46,5 +46,33 @@
         "urls": ["https://sansad.in/ls/members"]
       }
     ]
+  },
+  "Mumbai": {
+    "normalized_address": { "line1": "Mumbai", "city": "Mumbai", "state": "Maharashtra" },
+    "representatives": [
+      { "name": "Arvind Sawant", "office": "Member of Parliament (Mumbai South)", "party": "Shiv Sena (UBT)", "phones": ["022-22000000"] },
+      { "name": "Eknath Shinde", "office": "Chief Minister of Maharashtra", "party": "Shiv Sena", "phones": ["022-22020000"] }
+    ]
+  },
+  "Chennai": {
+    "normalized_address": { "line1": "Chennai", "city": "Chennai", "state": "Tamil Nadu" },
+    "representatives": [
+      { "name": "Dayanidhi Maran", "office": "Member of Parliament (Chennai Central)", "party": "DMK", "phones": ["044-24300000"] },
+      { "name": "M.K. Stalin", "office": "Chief Minister of Tamil Nadu", "party": "DMK", "phones": ["044-25600000"] }
+    ]
+  },
+  "Delhi": {
+    "normalized_address": { "line1": "New Delhi", "city": "Delhi", "state": "Delhi" },
+    "representatives": [
+      { "name": "Bansuri Swaraj", "office": "Member of Parliament (New Delhi)", "party": "BJP", "phones": ["011-23000000"] },
+      { "name": "Atishi Marlena Singh", "office": "Chief Minister of Delhi", "party": "Aam Aadmi Party", "phones": ["011-23390000"] }
+    ]
+  },
+  "Bangalore": {
+    "normalized_address": { "line1": "Bengaluru", "city": "Bengaluru", "state": "Karnataka" },
+    "representatives": [
+      { "name": "Tejasvi Surya", "office": "Member of Parliament (Bangalore South)", "party": "BJP", "phones": ["080-26000000"] },
+      { "name": "Siddaramaiah", "office": "Chief Minister of Karnataka", "party": "INC", "phones": ["080-22250000"] }
+    ]
   }
 }
