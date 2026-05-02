@@ -51,36 +51,71 @@ async function initLookup() {
                 <p>Showing results for: <strong>${data.normalized_address.line1 || ''}, ${data.normalized_address.city || ''}</strong></p>
             </div>
             <div class="reps-grid">
-                ${reps.map(rep => `
-                    <div class="rep-card">
-                        ${rep.photo_url ? 
-                            `<img src="${rep.photo_url}" alt="${rep.name}" class="rep-photo" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(rep.name)}&background=random'">` : 
-                            `<div class="rep-photo-placeholder">👤</div>`
-                        }
-                        <div class="rep-info">
-                            <span class="rep-office">${rep.office}</span>
-                            <h4 class="rep-name">${rep.name}</h4>
-                            <span class="rep-party">${rep.party || 'Independent'}</span>
-                            <div class="rep-contact">
-                                ${rep.phones && rep.phones.length > 0 ? 
-                                    rep.phones.map(p => `<a href="tel:${p}" class="contact-link" title="Call">📞 ${p}</a>`).join('') : ''
+                ${reps.map(rep => {
+                    const adrUrl = `https://myneta.info/search.php?name=${encodeURIComponent(rep.name)}`;
+                    const prsUrl = `https://prsindia.org/mptrack/search?name=${encodeURIComponent(rep.name)}`;
+                    
+                    return `
+                    <div class="rep-card-premium">
+                        <div class="rep-card-main">
+                            <div class="rep-photo-container">
+                                ${rep.photo_url ? 
+                                    `<img src="${rep.photo_url}" alt="${rep.name}" class="rep-photo-large" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(rep.name)}&background=random'">` : 
+                                    `<div class="rep-photo-placeholder-large">👤</div>`
                                 }
-                                ${rep.urls && rep.urls.length > 0 ? 
-                                    rep.urls.map(u => `<a href="${u}" target="_blank" class="contact-link" title="Website">🌐 Official Site</a>`).join('') : ''
-                                }
-                                ${rep.emails && rep.emails.length > 0 ? 
-                                    rep.emails.map(e => `<a href="mailto:${e}" class="contact-link" title="Email">✉️ Email</a>`).join('') : ''
-                                }
-                                ${rep.channels && rep.channels.length > 0 ? 
-                                    rep.channels.map(c => {
-                                        const icon = c.type === 'Twitter' ? '𝕏' : (c.type === 'Facebook' ? 'ⓕ' : '📱');
-                                        return `<a href="https://${c.type.toLowerCase()}.com/${c.id}" target="_blank" class="contact-link">${icon} ${c.type}</a>`;
-                                    }).join('') : ''
-                                }
+                                <div class="rep-party-badge">${rep.party || 'Independent'}</div>
+                            </div>
+                            
+                            <div class="rep-details">
+                                <span class="rep-office-tag">${rep.office}</span>
+                                <h4 class="rep-name-large">${rep.name}</h4>
+                                
+                                <div class="rep-meta-grid">
+                                    ${rep.address && rep.address.length > 0 ? `
+                                        <div class="meta-item">
+                                            <span class="meta-label">📍 Office Address</span>
+                                            <p class="meta-value">${rep.address[0].line1 || ''}, ${rep.address[0].city || ''}, ${rep.address[0].state || ''} ${rep.address[0].zip || ''}</p>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    <div class="meta-item">
+                                        <span class="meta-label">📞 Contact</span>
+                                        <div class="contact-buttons">
+                                            ${rep.phones && rep.phones.length > 0 ? `<a href="tel:${rep.phones[0]}" class="btn btn-icon" title="Call">📞</a>` : ''}
+                                            ${rep.emails && rep.emails.length > 0 ? `<a href="mailto:${rep.emails[0]}" class="btn btn-icon" title="Email">✉️</a>` : ''}
+                                            ${rep.urls && rep.urls.length > 0 ? `<a href="${rep.urls[0]}" target="_blank" class="btn btn-icon" title="Website">🌐</a>` : ''}
+                                        </div>
+                                    </div>
+
+                                    <div class="meta-item">
+                                        <span class="meta-label">📱 Social Media</span>
+                                        <div class="social-buttons">
+                                            ${rep.channels && rep.channels.length > 0 ? rep.channels.map(c => {
+                                                const platform = c.type.toLowerCase();
+                                                const icon = platform === 'twitter' ? '𝕏' : (platform === 'facebook' ? 'ⓕ' : platform === 'youtube' ? '▶️' : '🔗');
+                                                return `<a href="https://${platform}.com/${c.id}" target="_blank" class="btn btn-icon" title="${c.type}">${icon}</a>`;
+                                            }).join('') : '<span class="no-data">None found</span>'}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rep-actions">
+                                    <div class="research-links">
+                                        <span class="research-label">Verified Research Portals:</span>
+                                        <div class="link-row">
+                                            <a href="${adrUrl}" target="_blank" class="research-btn adr">
+                                                <span>📊</span> MyNeta (ADR Details)
+                                            </a>
+                                            <a href="${prsUrl}" target="_blank" class="research-btn prs">
+                                                <span>🏛️</span> PRS (MP Track)
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                `).join('')}
+                `}).join('')}
             </div>
         `;
     }
