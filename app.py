@@ -207,6 +207,68 @@ def get_live_news():
     return jsonify({'headlines': news})
 
 
+@app.route('/api/election-results')
+def get_election_results():
+    """Provide mock real-time counting results for the 5 states."""
+    # This data is mocked for the 2026 Assembly Elections visualization
+    results = {
+        "West Bengal": {
+            "total_seats": 294,
+            "counted_seats": 182,
+            "parties": [
+                {"name": "AITC", "leads": 95, "won": 42, "color": "#20C641"},
+                {"name": "BJP", "leads": 64, "won": 28, "color": "#FF9933"},
+                {"name": "INC+", "leads": 12, "won": 5, "color": "#00BFFF"},
+                {"name": "Others", "leads": 11, "won": 3, "color": "#808080"}
+            ],
+            "status": "Counting in Progress"
+        },
+        "Tamil Nadu": {
+            "total_seats": 234,
+            "counted_seats": 156,
+            "parties": [
+                {"name": "DMK+", "leads": 88, "won": 35, "color": "#FF0000"},
+                {"name": "AIADMK+", "leads": 52, "won": 22, "color": "#008000"},
+                {"name": "NTK", "leads": 8, "won": 2, "color": "#FFFF00"},
+                {"name": "Others", "leads": 8, "won": 1, "color": "#808080"}
+            ],
+            "status": "Counting in Progress"
+        },
+        "Kerala": {
+            "total_seats": 140,
+            "counted_seats": 112,
+            "parties": [
+                {"name": "LDF", "leads": 62, "won": 28, "color": "#E30A17"},
+                {"name": "UDF", "leads": 45, "won": 18, "color": "#0000FF"},
+                {"name": "NDA", "leads": 3, "won": 1, "color": "#FF9933"},
+                {"name": "Others", "leads": 2, "won": 1, "color": "#808080"}
+            ],
+            "status": "Counting in Progress"
+        },
+        "Assam": {
+            "total_seats": 126,
+            "counted_seats": 94,
+            "parties": [
+                {"name": "NDA", "leads": 58, "won": 24, "color": "#FF9933"},
+                {"name": "UPA", "leads": 32, "won": 12, "color": "#0000FF"},
+                {"name": "AIUDF", "leads": 4, "won": 1, "color": "#008000"}
+            ],
+            "status": "Counting in Progress"
+        },
+        "Puducherry": {
+            "total_seats": 30,
+            "counted_seats": 30,
+            "parties": [
+                {"name": "AINRC+", "leads": 0, "won": 16, "color": "#FF9933"},
+                {"name": "SDA+", "leads": 0, "won": 12, "color": "#0000FF"},
+                {"name": "Others", "leads": 0, "won": 2, "color": "#808080"}
+            ],
+            "status": "Final Results Declared"
+        }
+    }
+    return jsonify(results)
+
+
 @app.route('/api/timeline')
 def get_timeline():
     """Get election timeline data from curated ECI schedule."""
