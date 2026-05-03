@@ -12,7 +12,8 @@
         "Government cannot announce new policies or schemes from this date",
         "Election Commission sets up monitoring and flying squads"
       ],
-      "duration": "15 March 2026"
+      "duration": "15 March 2026",
+      "date": "2026-03-15"
     },
     {
       "id": "states-covered",
@@ -41,7 +42,8 @@
         "Voters must carry valid photo ID (EPIC or approved alternatives)",
         "EVMs with VVPAT ensure transparency at all booths"
       ],
-      "duration": "Exact Date: 2026-04-09"
+      "duration": "Exact Date: 2026-04-09",
+      "date": "2026-04-09"
     },
     {
       "id": "polling-phase-2",
@@ -55,7 +57,8 @@
         "Special arrangements for elderly (80+) and disabled voters",
         "Booth-level officers manage polling stations across all states"
       ],
-      "duration": "Exact Date: 2026-04-23"
+      "duration": "Exact Date: 2026-04-23",
+      "date": "2026-04-23"
     },
     {
       "id": "polling-phase-3",
@@ -68,7 +71,8 @@
         "Heavy security deployment in sensitive areas",
         "Central Armed Police Forces (CAPF) deployed at all booths"
       ],
-      "duration": "Exact Date: 2026-04-29"
+      "duration": "Exact Date: 2026-04-29",
+      "date": "2026-04-29"
     },
     {
       "id": "repolling",
@@ -81,7 +85,8 @@
         "Affected booths re-conducted under enhanced security",
         "CCTV and webcasting mandatory at all repolling stations"
       ],
-      "duration": "Exact Date: 2026-05-02"
+      "duration": "Exact Date: 2026-05-02",
+      "date": "2026-05-02"
     },
     {
       "id": "counting",
@@ -96,7 +101,8 @@
         "Counting agents from all candidates present",
         "Results declared constituency by constituency on ECI website"
       ],
-      "duration": "Exact Date: 2026-05-04"
+      "duration": "Exact Date: 2026-05-04",
+      "date": "2026-05-04"
     },
     {
       "id": "results",
@@ -110,7 +116,8 @@
         "New Chief Ministers invited to form government by respective Governors",
         "Election petitions can be filed within 45 days"
       ],
-      "duration": "4 May 2026"
+      "duration": "4 May 2026",
+      "date": "2026-05-04"
     }
   ],
   "state_elections": {
