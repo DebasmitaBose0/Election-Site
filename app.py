@@ -16,6 +16,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
 import bleach
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 from services.gemini_service import gemini_service
@@ -25,6 +26,10 @@ from services.auth_service import auth_service
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Tell Flask it is behind a proxy so request.url scheme uses https when appropriate
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 app.config.from_object(Config)
 app.secret_key = Config.SECRET_KEY
 
@@ -78,6 +83,12 @@ def index():
         maps_key=Config.GOOGLE_MAPS_API_KEY,
         youtube_key=Config.GOOGLE_YOUTUBE_API_KEY,
     )
+    
+    # Debug: Check if keys are loading in production
+    if not Config.GOOGLE_MAPS_API_KEY:
+        print("DEBUG: GOOGLE_MAPS_API_KEY is MISSING in environment!")
+    else:
+        print(f"DEBUG: GOOGLE_MAPS_API_KEY is present (starts with {Config.GOOGLE_MAPS_API_KEY[:5]}...)")
 
 
 # ──────────────────────────────────────────
@@ -144,18 +155,27 @@ def get_live_news():
             timeline = local_data.get('timeline', [])
         
         for event in timeline:
-            event_date = datetime.strptime(event['date'], '%Y-%m-%d')
-            if event_date >= datetime.now():
-                news.append(f"🗳️ {event['title']}: {event_date.strftime('%d %B %Y')}")
+            # Skip if no date or machine-readable date is missing
+            if 'date' not in event:
+                continue
+                
+            try:
+                event_date = datetime.strptime(event['date'], '%Y-%m-%d')
+                if event_date >= datetime.now():
+                    news.append(f"🗳️ {event['phase']}: {event_date.strftime('%d %B %Y')}")
+            except (ValueError, KeyError) as e:
+                print(f"DEBUG: Skipping timeline event due to date format: {e}")
+                continue
     except Exception as e:
         print(f"DEBUG: Local News Data Error: {e}")
 
     # 3. Fallback/Static High-Authority Headlines (if list is short)
     if len(news) < 3:
         news.extend([
-            "📢 ECI: Voter registration for 2026 Assembly Elections is now OPEN.",
-            "🛡️ Safety First: ECI reinforces ethical voting guidelines for upcoming state polls.",
-            "📱 Use the 'Voter Helpline App' for instant registration and booth details."
+            "📊 TOMORROW: Vote Counting starts at 8:00 AM for all 5 States. Stay tuned!",
+            "📢 ECI: Model Code of Conduct remains in force until results are declared.",
+            "🛡️ Security: Counting centers under 3-tier security cover across the nation.",
+            "📱 Check the 'Voter Helpline App' for official results starting tomorrow morning."
         ])
     
     return jsonify({'headlines': news})
@@ -351,7 +371,13 @@ def auth_callback():
         return redirect(url_for('index'))
 
     flow = auth_service.get_auth_flow()
-    flow.fetch_token(authorization_response=request.url)
+    
+    # Ensure authorization response uses https if the request came via https proxy
+    auth_response = request.url
+    if request.headers.get('X-Forwarded-Proto') == 'https':
+        auth_response = auth_response.replace('http://', 'https://')
+        
+    flow.fetch_token(authorization_response=auth_response)
 
     credentials = flow.credentials
     session['credentials'] = auth_service.credentials_to_dict(credentials)
