@@ -11,6 +11,7 @@
     <meta name="theme-color" content="#0a0e27">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Electionant — Your Guide to Democracy</title>
+    <link rel="manifest" href="/static/manifest.json">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,12 +63,13 @@
     </div>
 
     <!-- Official Government Top Bar -->
-    <div class="top-bar">
+    <header class="top-bar" role="banner">
         <div class="top-bar-container">
             <div class="top-bar-left">
                 <span class="govt-text">GOVERNMENT OF INDIA</span>
             </div>
             <div class="top-bar-right">
+                <button onclick="toggleHighContrast()" class="btn-hc" aria-label="Toggle High Contrast" title="High Contrast Mode">🌓</button>
                 <a href="#main-content">Skip to main content</a>
                 <div id="google_translate_element"></div>
                 <div class="font-resizer">
@@ -133,7 +135,7 @@
     </div>
 
     <!-- Main Content -->
-    <main id="main-content" class="main-content">
+    <main id="main-content" class="main-content" role="main">
         <!-- HOME PAGE -->
         <section class="page active" id="page-home">
             <div class="hero">
@@ -569,7 +571,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="footer-container">
             <div class="footer-grid">
                 <div class="footer-col-brand">
@@ -652,6 +654,15 @@
     <script src="{{ url_for('static', filename='js/guides.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lookup.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed', err));
+            });
+        }
+    </script>
 </body>
 
 </html>

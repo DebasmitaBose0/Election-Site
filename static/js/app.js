@@ -50,6 +50,20 @@ window.changeFontSize = (step) => {
     if (window.showToast) showToast(`Font size adjusted`, 'info');
 };
 
+window.toggleHighContrast = () => {
+    document.body.classList.toggle('high-contrast');
+    const isHC = document.body.classList.contains('high-contrast');
+    localStorage.setItem('high-contrast', isHC);
+    if (window.showToast) showToast(`High contrast ${isHC ? 'enabled' : 'disabled'}`, 'info');
+};
+
+// Initialize settings from localStorage
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.body.classList.add('high-contrast');
+    }
+});
+
 // ═══════════════════════════════════════
 // UI Utilities (Global Scope)
 // ═══════════════════════════════════════

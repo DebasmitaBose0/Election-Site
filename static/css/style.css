@@ -32,6 +32,24 @@
     --transition-normal: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Accessibility: Focus States */
+:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+}
+
+/* High Contrast Mode */
+body.high-contrast {
+    --bg-dark: #000000;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --primary: #ffff00;
+    --secondary: #00ff00;
+    --bg-card: #111111;
+    --bg-glass: #000000;
+}
+
 /* Toast Notifications */
 .toast-container {
     position: fixed;
@@ -240,6 +258,19 @@ body {
     cursor: pointer;
     font-size: 0.7rem;
     margin-left: 2px;
+}
+
+.btn-hc {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .navbar {
