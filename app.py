@@ -36,6 +36,32 @@ app.secret_key = Config.SECRET_KEY
 # Security: CSRF Protection
 csrf = CSRFProtect(app)
 
+# Session Hardening
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    PERMANENT_SESSION_LIFETIME=1800, # 30 minutes
+)
+
+@app.after_request
+def add_security_headers(response):
+    """Inject strict security headers into every response."""
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://unpkg.com https://www.youtube.com https://s.ytimg.com; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; "
+        "img-src 'self' data: https://maps.gstatic.com https://*.googleapis.com https://*.googleusercontent.com https://ui-avatars.com https://img.youtube.com https://*.basemaps.cartocdn.com; "
+        "font-src 'self' https://fonts.gstatic.com; "
+        "frame-src 'self' https://www.youtube.com; "
+        "connect-src 'self' https://maps.googleapis.com https://gnews.io https://nominatim.openstreetmap.org;"
+    )
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    return response
+
 # Rate Limiting
 limiter = Limiter(
     app=app,
@@ -413,6 +439,18 @@ def auth_status():
             }
         })
     return jsonify({'authenticated': False})
+
+
+@app.route('/debug-routes')
+def list_routes():
+    """Debug helper to list all active routes."""
+    import urllib
+    output = []
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(rule.methods)
+        line = urllib.parse.unquote(f"{rule.endpoint:20s} {methods:20s} {rule}")
+        output.append(line)
+    return "<pre>" + "\n".join(output) + "</pre>"
 
 
 # ──────────────────────────────────────────
