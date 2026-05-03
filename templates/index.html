@@ -23,9 +23,14 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/logo.svg') }}">
+    {% if maps_key %}
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_key }}&libraries=places"></script>
+    {% else %}
     <!-- Leaflet.js (Free OpenStreetMap - No Billing Required) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    {% endif %}
 </head>
 
 <body>
@@ -116,10 +121,10 @@
         </div>
         <div class="ticker-content">
             <div class="ticker-track">
-                <span>📢 West Bengal Assembly Elections 2026: Phase 1 on 23 April, Phase 2 on 29 April.</span>
-                <span>🗳️ Tamil Nadu & Kerala Elections scheduled for 23 April and 9 April 2026 respectively.</span>
-                <span>📊 Counting of Votes & Results for all 5 States: 4 May 2026.</span>
-                <span>📝 Voter Registration Deadline: Ensure your name is in the electoral roll by 15 March 2026.</span>
+                <span>📊 2026 Assembly Elections: Vote Counting for all 5 States starts TOMORROW, 4 May at 8:00 AM.</span>
+                <span>🗳️ Counting centers in West Bengal, Tamil Nadu, Kerala, Assam, and Puducherry ready for results.</span>
+                <span>🛡️ ECI: 3-Tier Security deployed at all designated counting stations across the nation.</span>
+                <span>📢 Stay tuned to this portal for live seat-wise trends and final winner declarations!</span>
                 <span>🛡️ Ethical Voting: Take the Digital Voter Pledge now and commit to a fair democracy.</span>
             </div>
         </div>
@@ -579,7 +584,7 @@
 
             <div class="footer-bottom">
                 <div class="footer-copyright">
-                    © 2026 Electionant. All Rights Reserved by Debasmita. Not an official government entity.
+                    © 2026 Electionant. All Rights Reserved by Debasmita. v1.0.5-Live
                 </div>
                 <div class="footer-tech">
                     Powered by Google Gemini AI & Civic API
