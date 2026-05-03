@@ -180,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Trigger page-specific logic
         if (pageId === 'chat') initChat();
+        if (pageId === 'dashboard') initDashboard();
         if (pageId === 'timeline') initTimeline();
         if (pageId === 'guides') initGuides();
         if (pageId === 'lookup') initLookup();
@@ -212,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle initial hash navigation
     const initialHash = window.location.hash.substring(1);
-    if (initialHash && ['home', 'chat', 'timeline', 'guides', 'lookup'].includes(initialHash)) {
+    if (initialHash && ['home', 'dashboard', 'chat', 'timeline', 'guides', 'lookup', 'maps', 'videos', 'pledge'].includes(initialHash)) {
         navigateTo(initialHash);
     }
 

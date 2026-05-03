@@ -52,6 +52,16 @@ function initPledge() {
         inputArea.style.display = 'block';
         nameInput.value = '';
     });
+
+    const shareBtn = document.getElementById('share-pledge-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+            const name = certName.textContent;
+            const text = `I just took the Digital Voter Pledge on Electionant! 🇮🇳 I'm committed to being an informed and ethical voter for the 2026 Elections. Get your certificate at: #Electionant #VoteIndia #Democracy`;
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
+            window.open(url, '_blank');
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', initPledge);
