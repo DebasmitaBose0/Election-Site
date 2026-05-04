@@ -95,16 +95,7 @@ window.showToast = (message, type = 'info') => {
     }, 4000);
 };
 
-// Preloader Logic
-window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        setTimeout(() => {
-            preloader.classList.add('hidden');
-            setTimeout(() => preloader.style.display = 'none', 850); // Wait for transition (800ms)
-        }, 1500); // Allow the 1.5s progress bar animation to complete
-    }
-});
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // Chat Interface Logic
@@ -152,7 +143,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Live Navbar Banner Logic
+    async function initNavBanner() {
+        const bannerText = document.querySelector('#nav-live-banner .banner-text');
+        if (!bannerText) return;
+
+        try {
+            const response = await fetch('/api/election-results');
+            const data = await response.json();
+            const states = Object.keys(data);
+            let currentIndex = 0;
+
+            const rotateBanner = () => {
+                const state = states[currentIndex];
+                const info = data[state];
+                bannerText.style.opacity = '0';
+                setTimeout(() => {
+                    bannerText.textContent = `LIVE: ${state} — ${info.counted_seats}/${info.total_seats} Counted`;
+                    bannerText.style.opacity = '1';
+                }, 500);
+                currentIndex = (currentIndex + 1) % states.length;
+            };
+
+            if (states.length > 0) {
+                rotateBanner();
+                setInterval(rotateBanner, 5000);
+            }
+        } catch (error) {
+            console.error("Banner update failed:", error);
+        }
+    }
+
     initNewsTicker();
+    initNavBanner();
 
     // SPA State Management
     const state = {
@@ -203,6 +226,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update URL hash without reload
         window.history.pushState(null, '', `#${pageId}`);
+
+        // Re-initialize icons for the new page content
+        if (window.lucide) lucide.createIcons();
     }
 
     // Event Listeners for Nav (Main + Footer)
