@@ -57,9 +57,54 @@ function initPledge() {
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
             const name = certName.textContent;
-            const text = `I just took the Digital Voter Pledge on Electionant! 🇮🇳 I'm committed to being an informed and ethical voter for the 2026 Elections. Get your certificate at: #Electionant #VoteIndia #Democracy`;
+            const text = `I just took the Digital Voter Pledge on Electionant! I'm committed to being an informed and ethical voter for the 2026 Elections. Get your certificate at: #Electionant #VoteIndia #Democracy`;
             const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
             window.open(url, '_blank');
+        });
+    }
+
+    const printBtn = document.getElementById('print-cert-btn');
+    if (printBtn) {
+        printBtn.addEventListener('click', async () => {
+            const certElement = document.getElementById('voter-certificate');
+            if (!certElement) return;
+            
+            const originalBtnText = printBtn.innerHTML;
+            printBtn.innerHTML = '<i class="lucide-loader animate-spin"></i> Generating...';
+            printBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/pledge/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ name: certName.textContent })
+                });
+
+                if (!response.ok) throw new Error('Backend generation failed');
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Voter_Pledge_${certName.textContent.replace(/\s+/g, '_')}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                if (window.showToast) window.showToast('Professional Certificate Downloaded!', 'success');
+            } catch (error) {
+                console.error("PDF Generation Error:", error);
+                if (window.showToast) window.showToast('Failed to generate PDF. Trying fallback...', 'error');
+                // Fallback to simple print if backend fails
+                window.print();
+            } finally {
+                printBtn.innerHTML = originalBtnText;
+                printBtn.disabled = false;
+            }
         });
     }
 }
