@@ -260,38 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ═══════════════════════════════════════
     // Authentication
     // ═══════════════════════════════════════
-    async function checkAuthStatus() {
-        try {
-            const response = await fetch('/auth/status');
-            const data = await response.json();
-            
-            if (data.authenticated) {
-                state.authenticated = true;
-                state.user = data.user;
-                updateAuthUI(true);
-            } else {
-                state.authenticated = false;
-                state.user = null;
-                updateAuthUI(false);
-            }
-        } catch (error) {
-            console.error('Auth check failed:', error);
-        }
-    }
-
-    function updateAuthUI(isAuthenticated) {
-        if (!authBtn) return;
-        
-        if (isAuthenticated) {
-            authBtn.innerHTML = `<img src="${state.user.picture}" alt="" class="user-pic"> Logout`;
-            authBtn.onclick = () => window.location.href = '/auth/logout';
-        } else {
-            authBtn.innerHTML = `<span class="google-icon">G</span> Sign In`;
-            authBtn.onclick = () => window.location.href = '/auth/login';
-        }
-    }
-
-    checkAuthStatus();
+    // Auth status is now handled by firebase-auth.js
 
     // ═══════════════════════════════════════
     // UI Effects
