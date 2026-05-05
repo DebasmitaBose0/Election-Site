@@ -39,3 +39,6 @@ htmlcov/
 # Credentials
 credentials.json
 token.json
+# Firebase
+electionant-firebase-adminsdk-*.json
+*.json

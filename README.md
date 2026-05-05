@@ -7,6 +7,9 @@
 
 > **Empowering Indian citizens with real-time election intelligence and democratic engagement.**
 
+### 🚀 Live Production URL
+**[View Electionant Live on Google Cloud Run](https://electionant-746960260176.us-central1.run.app/)**
+
 ---
 
 ## 🌟 Majestic Features
@@ -14,7 +17,13 @@
 Electionant is more than just an information portal; it's a high-performance civic experience designed for the 2026 Assembly Elections.
 
 ### 📢 Live Pulse News Ticker
-Stay updated with a **dynamic, scrolling news bar** that fetches real-time Indian election headlines via GNews and the Election Commission of India. It keeps you informed about counting dates, registration deadlines, and official announcements.
+Stay updated with a **high-performance, scrolling news bar** that fetches real-time Indian election headlines. Optimized with smooth CSS animations and zero-layout-shift positioning, it keeps you informed about counting dates and official announcements without interrupting your experience.
+
+### 📊 Real-Time Election Results Banner
+Integrated a **Live Polling Result Banner** directly into the navigation bar. 
+- Features a dynamic, cycling display of counting data (e.g., "Tamil Nadu - 156/234 Counted").
+- Includes a blinking 'LIVE' indicator for instant visual confirmation of real-time updates.
+- Auto-collapses on smaller viewports to prioritize essential navigation.
 
 ### 📜 Digital Voter Pledge & Certificate
 Take the ethical voting pledge and instantly generate a **premium, print-ready Digital Certificate**. 
@@ -36,6 +45,15 @@ A robust failover system to ensure you always find your leaders.
 
 ---
 
+## 🚧 Current Development Status
+
+- **[IN PROGRESS] Firebase Authentication**: We are currently migrating to a unified **Firebase-based login/registration system**.
+  - **Google One-Click Sign-in**: Integration in progress for seamless access.
+  - **Email/Password Auth**: Secure account creation via Firebase SDK.
+  - **Voter Profile Sync**: In development to personalize your dashboard experience.
+
+---
+
 ## 🛠️ Technology Stack
 
 | Layer | Technology |
@@ -44,8 +62,9 @@ A robust failover system to ensure you always find your leaders.
 | **AI Engine** | Google Gemini 2.5 Pro (State-of-the-art reasoning) |
 | **Mapping** | Leaflet.js / OpenStreetMap / Overpass API |
 | **News Feed** | GNews API (India-specific filtering) |
-| **Styling** | Vanilla CSS3 (Custom Glassmorphism / Premium Dark Mode) |
+| **Styling** | Vanilla CSS3 (Zero-CLS / 100% Zoom Optimized / Premium Dark Mode) |
 | **Deployment** | Docker / Google Cloud Run (Serverless) |
+| **UX Polish** | Professional Preloader / High-Contrast Mode / Fluid Typography |
 
 ---
 
@@ -76,14 +95,27 @@ Visit `http://localhost:5002` 🗳️
 ---
 
 ## ☁️ Cloud Deployment
+**Status: Initial Deployment Complete ✅**
 
-Electionant is optimized for **Google Cloud Run**. To deploy in under 5 minutes:
+Electionant is live and optimized for **Google Cloud Run**. 
+
+**Live Link:** [https://electionant-746960260176.us-central1.run.app/](https://electionant-746960260176.us-central1.run.app/)
+
+To redeploy or update:
 
 ```bash
 gcloud run deploy electionant --source . --region us-central1 --allow-unauthenticated
 ```
 
 ---
+
+---
+
+## 💎 UI/UX Optimization
+The platform is meticulously tuned for **100% Browser Zoom** on standard desktop resolutions (1280px+). 
+- **Header Stability**: A fixed stack of Top Bar, Navbar, and News Ticker provides constant access to tools.
+- **Visual Excellence**: Uses Google Fonts (Inter/Outfit) and custom glassmorphism for a premium, government-grade aesthetic.
+- **Fast Interaction**: Optimized script loading and a professional preloader ensure a smooth first-contentful-paint (FCP).
 
 ## 📖 Project Philosophy
 This project was built to bridge the gap between complex electoral data and citizen understanding. By combining **Official Government Data** with **Generative AI**, we create a platform that is not just a tool, but a democratic companion.
