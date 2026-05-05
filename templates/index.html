@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
         content="Electionant - AI-powered interactive guide to understanding the election process, timelines, voter registration, and more.">
     <meta name="keywords"
@@ -37,7 +38,7 @@
     <script>
         // Disable scroll while loading
         document.documentElement.style.overflow = 'hidden';
-        
+
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             if (preloader) {
@@ -53,6 +54,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
@@ -85,670 +91,735 @@
         </div>
     </header>
 
-        <script type="text/javascript">
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
-            }
-        </script>
-        <script type="text/javascript"
-            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-        <!-- Main Navigation -->
-        <nav class="navbar" role="navigation" aria-label="Main navigation">
-            <div class="nav-container">
-                <a href="#" class="nav-logo" id="nav-logo" style="flex-shrink: 0; display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <div class="logo-emblem">
-                        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="ECI Emblem" style="height: 40px; width: auto;">
-                    </div>
-                    <div class="logo-stack">
-                        <span class="logo-main">ELECTION COMMISSION OF INDIA</span>
-                        <span class="logo-sub">भारत निर्वाचन आयोग</span>
-                    </div>
+    <!-- Main Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="nav-logo"
+                style="flex-shrink: 0; display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <div class="logo-emblem">
+                    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="ECI Emblem"
+                        style="height: 40px; width: auto;">
+                </div>
+                <div class="logo-stack">
+                    <span class="logo-main">ELECTION COMMISSION OF INDIA</span>
+                    <span class="logo-sub">भारत निर्वाचन आयोग</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="nav-links" role="menubar">
+                <a href="#" class="nav-link active" data-page="home" role="menuitem">Home</a>
+                <a href="#" class="nav-link" data-page="dashboard" role="menuitem">Live Results</a>
+                <a href="#" class="nav-link" data-page="timeline" role="menuitem">Election Schedule</a>
+                <a href="#" class="nav-link" data-page="lookup" role="menuitem">Find Your Rep</a>
+                <a href="#" class="nav-link" data-page="maps" role="menuitem">Polling Stations</a>
+                <a href="#" class="nav-link" data-page="pledge" role="menuitem">Voter Pledge</a>
+                <a href="#" class="nav-link" data-page="videos" role="menuitem">Educational Gallery</a>
+            </div>
+
+            <!-- Live Polling Result Banner (Navbar Integrated) -->
+            <div class="live-results-banner" id="nav-live-banner">
+                <span class="live-dot-mini"></span>
+                <span class="banner-text">TRENDING: West Bengal Counting Begins</span>
+            </div>
+
+            <div class="nav-right" style="flex-shrink: 0;">
+                <a href="#page-auth" class="btn btn-primary btn-sm" id="auth-btn-nav" data-page="auth">
+                    Sign In / Register
                 </a>
+            </div>
+        </div>
+    </nav>
 
-                <div class="nav-links" id="nav-links" role="menubar">
-                    <a href="#" class="nav-link active" data-page="home" role="menuitem">Home</a>
-                    <a href="#" class="nav-link" data-page="dashboard" role="menuitem">Live Results</a>
-                    <a href="#" class="nav-link" data-page="timeline" role="menuitem">Election Schedule</a>
-                    <a href="#" class="nav-link" data-page="lookup" role="menuitem">Find Your Rep</a>
-                    <a href="#" class="nav-link" data-page="maps" role="menuitem">Polling Stations</a>
-                    <a href="#" class="nav-link" data-page="pledge" role="menuitem">Voter Pledge</a>
-                    <a href="#" class="nav-link" data-page="videos" role="menuitem">Educational Gallery</a>
+    <div class="news-ticker">
+        <div class="ticker-label">
+            <span class="ticker-dot"></span> LIVE UPDATES
+        </div>
+        <div class="ticker-content">
+            <div class="ticker-track">
+                <span><i data-lucide="bar-chart-2"
+                        style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> 2026 Assembly
+                    Elections: Vote Counting for all 5 States starts TOMORROW, 4 May at 8:00 AM.</span>
+                <span><i data-lucide="check-square"
+                        style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> Counting
+                    centers in West Bengal, Tamil Nadu, Kerala, Assam, and Puducherry ready for results.</span>
+                <span><i data-lucide="trending-up"
+                        style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> TRENDING:
+                    Youth voter turnout projected to hit record 70% this year!</span>
+                <span><i data-lucide="shield-check"
+                        style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> ECI: 3-Tier
+                    Security deployed at all designated counting stations across the nation.</span>
+                <span><i data-lucide="megaphone"
+                        style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> Stay tuned to
+                    this portal for live seat-wise trends and final winner declarations!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content" role="main">
+        <!-- HOME PAGE -->
+        <section class="page active" id="page-home">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">🇮🇳 Your Guide to Indian Democracy</div>
+                    <h1 class="hero-title">
+                        Understand the <span class="gradient-text">Election Process</span>
+                        <br>Like Never Before
+                    </h1>
+                    <p class="hero-subtitle">
+                        An interactive platform that makes India's electoral system
+                        simple, accessible, and engaging. Find your representatives, track election schedules, and
+                        locate your nearest polling booth.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" id="hero-explore-btn" data-page="timeline">
+                            Explore Election Schedule
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" data-count="8">0</span>
+                            <span class="stat-label">Election Phases</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="4">0</span>
+                            <span class="stat-label">Interactive Guides</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="24" data-suffix=" X 7">0</span>
+                            <span class="stat-label">AI Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <h2 class="section-title">Everything You Need to Know</h2>
+                <div class="features-grid">
+
+                    <div class="feature-card" data-page="timeline" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <i data-lucide="calendar"></i>
+                        </span>
+                        <h3>Election Timeline</h3>
+                        <p>Visualize the complete election process from announcement to results in an interactive
+                            timeline.</p>
+                    </div>
+                    <div class="feature-card" data-page="guides" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <i data-lucide="book-open"></i>
+                        </span>
+                        <h3>Step-by-Step Guides</h3>
+                        <p>Follow detailed guides for voter registration, voting process, and absentee ballots.</p>
+                    </div>
+                    <div class="feature-card" data-page="lookup" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <i data-lucide="users"></i>
+                        </span>
+                        <h3>Representative Lookup</h3>
+                        <p>Find your elected representatives and contact information using Google Civic API.</p>
+                    </div>
+                    <div class="feature-card" data-page="maps" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <i data-lucide="map-pin"></i>
+                        </span>
+                        <h3>Polling Booth Finder</h3>
+                        <p>Locate your nearest polling station and get directions using Google Maps.</p>
+                    </div>
+                    <div class="feature-card" data-page="videos" role="button" tabindex="0">
+                        <span class="feature-icon">
+                            <i data-lucide="video"></i>
+                        </span>
+                        <h3>Educational Gallery</h3>
+                        <p>Watch official voter awareness and educational content powered by Google YouTube API.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2 class="section-title">Common Questions</h2>
+                <div class="faq-container" id="faq-container"></div>
+            </div>
+
+            <!-- Youth Participation Insight (The WOW Factor) -->
+            <div class="insight-section">
+                <div class="insight-container">
+                    <div class="insight-text">
+                        <span class="badge">Engagement Insight</span>
+                        <h2>The Power of <span class="gradient-text">Young India</span></h2>
+                        <p>In the 2026 elections, over 45 million first-time voters are expected to cast their
+                            ballots. Our data shows a 12% increase in youth registration compared to 2021.</p>
+                        <div class="insight-stats">
+                            <div class="i-stat">
+                                <span class="i-val">68%</span>
+                                <span class="i-lbl">Youth Turnout</span>
+                            </div>
+                            <div class="i-stat">
+                                <span class="i-val">4.2M</span>
+                                <span class="i-lbl">New Registrations</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insight-chart">
+                        <canvas id="youthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD PAGE -->
+        <section class="page" id="page-dashboard">
+            <div class="dashboard-container">
+                <div class="page-header">
+                    <div class="live-indicator">
+                        <span class="live-dot"></span> LIVE COUNTING DASHBOARD
+                    </div>
+                    <h2 class="page-title">2026 Assembly <span class="gradient-text">Results</span></h2>
+                    <p class="page-subtitle">Real-time seat-wise trends and final declarations across 5 states</p>
                 </div>
 
-                <!-- Live Polling Result Banner (Navbar Integrated) -->
-                <div class="live-results-banner" id="nav-live-banner">
-                    <span class="live-dot-mini"></span>
-                    <span class="banner-text">TRENDING: West Bengal Counting Begins</span>
+                <div class="results-grid" id="results-grid">
+                    <!-- State cards will be injected here -->
                 </div>
 
-                <div class="nav-right" style="flex-shrink: 0;">
-                    <button class="btn btn-primary btn-sm" id="auth-btn">
+                <div class="dashboard-footer">
+                    <p>⚠️ Data is for illustrative purposes. For official results, visit <a
+                            href="https://results.eci.gov.in" target="_blank">results.eci.gov.in</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE PAGE -->
+        <section class="page" id="page-timeline">
+            <div class="timeline-container">
+                <div class="page-header">
+                    <h2 class="page-title">Election <span class="gradient-text">Timeline</span></h2>
+                    <p class="page-subtitle">Track the lifecycle of the democratic process</p>
+                </div>
+
+                <div class="state-search-section">
+                    <div class="state-search-container">
+                        <label for="state-selector" class="state-search-label">Select State/UT to see
+                            schedule:</label>
+                        <div class="state-selector-wrapper">
+                            <select id="state-selector" class="state-select">
+                                <option value="" selected disabled>Choose a State/UT...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="state-result-container" class="state-result-container">
+                        <!-- State specific results will appear here -->
+                    </div>
+                </div>
+
+                <div class="timeline" id="timeline"></div>
+            </div>
+        </section>
+
+        <!-- GUIDES PAGE -->
+        <section class="page" id="page-guides">
+            <div class="guides-container">
+                <div class="page-header">
+                    <h2 class="page-title">How-to <span class="gradient-text">Guides</span></h2>
+                    <p class="page-subtitle">Simple instructions for every step</p>
+                </div>
+                <div class="guides-grid" id="guides-grid"></div>
+                <div class="guide-detail" id="guide-detail" style="display:none;">
+                    <button class="btn btn-ghost" id="guide-back-btn">← Back to Guides</button>
+                    <div id="guide-detail-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOOKUP PAGE -->
+        <section class="page" id="page-lookup">
+            <div class="lookup-container">
+                <div class="page-header">
+                    <h2 class="page-title">Representative <span class="gradient-text">Lookup</span></h2>
+                    <p class="page-subtitle">Find who represents you in the government</p>
+                </div>
+                <div class="lookup-search">
+                    <form id="lookup-form" class="lookup-form">
+                        <div class="lookup-input-wrapper">
+                            <span class="lookup-icon"><i data-lucide="map-pin"></i></span>
+                            <input type="text" class="lookup-input" id="lookup-input"
+                                placeholder="Enter your address..." maxlength="500">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="lookup-results"></div>
+
+                <div class="advanced-research-section">
+                    <h3 class="section-subtitle">🔍 Advanced Insights</h3>
+                    <p class="section-desc">For deep-dives into candidate backgrounds and MP performance, we
+                        recommend these official research portals:</p>
+                    <div class="research-grid">
+                        <a href="https://myneta.info" target="_blank" class="research-card">
+                            <div class="research-icon">📊</div>
+                            <div class="research-info">
+                                <h4>MyNeta (ADR)</h4>
+                                <p>Check criminal records, assets, and liabilities of candidates.</p>
+                            </div>
+                        </a>
+                        <a href="https://prsindia.org" target="_blank" class="research-card">
+                            <div class="research-icon">🏛️</div>
+                            <div class="research-info">
+                                <h4>PRS Legislative Research</h4>
+                                <p>Track MP attendance, participation, and legislative performance.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="calendar-section">
+                    <h3 class="section-subtitle">📅 Calendar Reminders</h3>
+                    <div class="calendar-dates" id="calendar-dates"></div>
+                </div>
+            </div>
+        </section>
+        <!-- MAPS PAGE -->
+        <section class="page" id="page-maps">
+            <div class="maps-container">
+                <div class="page-header">
+                    <h2 class="page-title">Polling Booth <span class="gradient-text">Finder</span></h2>
+                    <p class="page-subtitle">Find your nearest polling station on OpenStreetMap's verified database
+                    </p>
+                </div>
+                <div class="maps-wrapper">
+                    <div class="map-search">
+                        <div class="lookup-input-wrapper">
+                            <span class="lookup-icon"><i data-lucide="search"></i></span>
+                            <input type="text" class="lookup-input" id="map-search-input"
+                                placeholder="Enter your area or pincode...">
+                            <button class="btn btn-primary" id="map-search-btn">Find Booths</button>
+                        </div>
+                    </div>
+                    <div class="map-display" style="position: relative;">
+                        <div id="google-map"
+                            style="height: 550px; width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+                        </div>
+
+                        <!-- Premium Info Overlay -->
+                        <div id="map-info-overlay" class="map-details-overlay">
+                            <h5>Currently Viewing</h5>
+                            <p id="overlay-location-name">All India</p>
+                            <div
+                                style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem;">
+                                <span id="overlay-booth-count">0</span> booths found nearby
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIDEOS PAGE -->
+        <section class="page" id="page-videos">
+            <div class="videos-container">
+                <div class="page-header">
+                    <h2 class="page-title">Educational <span class="gradient-text">Gallery</span></h2>
+                    <p class="page-subtitle">Learn about democracy through official educational content</p>
+                </div>
+                <div class="video-grid" id="video-grid">
+                    <div class="video-card"
+                        onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/3zaBU4lICes?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-frame-wrapper"
+                            style="background-image: url('https://img.youtube.com/vi/3zaBU4lICes/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
+                            <div class="play-overlay">
+                                <div class="play-icon"><i data-lucide="play"></i></div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag" style="background: rgba(255, 153, 51, 0.2); color: #FF9933;">Short
+                                Film</span>
+                            <h4>My Vote My Duty</h4>
+                            <p>Official ECI short film encouraging citizens to exercise their democratic right with
+                                full HD clarity.</p>
+                        </div>
+                    </div>
+
+                    <div class="video-card"
+                        onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/2ZkQEIgHPzE?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-frame-wrapper"
+                            style="background-image: url('https://img.youtube.com/vi/2ZkQEIgHPzE/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
+                            <div class="play-overlay">
+                                <div class="play-icon"><i data-lucide="play"></i></div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag"
+                                style="background: rgba(19, 136, 8, 0.2); color: #138808;">Awareness</span>
+                            <h4>Power of One Vote</h4>
+                            <p>Detailed insight into the impact of a single vote on national and community progress.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="video-card"
+                        onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/-fXjIXQMa_U?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-frame-wrapper"
+                            style="background-image: url('https://img.youtube.com/vi/-fXjIXQMa_U/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
+                            <div class="play-overlay">
+                                <div class="play-icon"><i data-lucide="play"></i></div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag"
+                                style="background: rgba(66, 133, 244, 0.2); color: #4285F4;">Tutorial</span>
+                            <h4>How to use EVM & VVPAT</h4>
+                            <p>Step-by-step HD tutorial for the Electronic Voting Machine and verification process.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="video-card"
+                        onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/T9Mn-9-pGRQ?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-frame-wrapper"
+                            style="background-image: url('https://img.youtube.com/vi/T9Mn-9-pGRQ/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
+                            <div class="play-overlay">
+                                <div class="play-icon"><i data-lucide="play"></i></div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag"
+                                style="background: rgba(156, 39, 176, 0.2); color: #E040FB;">Inclusion</span>
+                            <h4>Main Bhi Bharat</h4>
+                            <p>A tribute to the diversity of the Indian electorate and the power of inclusive
+                                democracy.</p>
+                        </div>
+                    </div>
+                    <div class="video-card"
+                        onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/XGJQNKFYqYI?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-frame-wrapper"
+                            style="background-image: url('https://img.youtube.com/vi/XGJQNKFYqYI/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
+                            <div class="play-overlay">
+                                <div class="play-icon"><i data-lucide="play"></i></div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag"
+                                style="background: rgba(255, 193, 7, 0.2); color: #FFC107;">Documentary</span>
+                            <h4>The Great Indian Election</h4>
+                            <p>An inspiring overview of the scale and spirit of the world's largest democratic
+                                exercise.</p>
+                        </div>
+                    </div>
+                    <div class="video-card"
+                        onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/_th8zOh29xc?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-frame-wrapper"
+                            style="background-image: url('https://img.youtube.com/vi/_th8zOh29xc/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
+                            <div class="play-overlay">
+                                <div class="play-icon"><i data-lucide="play"></i></div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-tag"
+                                style="background: rgba(0, 150, 136, 0.2); color: #009688;">Awareness</span>
+                            <h4>Voice of the People</h4>
+                            <p>An emotional journey through the polling stations of India, capturing the true voice
+                                of the world's largest democracy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- PLEDGE PAGE -->
+        <section class="page" id="page-pledge">
+            <div class="pledge-container">
+                <div class="page-header">
+                    <h2 class="page-title">Digital Voter <span class="gradient-text">Pledge</span></h2>
+                    <p class="page-subtitle">Commit to the democratic process and receive your official certificate
+                    </p>
+                </div>
+
+                <div class="pledge-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon"><i data-lucide="users"></i></span>
+                        <div class="stat-info">
+                            <span class="stat-value" id="pledge-count">42,851</span>
+                            <span class="stat-label">Citizens Pledged Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon"><i data-lucide="award"></i></span>
+                        <div class="stat-info">
+                            <span class="stat-value">100%</span>
+                            <span class="stat-label">Democratic Commitment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pledge-content-wrapper">
+                    <div class="pledge-form-card" id="pledge-input-area">
+                        <div class="pledge-icon"><i data-lucide="scroll"></i></div>
+                        <h3>Take the Pledge</h3>
+                        <p>I, as a citizen of India, having faith in democracy, hereby pledge to uphold the
+                            democratic traditions of our country...</p>
+
+                        <div class="pledge-input-group">
+                            <label for="pledge-name">Enter Your Full Name</label>
+                            <input type="text" id="pledge-name" placeholder="e.g. Debasmita Bose" autocomplete="name">
+                            <p class="input-hint">Your name will be printed on the official digital certificate.</p>
+                        </div>
+
+                        <button class="btn btn-primary btn-large" id="generate-pledge-btn" style="width: 100%;">
+                            Take the Pledge & Generate Certificate
+                        </button>
+                    </div>
+
+                    <!-- Certificate Display Area (Hidden initially) -->
+                    <div class="certificate-display" id="certificate-area" style="display: none;">
+                        <div class="certificate-frame" id="voter-certificate">
+                            <div class="cert-border"></div>
+                            <div class="cert-content">
+                                <div class="cert-header">
+                                    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Emblem">
+                                    <h4>ELECTION COMMISSION OF INDIA</h4>
+                                    <p>भारत निर्वाचन आयोग</p>
+                                </div>
+
+                                <div class="cert-body">
+                                    <h1>CERTIFICATE OF PLEDGE</h1>
+                                    <p class="cert-desc">This is to certify that</p>
+                                    <h2 id="cert-user-name">RAJESH KUMAR</h2>
+                                    <p class="cert-text">
+                                        has taken the Voter's Pledge and committed to uphold the democratic
+                                        traditions of our country and the dignity of free, fair and peaceable
+                                        elections, and to vote in every election fearlessly and without being
+                                        influenced by considerations of religion, race, caste, community, language
+                                        or any inducement.
+                                    </p>
+                                </div>
+
+                                <div class="cert-footer">
+                                    <div class="cert-date">Date: <span id="cert-date-val"></span></div>
+                                    <div class="cert-id">Pledge ID: <span id="cert-id-val"></span></div>
+                                </div>
+
+                                <div class="cert-watermark">VOTER PLEDGE 2026</div>
+                                <div class="cert-signature">Project by Debasmita</div>
+                            </div>
+                        </div>
+
+                        <div class="cert-actions"
+                            style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer"></i>
+                                Print Certificate</button>
+                            <button class="btn btn-primary" id="share-pledge-btn"><i data-lucide="twitter"></i>
+                                Share on Twitter</button>
+                            <button class="btn btn-glass" id="take-new-pledge-btn">Take Another Pledge</button>
+                        </div>
+                    </div>
+
+                    <div class="pledge-extras">
+                        <h3>🛡️ Know Your Democratic Rights</h3>
+                        <div class="rights-grid">
+                            <div class="right-card">
+                                <div class="right-icon">⚖️</div>
+                                <h4>Section 49P</h4>
+                                <p>If someone else has already voted in your name, you can still cast a 'Tendered
+                                    Vote' after verification.</p>
+                            </div>
+                            <div class="right-card">
+                                <div class="right-icon">🚫</div>
+                                <h4>NOTA Power</h4>
+                                <p>'None of the Above' allows you to register a protest vote if you don't support
+                                    any candidate.</p>
+                            </div>
+                            <div class="right-card">
+                                <div class="right-icon">🏥</div>
+                                <h4>Home Voting</h4>
+                                <p>Citizens over 85 and Persons with Disabilities can now vote from the comfort of
+                                    their homes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal auth-modal">
+        <div class="modal-content">
+            <div class="auth-card">
+                <button class="close-modal" id="close-auth-modal"><i data-lucide="x"></i></button>
+
+                <div class="auth-header">
+                    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="ECI Logo" class="auth-logo">
+                    <h2 id="auth-title">Welcome Back</h2>
+                    <p id="auth-subtitle">Sign in to access personalized election insights</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login">Login</button>
+                    <button class="auth-tab" id="tab-register">Register</button>
+                </div>
+
+                <form id="auth-form" class="auth-form">
+                    <div class="input-group">
+                        <label for="auth-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="mail"></i>
+                            <input type="email" id="auth-email" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group" id="name-group" style="display: none;">
+                        <label for="auth-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="user"></i>
+                            <input type="text" id="auth-name" placeholder="Your Name">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="auth-password">Password</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="lock"></i>
+                            <input type="password" id="auth-password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="auth-submit-btn">
                         Sign In
                     </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <button class="btn btn-glass btn-block google-auth-btn" id="google-signin-btn">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" alt="Google">
+                    Continue with Google
+                </button>
+
+                <p class="auth-footer">
+                    By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col-brand">
+                    <div class="footer-brand">
+                        <span class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path>
+                                <path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6"></path>
+                                <path d="M10 12h4"></path>
+                            </svg>
+                        </span>
+                        <span>Electionant</span>
+                    </div>
+                    <p class="footer-description">
+                        An AI-powered interactive platform dedicated to empowering Indian citizens with accurate
+                        information about the democratic process.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="https://twitter.com/ECISVEEP" target="_blank" aria-label="Twitter">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/ECI" target="_blank" aria-label="Facebook">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                            <a href="https://twitter.com/ECISVEEP" target="_blank" aria-label="Twitter"><i
+                                    data-lucide="twitter"></i></a>
+                            <a href="https://www.facebook.com/ECI" target="_blank" aria-label="Facebook"><i
+                                    data-lucide="facebook"></i></a>
+                            <a href="https://www.linkedin.com/company/election-commission-of-india-official/"
+                                target="_blank" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                            <a href="https://www.instagram.com/ecisveep" target="_blank" aria-label="Instagram"><i
+                                    data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="home"><i data-lucide="chevron-right"></i> Home</a></li>
+                        <li><a href="#" data-page="timeline"><i data-lucide="chevron-right"></i> Election
+                                Schedule</a></li>
+                        <li><a href="#" data-page="guides"><i data-lucide="chevron-right"></i> Voter Guide</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="lookup">Find Representative</a></li>
+                        <li><a href="#page-home">Common FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Official Portals</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://eci.gov.in" target="_blank">Election Commission</a></li>
+                        <li><a href="https://voters.eci.gov.in" target="_blank">NVSP Portal</a></li>
+                        <li><a href="https://voterportal.eci.gov.in" target="_blank">Voter Portal</a></li>
+                        <li><a href="https://ceouttarpradesh.nic.in" target="_blank">State CEO Sites</a></li>
+                    </ul>
                 </div>
             </div>
-        </nav>
 
-        <div class="news-ticker">
-            <div class="ticker-label">
-                <span class="ticker-dot"></span> LIVE UPDATES
-            </div>
-            <div class="ticker-content">
-                <div class="ticker-track">
-                    <span><i data-lucide="bar-chart-2"
-                            style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> 2026 Assembly
-                        Elections: Vote Counting for all 5 States starts TOMORROW, 4 May at 8:00 AM.</span>
-                    <span><i data-lucide="check-square"
-                            style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> Counting
-                        centers in West Bengal, Tamil Nadu, Kerala, Assam, and Puducherry ready for results.</span>
-                    <span><i data-lucide="trending-up"
-                            style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> TRENDING:
-                        Youth voter turnout projected to hit record 70% this year!</span>
-                    <span><i data-lucide="shield-check"
-                            style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> ECI: 3-Tier
-                        Security deployed at all designated counting stations across the nation.</span>
-                    <span><i data-lucide="megaphone"
-                            style="width:14px; height:14px; vertical-align:middle; margin-right:5px;"></i> Stay tuned to
-                        this portal for live seat-wise trends and final winner declarations!</span>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2026 Electionant. All Rights Reserved by Debasmita. v1.0.5-Live
+                </div>
+                <div class="footer-tech">
+                    Powered by Google Gemini AI & Civic API
                 </div>
             </div>
         </div>
+    </footer>
 
-        <!-- Main Content -->
-        <main id="main-content" class="main-content" role="main">
-            <!-- HOME PAGE -->
-            <section class="page active" id="page-home">
-                <div class="hero">
-                    <div class="hero-content">
-                        <div class="hero-badge">🇮🇳 Your Guide to Indian Democracy</div>
-                        <h1 class="hero-title">
-                            Understand the <span class="gradient-text">Election Process</span>
-                            <br>Like Never Before
-                        </h1>
-                        <p class="hero-subtitle">
-                            An interactive platform that makes India's electoral system
-                            simple, accessible, and engaging. Find your representatives, track election schedules, and
-                            locate your nearest polling booth.
-                        </p>
-                        <div class="hero-actions">
-                            <button class="btn btn-primary btn-lg" id="hero-explore-btn" data-page="timeline">
-                                Explore Election Schedule
-                            </button>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat">
-                                <span class="stat-number" data-count="8">0</span>
-                                <span class="stat-label">Election Phases</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number" data-count="4">0</span>
-                                <span class="stat-label">Interactive Guides</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number" data-count="24" data-suffix=" X 7">0</span>
-                                <span class="stat-label">AI Support</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Toast -->
+    <div class="toast-container" id="toast-container"></div>
 
-                <div class="features-section">
-                    <h2 class="section-title">Everything You Need to Know</h2>
-                    <div class="features-grid">
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pledge.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/guides.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lookup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/firebase-auth.js') }}"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-                        <div class="feature-card" data-page="timeline" role="button" tabindex="0">
-                            <span class="feature-icon">
-                                <i data-lucide="calendar"></i>
-                            </span>
-                            <h3>Election Timeline</h3>
-                            <p>Visualize the complete election process from announcement to results in an interactive
-                                timeline.</p>
-                        </div>
-                        <div class="feature-card" data-page="guides" role="button" tabindex="0">
-                            <span class="feature-icon">
-                                <i data-lucide="book-open"></i>
-                            </span>
-                            <h3>Step-by-Step Guides</h3>
-                            <p>Follow detailed guides for voter registration, voting process, and absentee ballots.</p>
-                        </div>
-                        <div class="feature-card" data-page="lookup" role="button" tabindex="0">
-                            <span class="feature-icon">
-                                <i data-lucide="users"></i>
-                            </span>
-                            <h3>Representative Lookup</h3>
-                            <p>Find your elected representatives and contact information using Google Civic API.</p>
-                        </div>
-                        <div class="feature-card" data-page="maps" role="button" tabindex="0">
-                            <span class="feature-icon">
-                                <i data-lucide="map-pin"></i>
-                            </span>
-                            <h3>Polling Booth Finder</h3>
-                            <p>Locate your nearest polling station and get directions using Google Maps.</p>
-                        </div>
-                        <div class="feature-card" data-page="videos" role="button" tabindex="0">
-                            <span class="feature-icon">
-                                <i data-lucide="video"></i>
-                            </span>
-                            <h3>Educational Gallery</h3>
-                            <p>Watch official voter awareness and educational content powered by Google YouTube API.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-section">
-                    <h2 class="section-title">Common Questions</h2>
-                    <div class="faq-container" id="faq-container"></div>
-                </div>
-
-                <!-- Youth Participation Insight (The WOW Factor) -->
-                <div class="insight-section">
-                    <div class="insight-container">
-                        <div class="insight-text">
-                            <span class="badge">Engagement Insight</span>
-                            <h2>The Power of <span class="gradient-text">Young India</span></h2>
-                            <p>In the 2026 elections, over 45 million first-time voters are expected to cast their
-                                ballots. Our data shows a 12% increase in youth registration compared to 2021.</p>
-                            <div class="insight-stats">
-                                <div class="i-stat">
-                                    <span class="i-val">68%</span>
-                                    <span class="i-lbl">Youth Turnout</span>
-                                </div>
-                                <div class="i-stat">
-                                    <span class="i-val">4.2M</span>
-                                    <span class="i-lbl">New Registrations</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="insight-chart">
-                            <canvas id="youthChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- DASHBOARD PAGE -->
-            <section class="page" id="page-dashboard">
-                <div class="dashboard-container">
-                    <div class="page-header">
-                        <div class="live-indicator">
-                            <span class="live-dot"></span> LIVE COUNTING DASHBOARD
-                        </div>
-                        <h2 class="page-title">2026 Assembly <span class="gradient-text">Results</span></h2>
-                        <p class="page-subtitle">Real-time seat-wise trends and final declarations across 5 states</p>
-                    </div>
-
-                    <div class="results-grid" id="results-grid">
-                        <!-- State cards will be injected here -->
-                    </div>
-
-                    <div class="dashboard-footer">
-                        <p>⚠️ Data is for illustrative purposes. For official results, visit <a
-                                href="https://results.eci.gov.in" target="_blank">results.eci.gov.in</a></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TIMELINE PAGE -->
-            <section class="page" id="page-timeline">
-                <div class="timeline-container">
-                    <div class="page-header">
-                        <h2 class="page-title">Election <span class="gradient-text">Timeline</span></h2>
-                        <p class="page-subtitle">Track the lifecycle of the democratic process</p>
-                    </div>
-
-                    <div class="state-search-section">
-                        <div class="state-search-container">
-                            <label for="state-selector" class="state-search-label">Select State/UT to see
-                                schedule:</label>
-                            <div class="state-selector-wrapper">
-                                <select id="state-selector" class="state-select">
-                                    <option value="" selected disabled>Choose a State/UT...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="state-result-container" class="state-result-container">
-                            <!-- State specific results will appear here -->
-                        </div>
-                    </div>
-
-                    <div class="timeline" id="timeline"></div>
-                </div>
-            </section>
-
-            <!-- GUIDES PAGE -->
-            <section class="page" id="page-guides">
-                <div class="guides-container">
-                    <div class="page-header">
-                        <h2 class="page-title">How-to <span class="gradient-text">Guides</span></h2>
-                        <p class="page-subtitle">Simple instructions for every step</p>
-                    </div>
-                    <div class="guides-grid" id="guides-grid"></div>
-                    <div class="guide-detail" id="guide-detail" style="display:none;">
-                        <button class="btn btn-ghost" id="guide-back-btn">← Back to Guides</button>
-                        <div id="guide-detail-content"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- LOOKUP PAGE -->
-            <section class="page" id="page-lookup">
-                <div class="lookup-container">
-                    <div class="page-header">
-                        <h2 class="page-title">Representative <span class="gradient-text">Lookup</span></h2>
-                        <p class="page-subtitle">Find who represents you in the government</p>
-                    </div>
-                    <div class="lookup-search">
-                        <form id="lookup-form" class="lookup-form">
-                            <div class="lookup-input-wrapper">
-                                <span class="lookup-icon"><i data-lucide="map-pin"></i></span>
-                                <input type="text" class="lookup-input" id="lookup-input"
-                                    placeholder="Enter your address..." maxlength="500">
-                                <button type="submit" class="btn btn-primary">Search</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="lookup-results"></div>
-
-                    <div class="advanced-research-section">
-                        <h3 class="section-subtitle">🔍 Advanced Insights</h3>
-                        <p class="section-desc">For deep-dives into candidate backgrounds and MP performance, we
-                            recommend these official research portals:</p>
-                        <div class="research-grid">
-                            <a href="https://myneta.info" target="_blank" class="research-card">
-                                <div class="research-icon">📊</div>
-                                <div class="research-info">
-                                    <h4>MyNeta (ADR)</h4>
-                                    <p>Check criminal records, assets, and liabilities of candidates.</p>
-                                </div>
-                            </a>
-                            <a href="https://prsindia.org" target="_blank" class="research-card">
-                                <div class="research-icon">🏛️</div>
-                                <div class="research-info">
-                                    <h4>PRS Legislative Research</h4>
-                                    <p>Track MP attendance, participation, and legislative performance.</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="calendar-section">
-                        <h3 class="section-subtitle">📅 Calendar Reminders</h3>
-                        <div class="calendar-dates" id="calendar-dates"></div>
-                    </div>
-                </div>
-            </section>
-            <!-- MAPS PAGE -->
-            <section class="page" id="page-maps">
-                <div class="maps-container">
-                    <div class="page-header">
-                        <h2 class="page-title">Polling Booth <span class="gradient-text">Finder</span></h2>
-                        <p class="page-subtitle">Find your nearest polling station on OpenStreetMap's verified database
-                        </p>
-                    </div>
-                    <div class="maps-wrapper">
-                        <div class="map-search">
-                            <div class="lookup-input-wrapper">
-                                <span class="lookup-icon"><i data-lucide="search"></i></span>
-                                <input type="text" class="lookup-input" id="map-search-input"
-                                    placeholder="Enter your area or pincode...">
-                                <button class="btn btn-primary" id="map-search-btn">Find Booths</button>
-                            </div>
-                        </div>
-                        <div class="map-display" style="position: relative;">
-                            <div id="google-map"
-                                style="height: 550px; width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
-                            </div>
-
-                            <!-- Premium Info Overlay -->
-                            <div id="map-info-overlay" class="map-details-overlay">
-                                <h5>Currently Viewing</h5>
-                                <p id="overlay-location-name">All India</p>
-                                <div
-                                    style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem;">
-                                    <span id="overlay-booth-count">0</span> booths found nearby
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- VIDEOS PAGE -->
-            <section class="page" id="page-videos">
-                <div class="videos-container">
-                    <div class="page-header">
-                        <h2 class="page-title">Educational <span class="gradient-text">Gallery</span></h2>
-                        <p class="page-subtitle">Learn about democracy through official educational content</p>
-                    </div>
-                    <div class="video-grid" id="video-grid">
-                        <div class="video-card"
-                            onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/3zaBU4lICes?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                            <div class="video-frame-wrapper"
-                                style="background-image: url('https://img.youtube.com/vi/3zaBU4lICes/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
-                                <div class="play-overlay">
-                                    <div class="play-icon"><i data-lucide="play"></i></div>
-                                </div>
-                            </div>
-                            <div class="video-info">
-                                <span class="video-tag"
-                                    style="background: rgba(255, 153, 51, 0.2); color: #FF9933;">Short Film</span>
-                                <h4>My Vote My Duty</h4>
-                                <p>Official ECI short film encouraging citizens to exercise their democratic right with
-                                    full HD clarity.</p>
-                            </div>
-                        </div>
-
-                        <div class="video-card"
-                            onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/2ZkQEIgHPzE?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                            <div class="video-frame-wrapper"
-                                style="background-image: url('https://img.youtube.com/vi/2ZkQEIgHPzE/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
-                                <div class="play-overlay">
-                                    <div class="play-icon"><i data-lucide="play"></i></div>
-                                </div>
-                            </div>
-                            <div class="video-info">
-                                <span class="video-tag"
-                                    style="background: rgba(19, 136, 8, 0.2); color: #138808;">Awareness</span>
-                                <h4>Power of One Vote</h4>
-                                <p>Detailed insight into the impact of a single vote on national and community progress.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="video-card"
-                            onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/-fXjIXQMa_U?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                            <div class="video-frame-wrapper"
-                                style="background-image: url('https://img.youtube.com/vi/-fXjIXQMa_U/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
-                                <div class="play-overlay">
-                                    <div class="play-icon"><i data-lucide="play"></i></div>
-                                </div>
-                            </div>
-                            <div class="video-info">
-                                <span class="video-tag"
-                                    style="background: rgba(66, 133, 244, 0.2); color: #4285F4;">Tutorial</span>
-                                <h4>How to use EVM & VVPAT</h4>
-                                <p>Step-by-step HD tutorial for the Electronic Voting Machine and verification process.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="video-card"
-                            onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/T9Mn-9-pGRQ?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                            <div class="video-frame-wrapper"
-                                style="background-image: url('https://img.youtube.com/vi/T9Mn-9-pGRQ/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
-                                <div class="play-overlay">
-                                    <div class="play-icon"><i data-lucide="play"></i></div>
-                                </div>
-                            </div>
-                            <div class="video-info">
-                                <span class="video-tag"
-                                    style="background: rgba(156, 39, 176, 0.2); color: #E040FB;">Inclusion</span>
-                                <h4>Main Bhi Bharat</h4>
-                                <p>A tribute to the diversity of the Indian electorate and the power of inclusive
-                                    democracy.</p>
-                            </div>
-                        </div>
-                        <div class="video-card"
-                            onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/XGJQNKFYqYI?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                            <div class="video-frame-wrapper"
-                                style="background-image: url('https://img.youtube.com/vi/XGJQNKFYqYI/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
-                                <div class="play-overlay">
-                                    <div class="play-icon"><i data-lucide="play"></i></div>
-                                </div>
-                            </div>
-                            <div class="video-info">
-                                <span class="video-tag"
-                                    style="background: rgba(255, 193, 7, 0.2); color: #FFC107;">Documentary</span>
-                                <h4>The Great Indian Election</h4>
-                                <p>An inspiring overview of the scale and spirit of the world's largest democratic
-                                    exercise.</p>
-                            </div>
-                        </div>
-                        <div class="video-card"
-                            onclick="this.innerHTML='<iframe width=\'100%\' height=\'250\' src=\'https://www.youtube.com/embed/_th8zOh29xc?autoplay=1\' frameborder=\'0\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                            <div class="video-frame-wrapper"
-                                style="background-image: url('https://img.youtube.com/vi/_th8zOh29xc/maxresdefault.jpg'); background-size: cover; background-position: center; cursor: pointer;">
-                                <div class="play-overlay">
-                                    <div class="play-icon"><i data-lucide="play"></i></div>
-                                </div>
-                            </div>
-                            <div class="video-info">
-                                <span class="video-tag"
-                                    style="background: rgba(0, 150, 136, 0.2); color: #009688;">Awareness</span>
-                                <h4>Voice of the People</h4>
-                                <p>An emotional journey through the polling stations of India, capturing the true voice
-                                    of the world's largest democracy.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- PLEDGE PAGE -->
-            <section class="page" id="page-pledge">
-                <div class="pledge-container">
-                    <div class="page-header">
-                        <h2 class="page-title">Digital Voter <span class="gradient-text">Pledge</span></h2>
-                        <p class="page-subtitle">Commit to the democratic process and receive your official certificate
-                        </p>
-                    </div>
-
-                    <div class="pledge-stats">
-                        <div class="stat-item">
-                            <span class="stat-icon"><i data-lucide="users"></i></span>
-                            <div class="stat-info">
-                                <span class="stat-value" id="pledge-count">42,851</span>
-                                <span class="stat-label">Citizens Pledged Today</span>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-icon"><i data-lucide="award"></i></span>
-                            <div class="stat-info">
-                                <span class="stat-value">100%</span>
-                                <span class="stat-label">Democratic Commitment</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pledge-content-wrapper">
-                        <div class="pledge-form-card" id="pledge-input-area">
-                            <div class="pledge-icon"><i data-lucide="scroll"></i></div>
-                            <h3>Take the Pledge</h3>
-                            <p>I, as a citizen of India, having faith in democracy, hereby pledge to uphold the
-                                democratic traditions of our country...</p>
-
-                            <div class="pledge-input-group">
-                                <label for="pledge-name">Enter Your Full Name</label>
-                                <input type="text" id="pledge-name" placeholder="e.g. Debasmita Bose"
-                                    autocomplete="name">
-                                <p class="input-hint">Your name will be printed on the official digital certificate.</p>
-                            </div>
-
-                            <button class="btn btn-primary btn-large" id="generate-pledge-btn" style="width: 100%;">
-                                Take the Pledge & Generate Certificate
-                            </button>
-                        </div>
-
-                        <!-- Certificate Display Area (Hidden initially) -->
-                        <div class="certificate-display" id="certificate-area" style="display: none;">
-                            <div class="certificate-frame" id="voter-certificate">
-                                <div class="cert-border"></div>
-                                <div class="cert-content">
-                                    <div class="cert-header">
-                                        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Emblem">
-                                        <h4>ELECTION COMMISSION OF INDIA</h4>
-                                        <p>भारत निर्वाचन आयोग</p>
-                                    </div>
-
-                                    <div class="cert-body">
-                                        <h1>CERTIFICATE OF PLEDGE</h1>
-                                        <p class="cert-desc">This is to certify that</p>
-                                        <h2 id="cert-user-name">RAJESH KUMAR</h2>
-                                        <p class="cert-text">
-                                            has taken the Voter's Pledge and committed to uphold the democratic
-                                            traditions of our country and the dignity of free, fair and peaceable
-                                            elections, and to vote in every election fearlessly and without being
-                                            influenced by considerations of religion, race, caste, community, language
-                                            or any inducement.
-                                        </p>
-                                    </div>
-
-                                    <div class="cert-footer">
-                                        <div class="cert-date">Date: <span id="cert-date-val"></span></div>
-                                        <div class="cert-id">Pledge ID: <span id="cert-id-val"></span></div>
-                                    </div>
-
-                                    <div class="cert-watermark">VOTER PLEDGE 2026</div>
-                                    <div class="cert-signature">Project by Debasmita</div>
-                                </div>
-                            </div>
-
-                            <div class="cert-actions"
-                                style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                                <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer"></i>
-                                    Print Certificate</button>
-                                <button class="btn btn-primary" id="share-pledge-btn"><i data-lucide="twitter"></i>
-                                    Share on Twitter</button>
-                                <button class="btn btn-glass" id="take-new-pledge-btn">Take Another Pledge</button>
-                            </div>
-                        </div>
-
-                        <div class="pledge-extras">
-                            <h3>🛡️ Know Your Democratic Rights</h3>
-                            <div class="rights-grid">
-                                <div class="right-card">
-                                    <div class="right-icon">⚖️</div>
-                                    <h4>Section 49P</h4>
-                                    <p>If someone else has already voted in your name, you can still cast a 'Tendered
-                                        Vote' after verification.</p>
-                                </div>
-                                <div class="right-card">
-                                    <div class="right-icon">🚫</div>
-                                    <h4>NOTA Power</h4>
-                                    <p>'None of the Above' allows you to register a protest vote if you don't support
-                                        any candidate.</p>
-                                </div>
-                                <div class="right-card">
-                                    <div class="right-icon">🏥</div>
-                                    <h4>Home Voting</h4>
-                                    <p>Citizens over 85 and Persons with Disabilities can now vote from the comfort of
-                                        their homes.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer" role="contentinfo">
-            <div class="footer-container">
-                <div class="footer-grid">
-                    <div class="footer-col-brand">
-                        <div class="footer-brand">
-                            <span class="logo-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path>
-                                    <path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6"></path>
-                                    <path d="M10 12h4"></path>
-                                </svg>
-                            </span>
-                            <span>Electionant</span>
-                        </div>
-                        <p class="footer-description">
-                            An AI-powered interactive platform dedicated to empowering Indian citizens with accurate
-                            information about the democratic process.
-                        </p>
-                        <div class="footer-socials">
-                            <a href="https://twitter.com/ECISVEEP" target="_blank" aria-label="Twitter">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                </svg>
-                            </a>
-                            <a href="https://www.facebook.com/ECI" target="_blank" aria-label="Facebook">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                                </svg>
-                                <a href="https://twitter.com/ECISVEEP" target="_blank" aria-label="Twitter"><i
-                                        data-lucide="twitter"></i></a>
-                                <a href="https://www.facebook.com/ECI" target="_blank" aria-label="Facebook"><i
-                                        data-lucide="facebook"></i></a>
-                                <a href="https://www.linkedin.com/company/election-commission-of-india-official/"
-                                    target="_blank" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
-                                <a href="https://www.instagram.com/ecisveep" target="_blank" aria-label="Instagram"><i
-                                        data-lucide="instagram"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4>Platform</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" data-page="home"><i data-lucide="chevron-right"></i> Home</a></li>
-                            <li><a href="#" data-page="timeline"><i data-lucide="chevron-right"></i> Election
-                                    Schedule</a></li>
-                            <li><a href="#" data-page="guides"><i data-lucide="chevron-right"></i> Voter Guide</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4>Resources</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" data-page="lookup">Find Representative</a></li>
-                            <li><a href="#page-home">Common FAQs</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4>Official Portals</h4>
-                        <ul class="footer-links">
-                            <li><a href="https://eci.gov.in" target="_blank">Election Commission</a></li>
-                            <li><a href="https://voters.eci.gov.in" target="_blank">NVSP Portal</a></li>
-                            <li><a href="https://voterportal.eci.gov.in" target="_blank">Voter Portal</a></li>
-                            <li><a href="https://ceouttarpradesh.nic.in" target="_blank">State CEO Sites</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <div class="footer-copyright">
-                        © 2026 Electionant. All Rights Reserved by Debasmita. v1.0.5-Live
-                    </div>
-                    <div class="footer-tech">
-                        Powered by Google Gemini AI & Civic API
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-        <!-- Toast -->
-        <div class="toast-container" id="toast-container"></div>
-
-        <!-- Scripts -->
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/pledge.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/guides.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/lookup.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-        <script>
-            // Initialize Lucide Icons
-            lucide.createIcons();
-
-            /* Caching disabled for layout fix
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/static/sw.js')
-                        .then(reg => console.log('SW Registered'))
-                        .catch(err => console.log('SW Registration Failed', err));
-                });
-            }
-            */
-        </script>
+        /* Caching disabled for layout fix
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed', err));
+            });
+        }
+        */
+    </script>
 </body>
 
 </html>
