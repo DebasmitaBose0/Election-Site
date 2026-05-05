@@ -6,7 +6,7 @@ const ASSETS_TO_CACHE = [
   '/static/js/dashboard.js',
   '/static/js/timeline.js',
   '/static/js/pledge.js',
-  '/static/img/logo.svg',
+  '/static/img/favicon.png',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&display=swap',
   'https://cdn.jsdelivr.net/npm/chart.js'
 ];
