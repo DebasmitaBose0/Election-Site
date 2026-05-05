@@ -37,7 +37,7 @@ async function initLookup() {
         if (!reps || reps.length === 0) {
             lookupResults.innerHTML = `
                 <div class="chat-welcome">
-                    <span class="welcome-icon">🔍</span>
+                    <span class="welcome-icon"><i data-lucide="search" style="width: 48px; height: 48px; color: var(--text-secondary);"></i></span>
                     <h3>No Results Found</h3>
                     <p>We couldn't find any representatives for that address. Please try a more specific location.</p>
                 </div>
@@ -61,7 +61,7 @@ async function initLookup() {
                             <div class="rep-photo-container">
                                 ${rep.photo_url ? 
                                     `<img src="${rep.photo_url}" alt="${rep.name}" class="rep-photo-large" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(rep.name)}&background=random'">` : 
-                                    `<div class="rep-photo-placeholder-large">👤</div>`
+                                    `<div class="rep-photo-placeholder-large"><i data-lucide="user" style="width: 64px; height: 64px; color: var(--text-secondary);"></i></div>`
                                 }
                                 <div class="rep-party-badge">${rep.party || 'Independent'}</div>
                             </div>
@@ -73,26 +73,26 @@ async function initLookup() {
                                 <div class="rep-meta-grid">
                                     ${rep.address && rep.address.length > 0 ? `
                                         <div class="meta-item">
-                                            <span class="meta-label">📍 Office Address</span>
+                                            <span class="meta-label"><i data-lucide="map-pin" style="width: 14px; height: 14px; vertical-align: middle;"></i> Office Address</span>
                                             <p class="meta-value">${rep.address[0].line1 || ''}, ${rep.address[0].city || ''}, ${rep.address[0].state || ''} ${rep.address[0].zip || ''}</p>
                                         </div>
                                     ` : ''}
                                     
                                     <div class="meta-item">
-                                        <span class="meta-label">📞 Contact</span>
+                                        <span class="meta-label"><i data-lucide="phone" style="width: 14px; height: 14px; vertical-align: middle;"></i> Contact</span>
                                         <div class="contact-buttons">
-                                            ${rep.phones && rep.phones.length > 0 ? `<a href="tel:${rep.phones[0]}" class="btn btn-icon" title="Call">📞</a>` : ''}
-                                            ${rep.emails && rep.emails.length > 0 ? `<a href="mailto:${rep.emails[0]}" class="btn btn-icon" title="Email">✉️</a>` : ''}
-                                            ${rep.urls && rep.urls.length > 0 ? `<a href="${rep.urls[0]}" target="_blank" class="btn btn-icon" title="Website">🌐</a>` : ''}
+                                            ${rep.phones && rep.phones.length > 0 ? `<a href="tel:${rep.phones[0]}" class="btn btn-icon" title="Call"><i data-lucide="phone" style="width: 16px; height: 16px;"></i></a>` : ''}
+                                            ${rep.emails && rep.emails.length > 0 ? `<a href="mailto:${rep.emails[0]}" class="btn btn-icon" title="Email"><i data-lucide="mail" style="width: 16px; height: 16px;"></i></a>` : ''}
+                                            ${rep.urls && rep.urls.length > 0 ? `<a href="${rep.urls[0]}" target="_blank" class="btn btn-icon" title="Website"><i data-lucide="globe" style="width: 16px; height: 16px;"></i></a>` : ''}
                                         </div>
                                     </div>
 
                                     <div class="meta-item">
-                                        <span class="meta-label">📱 Social Media</span>
+                                        <span class="meta-label"><i data-lucide="smartphone" style="width: 14px; height: 14px; vertical-align: middle;"></i> Social Media</span>
                                         <div class="social-buttons">
                                             ${rep.channels && rep.channels.length > 0 ? rep.channels.map(c => {
                                                 const platform = c.type.toLowerCase();
-                                                const icon = platform === 'twitter' ? '𝕏' : (platform === 'facebook' ? 'ⓕ' : platform === 'youtube' ? '▶️' : '🔗');
+                                                const icon = platform === 'twitter' ? '<i data-lucide="twitter" style="width: 16px; height: 16px;"></i>' : (platform === 'facebook' ? '<i data-lucide="facebook" style="width: 16px; height: 16px;"></i>' : platform === 'youtube' ? '<i data-lucide="youtube" style="width: 16px; height: 16px;"></i>' : '<i data-lucide="link" style="width: 16px; height: 16px;"></i>');
                                                 return `<a href="https://${platform}.com/${c.id}" target="_blank" class="btn btn-icon" title="${c.type}">${icon}</a>`;
                                             }).join('') : '<span class="no-data">None found</span>'}
                                         </div>
@@ -104,10 +104,10 @@ async function initLookup() {
                                         <span class="research-label">Verified Research Portals:</span>
                                         <div class="link-row">
                                             <a href="${adrUrl}" target="_blank" class="research-btn adr">
-                                                <span>📊</span> MyNeta (ADR Details)
+                                                <span><i data-lucide="bar-chart-2" style="width: 14px; height: 14px; vertical-align: middle;"></i></span> MyNeta (ADR Details)
                                             </a>
                                             <a href="${prsUrl}" target="_blank" class="research-btn prs">
-                                                <span>🏛️</span> PRS (MP Track)
+                                                <span><i data-lucide="landmark" style="width: 14px; height: 14px; vertical-align: middle;"></i></span> PRS (MP Track)
                                             </a>
                                         </div>
                                     </div>
@@ -143,7 +143,7 @@ async function initLookup() {
                         </div>
                     </div>
                     <button class="btn btn-glass btn-sm add-cal-btn" data-id="${date.id}">
-                        📅 Add to Calendar
+                        <i data-lucide="calendar-plus" style="width: 14px; height: 14px; vertical-align: middle;"></i> Add to Calendar
                     </button>
                 `;
                 
