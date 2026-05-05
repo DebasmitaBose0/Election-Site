@@ -1,5 +1,14 @@
 # 🗳️ Electionant: Your Interactive Civic Portal
 
+```text
+  ______ _           _   _                       _   
+ |  ____| |         | | (_)                     | |  
+ | |__  | | ___  ___| |_ _  ___  _ __   __ _ _ _| |_ 
+ |  __| | |/ _ \/ __| __| |/ _ \| '_ \ / _` | '_ \ __|
+ | |____| |  __/ (__| |_| | (_) | | | | (_| | | | |_ 
+ |______|_|\___|\___|\__|_|\___/|_| |_|\__,_|_| |_|\__|
+```
+
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
 [![Gemini AI](https://img.shields.io/badge/AI-Google_Gemini-orange.svg)](https://aistudio.google.com/)
