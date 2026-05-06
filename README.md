@@ -16,9 +16,7 @@
 
 > **Empowering Indian citizens with real-time election intelligence and democratic engagement.**
 
-<<<<<<< babin
 [**View Architecture**](ARCHITECTURE.md) | [**View License**](LICENSE)
-=======
 ### 🚀 Live Production URL
 **[View Electionant Live on Google Cloud Run](https://electionant-746960260176.us-central1.run.app/)**
 ---
@@ -102,7 +100,6 @@ Interactive timeline of major events in the electoral cycle.
 
 ---
 
-<<<<<<< babin
 ## Mobile-First Responsive Design
 
 Fully optimized for all devices with mobile-first CSS approach.
