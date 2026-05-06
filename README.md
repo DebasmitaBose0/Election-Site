@@ -21,8 +21,6 @@
 =======
 ### 🚀 Live Production URL
 **[View Electionant Live on Google Cloud Run](https://electionant-746960260176.us-central1.run.app/)**
->>>>>>> main
-
 ---
 
 ## Latest Project Updates (May 2026)
@@ -31,10 +29,7 @@
 - **Enhanced UI Branding**: Added large, high-fidelity Lucide icons to FAQ, Privacy, and Terms pages for a more professional aesthetic.
 - **Mobile-Friendly Optimization**: Improved responsiveness for the "Engagement Insight" section and standardized left-aligned footer social icons across all devices.
 - **Premium Accordion Logic**: Refined FAQ section with glassmorphism styling, smooth transitions, and improved touch interactions.
-
-<<<<<<< babin
 ---
-=======
 ### 📢 Live Pulse News Ticker
 Stay updated with a **high-performance, scrolling news bar** that fetches real-time Indian election headlines. Optimized with smooth CSS animations and zero-layout-shift positioning, it keeps you informed about counting dates and official announcements without interrupting your experience.
 
@@ -43,7 +38,7 @@ Integrated a **Live Polling Result Banner** directly into the navigation bar.
 - Features a dynamic, cycling display of counting data (e.g., "Tamil Nadu - 156/234 Counted").
 - Includes a blinking 'LIVE' indicator for instant visual confirmation of real-time updates.
 - Auto-collapses on smaller viewports to prioritize essential navigation.
->>>>>>> main
+
 
 ## Key Features
 
@@ -201,8 +196,6 @@ The application will start with all services configured:
 - YouTube: Configured
 
 ---
-
-<<<<<<< babin
 ## Cloud Deployment
 =======
 ## ☁️ Cloud Deployment
@@ -211,8 +204,6 @@ The application will start with all services configured:
 Electionant is live and optimized for **Google Cloud Run**. 
 
 **Live Link:** [https://electionant-746960260176.us-central1.run.app/](https://electionant-746960260176.us-central1.run.app/)
->>>>>>> main
-
 To redeploy or update:
 
 ```bash
@@ -221,9 +212,8 @@ gcloud run deploy electionant --source . --region us-central1 --allow-unauthenti
 
 ---
 
-<<<<<<< babin
+
 ## Project Philosophy
-=======
 ---
 
 ## 💎 UI/UX Optimization
@@ -233,7 +223,6 @@ The platform is meticulously tuned for **100% Browser Zoom** on standard desktop
 - **Fast Interaction**: Optimized script loading and a professional preloader ensure a smooth first-contentful-paint (FCP).
 
 ## 📖 Project Philosophy
->>>>>>> main
 This project was built to bridge the gap between complex electoral data and citizen understanding. By combining **Official Government Data** with **Generative AI**, we create a platform that is not just a tool, but a democratic companion.
 
 ---
