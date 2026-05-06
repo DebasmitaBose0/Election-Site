@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Terms of Service for Electionant - Your Guide to Indian Democracy">
+    <meta name="keywords" content="terms of service, electionant, terms and conditions">
+    <meta name="theme-color" content="#0a0e27">
+    <title>Electionant — Terms of Service</title>
+    <link rel="manifest" href="/static/manifest.json">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@100..900&family=Noto+Sans+Tamil:wght@100..900&family=Noto+Sans+Telugu:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // Immediate scroll to top when page loads
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    </script>
+
+    <!-- Official Government Top Bar -->
+    <header class="top-bar" role="banner">
+        <div class="top-bar-container">
+            <div class="top-bar-left">
+                <span class="govt-text">GOVERNMENT OF INDIA</span>
+            </div>
+            <div class="top-bar-right">
+                <button onclick="toggleHighContrast()" class="btn-hc" aria-label="Toggle High Contrast" title="High Contrast Mode"><i data-lucide="contrast" style="width: 14px; height: 14px;"></i></button>
+                <div class="font-resizer">
+                    <button onclick="changeFontSize(-1)">A-</button>
+                    <button onclick="changeFontSize(0)">A</button>
+                    <button onclick="changeFontSize(1)">A+</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="/" class="nav-logo" style="flex-shrink: 0; display: flex; align-items: center; text-decoration: none;">
+                <div class="logo-emblem">
+                    <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="Electionant Logo" style="height: 90px; width: auto; filter: drop-shadow(0 0 10px rgba(255, 153, 51, 0.4));">
+                </div>
+            </a>
+
+            <div class="nav-links" role="menubar">
+                <a href="/" class="nav-link" role="menuitem"><i data-lucide="home" style="width: 16px; height: 16px; margin-right: 4px; vertical-align: text-bottom;"></i><span class="nav-text">Home</span></a>
+                <a href="/terms" class="nav-link active" role="menuitem"><i data-lucide="file-text" style="width: 16px; height: 16px; margin-right: 4px; vertical-align: text-bottom;"></i><span class="nav-text">Terms</span></a>
+            </div>
+
+            <div class="nav-right" style="flex-shrink: 0; display: flex; align-items: center; gap: 15px;">
+                <a href="/" class="btn btn-primary btn-sm">Back to Electionant</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content" role="main" tabindex="-1">
+        <section class="page active">
+            <div class="page-header" style="text-align: center; margin-bottom: 50px;">
+                <div class="main-page-icon" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;">
+                    <i data-lucide="file-text" style="width: 80px; height: 80px;"></i>
+                </div>
+                <h1 class="page-title">Terms of <span class="gradient-text">Service</span></h1>
+                <p class="page-subtitle">Terms and conditions for using Electionant</p>
+            </div>
+
+            <div class="policy-container">
+                <div class="policy-content">
+                    <div class="policy-section">
+                        <h2><i data-lucide="calendar"></i> Effective Date</h2>
+                        <p>These Terms of Service are effective as of May 5, 2026.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="file-text"></i> Acceptance of Terms</h2>
+                        <p>By accessing and using Electionant, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="info"></i> Description of Service</h2>
+                        <p>Electionant is an AI-powered platform that provides information about Indian elections, voter registration, polling station locations, representative lookup, and related civic education services.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="user-check"></i> User Eligibility</h2>
+                        <ul>
+                            <li>You must be at least 18 years old to use our services</li>
+                            <li>You must be a resident of India or an Indian citizen</li>
+                            <li>You agree to provide accurate and truthful information</li>
+                            <li>You are responsible for maintaining the confidentiality of your account</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="alert-triangle"></i> Prohibited Uses</h2>
+                        <p>You agree not to use the service for:</p>
+                        <ul>
+                            <li>Any unlawful purpose or to solicit others to perform unlawful acts</li>
+                            <li>Violating any international, federal, provincial, or state regulations, rules, laws, or local ordinances</li>
+                            <li>Infringing upon or violating our intellectual property rights or the intellectual property rights of others</li>
+                            <li>Harassing, abusing, insulting, harming, defaming, slandering, disparaging, intimidating, or discriminating</li>
+                            <li>Submitting false or misleading information</li>
+                            <li>Uploading or transmitting viruses or any other type of malicious code</li>
+                            <li>Attempting to circumvent any security measures</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="award"></i> Voter Pledge Terms</h2>
+                        <ul>
+                            <li>The Digital Voter Pledge is a voluntary commitment to ethical voting</li>
+                            <li>Pledge certificates are for personal use only</li>
+                            <li>Certificates include unique IDs for verification purposes</li>
+                            <li>Misuse of certificates may result in account suspension</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="message-circle"></i> AI Chat Service</h2>
+                        <ul>
+                            <li>AI responses are for informational purposes only</li>
+                            <li>We do not guarantee the accuracy of AI-generated information</li>
+                            <li>Users should verify critical information from official sources</li>
+                            <li>Abusive or inappropriate queries may result in service restrictions</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="database"></i> Data and Privacy</h2>
+                        <ul>
+                            <li>Your privacy is protected under our Privacy Policy</li>
+                            <li>We collect minimal personal information necessary for service provision</li>
+                            <li>Data is used only for the purposes stated in our Privacy Policy</li>
+                            <li>You have the right to request data deletion</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="external-link"></i> Third-Party Services</h2>
+                        <p>Our platform integrates with third-party services including:</p>
+                        <ul>
+                            <li>Google Gemini AI for chat assistance</li>
+                            <li>Google Civic Information API for representative data</li>
+                            <li>Google Maps for location services</li>
+                            <li>GNews API for election news</li>
+                        </ul>
+                        <p>Your use of these services is subject to their respective terms and conditions.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="zap"></i> Service Availability</h2>
+                        <ul>
+                            <li>We strive for high availability but cannot guarantee uninterrupted service</li>
+                            <li>Service may be temporarily unavailable for maintenance</li>
+                            <li>We reserve the right to modify or discontinue services with notice</li>
+                            <li>No refunds are provided for service interruptions</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="copyright"></i> Intellectual Property</h2>
+                        <ul>
+                            <li>All content on Electionant is owned by the Election Commission of India or licensed partners</li>
+                            <li>You may not copy, distribute, or create derivative works without permission</li>
+                            <li>The Electionant name and logo are trademarks of the platform</li>
+                            <li>User-generated content remains the property of the user</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="shield"></i> Disclaimers</h2>
+                        <ul>
+                            <li>Information provided is for educational purposes only</li>
+                            <li>We do not provide legal or financial advice</li>
+                            <li>Always consult official government sources for authoritative information</li>
+                            <li>We are not responsible for decisions made based on our information</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="alert-circle"></i> Limitation of Liability</h2>
+                        <p>In no event shall Electionant, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the service.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="refresh-cw"></i> Termination</h2>
+                        <ul>
+                            <li>We may terminate or suspend your account for violations of these terms</li>
+                            <li>You may terminate your account at any time</li>
+                            <li>Upon termination, your right to use the service ceases immediately</li>
+                            <li>Some provisions survive termination</li>
+                        </ul>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="edit"></i> Changes to Terms</h2>
+                        <p>We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting. Your continued use of the service constitutes acceptance of the modified terms.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="globe"></i> Governing Law</h2>
+                        <p>These terms shall be interpreted and governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts in New Delhi.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2><i data-lucide="mail"></i> Contact Information</h2>
+                        <p>For questions about these Terms of Service:</p>
+                        <ul>
+                            <li>Email: legal@electionant.gov.in</li>
+                            <li>Phone: 1800-XXX-XXXX (toll-free)</li>
+                            <li>Address: Election Commission of India, New Delhi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-container">
+            <!-- Social Icons Row - Left Aligned -->
+
+                <div class="footer-grid">
+                    <div class="footer-col-brand">
+                        <a href="/" class="footer-brand">
+                            <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="ECI Logo" style="height: 120px; width: auto;">
+                        </a>
+                        <p class="footer-description">
+                            An AI-powered interactive platform dedicated to empowering Indian citizens with accurate
+                            information about the democratic process.
+                        </p>
+                        <div class="footer-socials">
+                            <a href="https://www.facebook.com/ECI" target="_blank" aria-label="Facebook" class="social-icon facebook">
+                                <span class="social-tooltip">Facebook</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 320 512">
+                                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                                </svg>
+                            </a>
+                            <a href="https://twitter.com/ECISVEEP" target="_blank" aria-label="Twitter" class="social-icon twitter">
+                                <span class="social-tooltip">Twitter</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 48 48">
+                                    <path d="M42,12.429c-1.323,0.586-2.746,0.977-4.247,1.162c1.526-0.906,2.7-2.351,3.251-4.058c-1.428,0.837-3.01,1.452-4.693,1.776C34.967,9.884,33.05,9,30.926,9c-4.08,0-7.387,3.278-7.387,7.32c0,0.572,0.067,1.129,0.193,1.67c-6.138-0.308-11.582-3.226-15.224-7.654c-0.64,1.082-1,2.349-1,3.686c0,2.541,1.301,4.778,3.285,6.096c-1.211-0.037-2.351-0.374-3.349-0.914c0,0.022,0,0.055,0,0.086c0,3.551,2.547,6.508,5.923,7.181c-0.617,0.169-1.269,0.263-1.941,0.263c-0.477,0-0.942-0.054-1.392-0.135c0.94,2.902,3.667,5.023,6.898,5.086c-2.528,1.96-5.712,3.134-9.174,3.134c-0.598,0-1.183-0.034-1.761-0.104C9.268,36.786,13.152,38,17.321,38c13.585,0,21.017-11.156,21.017-20.834c0-0.317-0.01-0.633-0.025-0.945C39.763,15.197,41.013,13.905,42,12.429" />
+                                </svg>
+                            </a>
+                            <a href="https://www.linkedin.com/company/election-commission-of-india-official/" target="_blank" aria-label="LinkedIn" class="social-icon linkedin">
+                                <span class="social-tooltip">LinkedIn</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.814 0-9.752h3.554v1.375c.425-.654 1.185-1.585 2.882-1.585 2.105 0 3.685 1.375 3.685 4.331v5.631zM5.337 8.855c-1.144 0-1.915-.762-1.915-1.715 0-.955.77-1.715 1.958-1.715 1.187 0 1.914.759 1.938 1.715 0 .953-.751 1.715-1.981 1.715zm1.946 11.597H3.392V9.142h3.891v11.31zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.instagram.com/ecisveep" target="_blank" aria-label="Instagram" class="social-icon instagram">
+                                <span class="social-tooltip">Instagram</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="footer-socials">
+                            <a href="https://www.facebook.com/ECI" target="_blank" aria-label="Facebook" class="social-icon facebook">
+                                <span class="social-tooltip">Facebook</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 320 512">
+                                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                                </svg>
+                            </a>
+                            <a href="https://twitter.com/ECISVEEP" target="_blank" aria-label="Twitter" class="social-icon twitter">
+                                <span class="social-tooltip">Twitter</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 48 48">
+                                    <path d="M42,12.429c-1.323,0.586-2.746,0.977-4.247,1.162c1.526-0.906,2.7-2.351,3.251-4.058c-1.428,0.837-3.01,1.452-4.693,1.776C34.967,9.884,33.05,9,30.926,9c-4.08,0-7.387,3.278-7.387,7.32c0,0.572,0.067,1.129,0.193,1.67c-6.138-0.308-11.582-3.226-15.224-7.654c-0.64,1.082-1,2.349-1,3.686c0,2.541,1.301,4.778,3.285,6.096c-1.211-0.037-2.351-0.374-3.349-0.914c0,0.022,0,0.055,0,0.086c0,3.551,2.547,6.508,5.923,7.181c-0.617,0.169-1.269,0.263-1.941,0.263c-0.477,0-0.942-0.054-1.392-0.135c0.94,2.902,3.667,5.023,6.898,5.086c-2.528,1.96-5.712,3.134-9.174,3.134c-0.598,0-1.183-0.034-1.761-0.104C9.268,36.786,13.152,38,17.321,38c13.585,0,21.017-11.156,21.017-20.834c0-0.317-0.01-0.633-0.025-0.945C39.763,15.197,41.013,13.905,42,12.429" />
+                                </svg>
+                            </a>
+                            <a href="https://www.linkedin.com/company/election-commission-of-india-official/" target="_blank" aria-label="LinkedIn" class="social-icon linkedin">
+                                <span class="social-tooltip">LinkedIn</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.814 0-9.752h3.554v1.375c.425-.654 1.185-1.585 2.882-1.585 2.105 0 3.685 1.375 3.685 4.331v5.631zM5.337 8.855c-1.144 0-1.915-.762-1.915-1.715 0-.955.77-1.715 1.958-1.715 1.187 0 1.914.759 1.938 1.715 0 .953-.751 1.715-1.981 1.715zm1.946 11.597H3.392V9.142h3.891v11.31zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.instagram.com/ecisveep" target="_blank" aria-label="Instagram" class="social-icon instagram">
+                                <span class="social-tooltip">Instagram</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/"><i data-lucide="home"></i> Home</a></li>
+                        <li><a href="/faq"><i data-lucide="help-circle"></i> FAQs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="/privacy"><i data-lucide="shield-check"></i> Privacy Policy</a></li>
+                        <li><a href="/terms"><i data-lucide="file-text"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Official Portals</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://eci.gov.in" target="_blank"><i data-lucide="landmark"></i> Election Commission</a></li>
+                        <li><a href="https://voters.eci.gov.in" target="_blank"><i data-lucide="user-check"></i> NVSP Portal</a></li>
+                        <li><a href="https://voterportal.eci.gov.in" target="_blank"><i data-lucide="layout"></i> Voter Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2026 Electionant. All Rights Reserved by Debasmita. v1.0.5-Live
+                </div>
+                <div class="footer-tech">
+                    Powered by Google Gemini AI & Civic API
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        // Scroll to top on page load
+        window.addEventListener('load', () => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        });
+    </script>
+    <script>
+        // Font size adjustment functions
+        function changeFontSize(delta) {
+            const html = document.documentElement;
+            const currentSize = parseFloat(getComputedStyle(html).fontSize);
+            const newSize = Math.max(12, Math.min(24, currentSize + delta));
+            html.style.fontSize = newSize + 'px';
+            localStorage.setItem('fontSize', newSize + 'px');
+        }
+
+        // High contrast toggle
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+            const isHighContrast = document.body.classList.contains('high-contrast');
+            localStorage.setItem('highContrast', isHighContrast);
+        }
+
+        // Load user preferences
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedFontSize = localStorage.getItem('fontSize');
+            if (savedFontSize) {
+                document.documentElement.style.fontSize = savedFontSize;
+            }
+
+            const highContrast = localStorage.getItem('highContrast') === 'true';
+            if (highContrast) {
+                document.body.classList.add('high-contrast');
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+
+</html>

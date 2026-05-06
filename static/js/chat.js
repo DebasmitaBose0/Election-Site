@@ -53,14 +53,14 @@ function initChat() {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                appendMessage('bot', `❌ Server Error: ${errorData.error || response.statusText || 'Unknown error'}`);
+                appendMessage('bot', `[Error] Server Error: ${errorData.error || response.statusText || 'Unknown error'}`);
                 return;
             }
 
             const data = await response.json();
 
             if (data.error) {
-                appendMessage('bot', `⚠️ AI Error: ${data.error}`);
+                appendMessage('bot', `[Warning] AI Error: ${data.error}`);
             } else {
                 const debugTag = data.is_fallback ? '<small style="opacity:0.3">[Groq]</small> ' : '<small style="opacity:0.3">[Gemini]</small> ';
                 appendMessage('bot', debugTag + data.response);
@@ -72,7 +72,7 @@ function initChat() {
             }
         } catch (error) {
             removeMessage(loadingId);
-            appendMessage('bot', `❌ Connection Error: ${error.message}. Please check if the server is running.`);
+            appendMessage('bot', `[Error] Connection Error: ${error.message}. Please check if the server is running.`);
         }
 
         scrollToBottom();

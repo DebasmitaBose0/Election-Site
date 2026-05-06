@@ -25,7 +25,9 @@ async function initTimeline() {
             const isLive = item.duration.includes('Exact Date');
             
             itemDiv.innerHTML = `
-                <div class="timeline-icon ${isLive ? 'pulse-icon' : ''}">${item.icon}</div>
+                <div class="timeline-icon ${isLive ? 'pulse-icon' : ''}">
+                    <i data-lucide="${item.icon}"></i>
+                </div>
                 <div class="timeline-content ${isLive ? 'live-content' : ''}">
                     <div class="timeline-header">
                         <h3 class="timeline-phase">${item.phase}</h3>
@@ -39,6 +41,9 @@ async function initTimeline() {
             `;
             timelineContainer.appendChild(itemDiv);
         });
+
+        // Re-initialize Lucide icons for the new timeline items
+        if (window.lucide) lucide.createIcons();
 
         // Fetch State-wise Data
         const stateRes = await fetch('/api/state-elections');

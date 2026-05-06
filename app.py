@@ -10,8 +10,13 @@ from functools import wraps
 from datetime import datetime
 
 from flask import (
-    Flask, render_template, request, jsonify, session, redirect, url_for
+    Flask, render_template, request, jsonify, session, redirect, url_for, send_file
 )
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib import colors
+from reportlab.lib.units import mm
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
@@ -78,12 +83,12 @@ def add_security_headers(response):
     """Inject strict security headers into every response."""
     response.headers['Content-Security-Policy'] = (
         "default-src 'self'; "
-        "script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://unpkg.com https://www.youtube.com https://s.ytimg.com https://cdn.jsdelivr.net https://translate.google.com https://translate.googleapis.com; "
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://translate.googleapis.com; "
-        "img-src 'self' data: https://maps.gstatic.com https://*.googleapis.com https://*.googleusercontent.com https://ui-avatars.com https://img.youtube.com https://*.basemaps.cartocdn.com https://www.gstatic.com https://www.google.com; "
-        "font-src 'self' https://fonts.gstatic.com; "
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://unpkg.com https://www.youtube.com https://s.ytimg.com https://cdn.jsdelivr.net https://translate.google.com https://translate.googleapis.com https://cdnjs.cloudflare.com; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://translate.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; "
+        "img-src 'self' data: https://maps.gstatic.com https://*.googleapis.com https://*.googleusercontent.com https://ui-avatars.com https://img.youtube.com https://*.basemaps.cartocdn.com https://www.gstatic.com https://www.google.com https://translate.google.com http://maps.google.com; "
+        "font-src 'self' https://fonts.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com; "
         "frame-src 'self' https://www.youtube.com https://www.google.com; "
-        "connect-src 'self' https://maps.googleapis.com https://gnews.io https://nominatim.openstreetmap.org https://overpass-api.de; "
+        "connect-src 'self' https://maps.googleapis.com https://gnews.io https://nominatim.openstreetmap.org https://overpass-api.de https://cdn.jsdelivr.net https://unpkg.com; "
         "manifest-src 'self';"
     )
     response.headers['X-Content-Type-Options'] = 'nosniff'
@@ -139,6 +144,21 @@ def index():
         maps_key=Config.GOOGLE_MAPS_API_KEY,
         youtube_key=Config.GOOGLE_YOUTUBE_API_KEY,
     )
+
+@app.route('/faq')
+def faq():
+    """Serve the FAQ page."""
+    return render_template('faq.html')
+
+@app.route('/privacy')
+def privacy():
+    """Serve the Privacy Policy page."""
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    """Serve the Terms of Service page."""
+    return render_template('terms.html')
     
     # Debug: Check if keys are loading in production
     if not Config.GOOGLE_MAPS_API_KEY:
@@ -230,10 +250,10 @@ def get_live_news():
     # 3. Fallback/Static High-Authority Headlines (if list is short)
     if len(news) < 3:
         news.extend([
-            "📊 TOMORROW: Vote Counting starts at 8:00 AM for all 5 States. Stay tuned!",
-            "📢 ECI: Model Code of Conduct remains in force until results are declared.",
-            "🛡️ Security: Counting centers under 3-tier security cover across the nation.",
-            "📱 Check the 'Voter Helpline App' for official results starting tomorrow morning."
+            "✅ OFFICIAL: 2026 Assembly Election Results have been gazetted for all states.",
+            "📢 ECI: Government formation process initiated in West Bengal, TN, Kerala, Assam, and Puducherry.",
+            "📊 Final Tally: All 824 constituencies across 5 States have been officially declared.",
+            "🏛️ Democracy in Action: Record voter turnout celebrated in the 2026 electoral cycle."
         ])
     
     return jsonify({'headlines': news})
@@ -246,46 +266,46 @@ def get_election_results():
     results = {
         "West Bengal": {
             "total_seats": 294,
-            "counted_seats": 182,
+            "counted_seats": 294,
             "parties": [
-                {"name": "AITC", "leads": 95, "won": 42, "color": "#20C641"},
-                {"name": "BJP", "leads": 64, "won": 28, "color": "#FF9933"},
-                {"name": "INC+", "leads": 12, "won": 5, "color": "#00BFFF"},
-                {"name": "Others", "leads": 11, "won": 3, "color": "#808080"}
+                {"name": "AITC", "leads": 0, "won": 215, "color": "#20C641"},
+                {"name": "BJP", "leads": 0, "won": 77, "color": "#FF9933"},
+                {"name": "INC+", "leads": 0, "won": 0, "color": "#00BFFF"},
+                {"name": "Others", "leads": 0, "won": 2, "color": "#808080"}
             ],
-            "status": "Counting in Progress"
+            "status": "Final Results Declared"
         },
         "Tamil Nadu": {
             "total_seats": 234,
-            "counted_seats": 156,
+            "counted_seats": 234,
             "parties": [
-                {"name": "DMK+", "leads": 88, "won": 35, "color": "#FF0000"},
-                {"name": "AIADMK+", "leads": 52, "won": 22, "color": "#008000"},
-                {"name": "NTK", "leads": 8, "won": 2, "color": "#FFFF00"},
-                {"name": "Others", "leads": 8, "won": 1, "color": "#808080"}
+                {"name": "DMK+", "leads": 0, "won": 159, "color": "#FF0000"},
+                {"name": "AIADMK+", "leads": 0, "won": 66, "color": "#008000"},
+                {"name": "NTK", "leads": 0, "won": 0, "color": "#FFFF00"},
+                {"name": "Others", "leads": 0, "won": 9, "color": "#808080"}
             ],
-            "status": "Counting in Progress"
+            "status": "Final Results Declared"
         },
         "Kerala": {
             "total_seats": 140,
-            "counted_seats": 112,
+            "counted_seats": 140,
             "parties": [
-                {"name": "LDF", "leads": 62, "won": 28, "color": "#E30A17"},
-                {"name": "UDF", "leads": 45, "won": 18, "color": "#0000FF"},
-                {"name": "NDA", "leads": 3, "won": 1, "color": "#FF9933"},
-                {"name": "Others", "leads": 2, "won": 1, "color": "#808080"}
+                {"name": "LDF", "leads": 0, "won": 99, "color": "#E30A17"},
+                {"name": "UDF", "leads": 0, "won": 41, "color": "#0000FF"},
+                {"name": "NDA", "leads": 0, "won": 0, "color": "#FF9933"},
+                {"name": "Others", "leads": 0, "won": 0, "color": "#808080"}
             ],
-            "status": "Counting in Progress"
+            "status": "Final Results Declared"
         },
         "Assam": {
             "total_seats": 126,
-            "counted_seats": 94,
+            "counted_seats": 126,
             "parties": [
-                {"name": "NDA", "leads": 58, "won": 24, "color": "#FF9933"},
-                {"name": "UPA", "leads": 32, "won": 12, "color": "#0000FF"},
-                {"name": "AIUDF", "leads": 4, "won": 1, "color": "#008000"}
+                {"name": "NDA", "leads": 0, "won": 75, "color": "#FF9933"},
+                {"name": "UPA", "leads": 0, "won": 50, "color": "#0000FF"},
+                {"name": "AIUDF", "leads": 0, "won": 1, "color": "#008000"}
             ],
-            "status": "Counting in Progress"
+            "status": "Final Results Declared"
         },
         "Puducherry": {
             "total_seats": 30,
@@ -544,6 +564,85 @@ def list_routes():
 # Error Handlers
 # ──────────────────────────────────────────
 
+@app.route('/api/pledge/download', methods=['POST'])
+def download_pledge():
+    """Generate a professional PDF certificate on the backend."""
+    data = request.get_json()
+    name = sanitize_input(data.get('name', 'Voter'), max_length=100).upper()
+    date_str = datetime.now().strftime("%d %B %Y")
+    pledge_id = f"ECI-{datetime.now().strftime('%Y%m%d')}-{os.urandom(2).hex().upper()}"
+
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer, pagesize=landscape(A4))
+    width, height = landscape(A4)
+
+    # 1. Background Frame
+    p.setStrokeColor(colors.HexColor('#FF9933'))
+    p.setLineWidth(5)
+    p.rect(10*mm, 10*mm, width-20*mm, height-20*mm)
+    
+    p.setStrokeColor(colors.HexColor('#138808'))
+    p.setLineWidth(2)
+    p.rect(13*mm, 13*mm, width-26*mm, height-26*mm)
+
+    # 2. Header
+    # Logo Placeholder (Top Center)
+    logo_path = os.path.join(app.static_folder, 'img', 'favicon.png')
+    if os.path.exists(logo_path):
+        p.drawImage(logo_path, width/2 - 20*mm, height - 50*mm, width=40*mm, preserveAspectRatio=True, mask='auto')
+
+    p.setFont("Helvetica-Bold", 14)
+    p.drawCentredString(width/2, height - 60*mm, "ELECTIONANT")
+    p.setFont("Helvetica-Bold", 16)
+    p.drawCentredString(width/2, height - 67*mm, "ELECTION COMMISSION OF INDIA")
+    p.setFont("Helvetica", 11)
+    p.drawCentredString(width/2, height - 73*mm, "भारत निर्वाचन आयोग")
+
+    # 3. Body
+    p.setFont("Helvetica-Bold", 40)
+    p.setFillColor(colors.HexColor('#003366'))
+    p.drawCentredString(width/2, height/2 + 20*mm, "CERTIFICATE OF PLEDGE")
+    
+    p.setFont("Helvetica", 16)
+    p.setFillColor(colors.black)
+    p.drawCentredString(width/2, height/2, "This is to certify that")
+    
+    p.setFont("Helvetica-Bold", 32)
+    p.setFillColor(colors.HexColor('#FF9933'))
+    p.drawCentredString(width/2, height/2 - 15*mm, name)
+    
+    p.setFont("Helvetica", 12)
+    p.setFillColor(colors.black)
+    pledge_text = [
+        "has taken the Voter's Pledge and committed to uphold the democratic",
+        "traditions of our country and the dignity of free, fair and peaceable",
+        "elections, and to vote in every election fearlessly and without being",
+        "influenced by considerations of religion, race, caste, community, language",
+        "or any inducement."
+    ]
+    curr_y = height/2 - 35*mm
+    for line in pledge_text:
+        p.drawCentredString(width/2, curr_y, line)
+        curr_y -= 6*mm
+
+    # 4. Footer
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(25*mm, 30*mm, f"Date: {date_str}")
+    p.drawCentredString(width/2, 25*mm, "Signed by Electionant Developer, Debasmita Bose")
+    p.drawRightString(width - 25*mm, 30*mm, f"Pledge ID: {pledge_id}")
+
+    p.showPage()
+    p.save()
+    
+    buffer.seek(0)
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name=f"Voter_Pledge_{name.replace(' ', '_')}.pdf",
+        mimetype='application/pdf'
+    )
+
+
 @app.errorhandler(404)
 def not_found(e):
     """Handle 404 errors."""
@@ -575,10 +674,10 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
     is_dev = os.environ.get('FLASK_ENV', 'development') == 'development'
 
-    print("\n🗳️  Electionant is starting...")
-    print(f"   Gemini AI:  {'✅ Configured' if Config.is_gemini_configured() else '❌ Not Found'}")
-    print(f"   OAuth 2.0:  {'✅ Configured' if Config.is_oauth_configured() else '⚠️ Limited'}")
-    print(f"   Civic API:  {'✅ Configured' if Config.is_civic_configured() else '❌ Not Found'}")
-    print(f"   YouTube:    {'✅ Configured' if Config.is_youtube_configured() else '❌ Not Found'}")
+    print("\nElectionant is starting...")
+    print(f"   Gemini AI:  {'[OK] Configured' if Config.is_gemini_configured() else '[!!] Not Found'}")
+    print(f"   OAuth 2.0:  {'[OK] Configured' if Config.is_oauth_configured() else '[--] Limited'}")
+    print(f"   Civic API:  {'[OK] Configured' if Config.is_civic_configured() else '[!!] Not Found'}")
+    print(f"   YouTube:    {'[OK] Configured' if Config.is_youtube_configured() else '[!!] Not Found'}")
     print(f"   Open http://localhost:{port} in your browser\n")
     app.run(debug=is_dev, host='0.0.0.0', port=port)

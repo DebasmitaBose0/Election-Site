@@ -9,7 +9,6 @@ env/
 .pytest_cache/
 tests/
 scratch/
-Flagimage.png
 *.md
 .vscode/
 .idea/

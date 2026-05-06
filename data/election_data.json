@@ -2,8 +2,8 @@
   "timeline": [
     {
       "id": "announcement",
-      "phase": "📢 Election Announcement",
-      "icon": "📢",
+      "phase": "Election Announcement",
+      "icon": "megaphone",
       "description": "The Election Commission of India officially announced the schedule for the 2026 State Legislative Assembly Elections.",
       "details": [
         "Announcement Date: 15 March 2026",
@@ -12,14 +12,14 @@
         "Government cannot announce new policies or schemes from this date",
         "Election Commission sets up monitoring and flying squads"
       ],
-      "duration": "15 March 2026",
+      "duration": "Concluded",
       "date": "2026-03-15"
     },
     {
       "id": "states-covered",
-      "phase": "🏛️ States Going to Polls",
-      "icon": "🏛️",
-      "description": "Five states and one union territory are covered in the 2026 Assembly Elections.",
+      "phase": "States Polled",
+      "icon": "landmark",
+      "description": "Five states and one union territory successfully conducted the 2026 Assembly Elections.",
       "details": [
         "West Bengal — 294 constituencies (2 phases)",
         "Tamil Nadu — 234 constituencies (single phase)",
@@ -31,92 +31,89 @@
     },
     {
       "id": "polling-phase-1",
-      "phase": "🗳️ Phase 1 — Polling Day",
-      "icon": "🗳️",
-      "description": "First phase of polling across Kerala, Assam, and Puducherry.",
+      "phase": "Phase 1 — Polling Day",
+      "icon": "check-square",
+      "description": "First phase of polling across Kerala, Assam, and Puducherry was successfully completed.",
       "details": [
         "Kerala — 9 April 2026 (All 140 seats)",
         "Assam — 9 April 2026 (All 126 seats)",
         "Puducherry — 9 April 2026 (All 30 seats)",
-        "Polling Time: 7:00 AM – 6:00 PM",
-        "Voters must carry valid photo ID (EPIC or approved alternatives)",
-        "EVMs with VVPAT ensure transparency at all booths"
+        "High voter turnout recorded across all regions",
+        "Peaceful polling reported with minor incidents addressed",
+        "EVMs and VVPATs functioned efficiently"
       ],
-      "duration": "Exact Date: 2026-04-09",
+      "duration": "Completed: 2026-04-09",
       "date": "2026-04-09"
     },
     {
       "id": "polling-phase-2",
-      "phase": "🗳️ Phase 2 — Polling Day",
-      "icon": "🗳️",
-      "description": "Polling in Tamil Nadu and the first phase of West Bengal.",
+      "phase": "Phase 2 — Polling Day",
+      "icon": "check-square",
+      "description": "Polling in Tamil Nadu and the first phase of West Bengal was successfully completed.",
       "details": [
         "Tamil Nadu — 23 April 2026 (All 234 seats)",
         "West Bengal — 23 April 2026 (Phase 1)",
-        "Polling Time: 7:00 AM – 6:00 PM",
-        "Special arrangements for elderly (80+) and disabled voters",
-        "Booth-level officers manage polling stations across all states"
+        "Voter turnout exceeded expectations in urban centers",
+        "Special arrangements for elderly and disabled voters were utilized",
+        "Strict adherence to security protocols ensured a smooth process"
       ],
-      "duration": "Exact Date: 2026-04-23",
+      "duration": "Completed: 2026-04-23",
       "date": "2026-04-23"
     },
     {
       "id": "polling-phase-3",
-      "phase": "🗳️ Phase 3 — West Bengal",
-      "icon": "🗳️",
-      "description": "Second and final phase of polling in West Bengal covering remaining constituencies.",
+      "phase": "Phase 3 — West Bengal",
+      "icon": "check-square",
+      "description": "Second and final phase of polling in West Bengal was successfully concluded.",
       "details": [
-        "West Bengal — 29 April 2026 (Phase 2 — remaining seats)",
-        "Polling Time: 7:00 AM – 6:00 PM",
-        "Heavy security deployment in sensitive areas",
-        "Central Armed Police Forces (CAPF) deployed at all booths"
+        "West Bengal — 29 April 2026 (Phase 2)",
+        "Final constituencies covered under tight security",
+        "Central Armed Police Forces ensured order at sensitive booths",
+        "Webcasting used for real-time monitoring"
       ],
-      "duration": "Exact Date: 2026-04-29",
+      "duration": "Completed: 2026-04-29",
       "date": "2026-04-29"
     },
     {
       "id": "repolling",
-      "phase": "⚠️ Repolling (West Bengal)",
-      "icon": "⚠️",
-      "description": "Repolling ordered by ECI in select booths in West Bengal due to reported irregularities.",
+      "phase": "Repolling (West Bengal)",
+      "icon": "alert-triangle",
+      "description": "Repolling was conducted in select booths in West Bengal as ordered by ECI.",
       "details": [
         "Repolling Date: 2 May 2026",
-        "Ordered due to irregularities and complaints at specific booths",
-        "Affected booths re-conducted under enhanced security",
-        "CCTV and webcasting mandatory at all repolling stations"
+        "Necessary to ensure fair representation and address complaints",
+        "Conducted under heightened vigilance and observation",
+        "Results integrated with main counting data"
       ],
-      "duration": "Exact Date: 2026-05-02",
+      "duration": "Completed: 2026-05-02",
       "date": "2026-05-02"
     },
     {
       "id": "counting",
-      "phase": "📊 Vote Counting",
-      "icon": "📊",
-      "description": "Votes counted simultaneously across all five states at designated counting centers under strict supervision.",
+      "phase": "Vote Counting",
+      "icon": "bar-chart-2",
+      "description": "Counting of votes was completed across all designated centers on May 4, 2026.",
       "details": [
         "Counting Date: 4 May 2026",
-        "Postal ballots counted first",
-        "EVM votes counted round-by-round",
-        "VVPAT slips verified for random 5 machines per constituency",
-        "Counting agents from all candidates present",
-        "Results declared constituency by constituency on ECI website"
+        "Transparent process witnessed by candidates' agents",
+        "Postal ballots and EVM rounds processed efficiently",
+        "Random VVPAT verification matched the EVM records"
       ],
-      "duration": "Exact Date: 2026-05-04",
+      "duration": "Completed: 2026-05-04",
       "date": "2026-05-04"
     },
     {
       "id": "results",
-      "phase": "🏆 Results Declaration",
-      "icon": "🏆",
-      "description": "The Election Commission officially declares the results and winning candidates for all 5 states.",
+      "phase": "Results Declaration",
+      "icon": "award",
+      "description": "Final results have been declared for all five states, and the 2026 Assembly Elections are now officially concluded.",
       "details": [
-        "Results published on ECI website in real-time",
-        "Winning candidates receive certificate of election",
-        "Government formation process begins in each state",
-        "New Chief Ministers invited to form government by respective Governors",
-        "Election petitions can be filed within 45 days"
+        "All winners officially notified by the Election Commission",
+        "Election results gazetted and published in full",
+        "Government formation process initiated in West Bengal, TN, Kerala, Assam, and Puducherry",
+        "Electoral rolls to be updated for future local body polls"
       ],
-      "duration": "4 May 2026",
+      "duration": "Officially Declared",
       "date": "2026-05-04"
     }
   ],
@@ -128,10 +125,10 @@
       "schedule": [
         { "phase": "Phase 1", "date": "23 April 2026", "seats": "147 constituencies" },
         { "phase": "Phase 2", "date": "29 April 2026", "seats": "147 constituencies" },
-        { "phase": "Repolling", "date": "2 May 2026", "seats": "Select booths (irregularities)" }
+        { "phase": "Repolling", "date": "2 May 2026", "seats": "Select booths" }
       ],
       "counting_date": "4 May 2026",
-      "polling_time": "7:00 AM – 6:00 PM"
+      "polling_time": "Completed"
     },
     "Tamil Nadu": {
       "has_election": true,
@@ -141,7 +138,7 @@
         { "phase": "Single Phase", "date": "23 April 2026", "seats": "All 234 constituencies" }
       ],
       "counting_date": "4 May 2026",
-      "polling_time": "7:00 AM – 6:00 PM"
+      "polling_time": "Completed"
     },
     "Kerala": {
       "has_election": true,
@@ -151,7 +148,7 @@
         { "phase": "Single Phase", "date": "9 April 2026", "seats": "All 140 constituencies" }
       ],
       "counting_date": "4 May 2026",
-      "polling_time": "7:00 AM – 6:00 PM"
+      "polling_time": "Completed"
     },
     "Assam": {
       "has_election": true,
@@ -161,7 +158,7 @@
         { "phase": "Single Phase", "date": "9 April 2026", "seats": "All 126 constituencies" }
       ],
       "counting_date": "4 May 2026",
-      "polling_time": "7:00 AM – 6:00 PM"
+      "polling_time": "Completed"
     },
     "Puducherry": {
       "has_election": true,
@@ -171,203 +168,199 @@
         { "phase": "Single Phase", "date": "9 April 2026", "seats": "All 30 constituencies" }
       ],
       "counting_date": "4 May 2026",
-      "polling_time": "7:00 AM – 6:00 PM"
-    },
-    "Andhra Pradesh": { "has_election": false },
-    "Arunachal Pradesh": { "has_election": false },
-    "Bihar": { "has_election": false },
-    "Chhattisgarh": { "has_election": false },
-    "Goa": { "has_election": false },
-    "Gujarat": { "has_election": false },
-    "Haryana": { "has_election": false },
-    "Himachal Pradesh": { "has_election": false },
-    "Jharkhand": { "has_election": false },
-    "Karnataka": { "has_election": false },
-    "Madhya Pradesh": { "has_election": false },
-    "Maharashtra": { "has_election": false },
-    "Manipur": { "has_election": false },
-    "Meghalaya": { "has_election": false },
-    "Mizoram": { "has_election": false },
-    "Nagaland": { "has_election": false },
-    "Odisha": { "has_election": false },
-    "Punjab": { "has_election": false },
-    "Rajasthan": { "has_election": false },
-    "Sikkim": { "has_election": false },
-    "Telangana": { "has_election": false },
-    "Tripura": { "has_election": false },
-    "Uttar Pradesh": { "has_election": false },
-    "Uttarakhand": { "has_election": false },
-    "Delhi": { "has_election": false },
-    "Jammu & Kashmir": { "has_election": false },
-    "Ladakh": { "has_election": false },
-    "Chandigarh": { "has_election": false },
-    "Dadra & Nagar Haveli and Daman & Diu": { "has_election": false },
-    "Lakshadweep": { "has_election": false },
-    "Andaman & Nicobar Islands": { "has_election": false }
+      "polling_time": "Completed"
+    }
   },
   "guides": [
     {
       "id": "voter-registration",
       "title": "Voter Registration",
-      "icon": "📋",
-      "description": "How to register as a voter and get your Voter ID (EPIC) card",
+      "icon": "user-plus",
+      "description": "Official process to register as a voter and obtain your EPIC card",
       "steps": [
         {
           "title": "Check Eligibility",
-          "content": "You must be an Indian citizen, at least 18 years old on the qualifying date (January 1st of the year of revision of electoral roll), of sound mind, and not disqualified under any law."
+          "content": "Indian citizens aged 18 or above on the qualifying date are eligible for enrollment."
         },
         {
           "title": "Gather Documents",
-          "content": "Keep ready: Proof of age (birth certificate, school certificate, passport), Proof of address (utility bills, bank passbook, ration card), and passport-size photographs."
+          "content": "Prepare valid proof of age, address, and recent passport-size photographs."
         },
         {
           "title": "Fill Form 6",
-          "content": "Fill Form 6 (Application for inclusion in Electoral Roll) online at voters.eci.gov.in or the Voter Helpline App. You can also get a physical form from the nearest Electoral Registration Office."
+          "content": "Submit Form 6 online via voters.eci.gov.in or the official Voter Helpline App."
         },
         {
           "title": "Submit Application",
-          "content": "Submit the form online with uploaded documents or physically at the Electoral Registration Office. Keep your application reference number safe."
+          "content": "Complete the submission online or at your local Electoral Registration Office."
         },
         {
           "title": "Verification Visit",
-          "content": "A Booth Level Officer (BLO) will visit your address for verification. Ensure someone is home and keep your original documents ready for verification."
+          "content": "The Booth Level Officer will visit your address to verify provided details."
         },
         {
           "title": "Receive Voter ID",
-          "content": "Once verified and approved, your name will be added to the electoral roll. You will receive your EPIC (Voter ID) card. You can also download the e-EPIC from the Voter Helpline App."
+          "content": "Once approved, your name is added to the roll and your EPIC card is issued."
         }
       ]
     },
     {
       "id": "voting-process",
       "title": "How to Vote",
-      "icon": "🗳️",
-      "description": "Step-by-step guide for casting your vote on election day",
+      "icon": "check-circle",
+      "description": "The standardized procedure for casting your ballot on election day",
       "steps": [
         {
           "title": "Find Your Polling Station",
-          "content": "Check your polling station details on the Voter Helpline App or voters.eci.gov.in. Your polling station is assigned based on your registered address."
+          "content": "Locate your assigned station using the ECI portal or Voter Helpline App."
         },
         {
           "title": "Carry Valid ID",
-          "content": "Bring your EPIC (Voter ID) card or any of the 12 approved photo IDs: Aadhaar, Passport, Driving License, PAN Card, MNREGA Job Card, Bank Passbook with photo, etc."
+          "content": "Present your EPIC card or one of the 12 approved alternative photo IDs."
         },
         {
           "title": "Arrive at Polling Station",
-          "content": "Visit your assigned polling station during voting hours (7:00 AM - 6:00 PM). Follow the queue and wait for your turn."
+          "content": "Visit during polling hours and follow the queue management system."
         },
         {
           "title": "Identity Verification",
-          "content": "The polling officer will verify your identity, check your name in the voter list, and apply indelible ink on your left index finger."
+          "content": "Officials will verify your details and apply indelible ink to your finger."
         },
         {
           "title": "Cast Your Vote",
-          "content": "Enter the voting compartment, find your preferred candidate/party on the EVM ballot unit, and press the blue button next to their name and symbol. Check the VVPAT slip to confirm your choice."
+          "content": "Press the blue button on the EVM for your candidate and verify via VVPAT."
         },
         {
-          "title": "Exit and Collect Slip",
-          "content": "After voting, exit the polling booth. You may receive a voter slip as proof of having voted. Your vote is secret and protected by law."
+          "title": "Exit Process",
+          "content": "After voting, exit the station. Your democratic contribution is complete."
         }
       ]
     },
     {
       "id": "postal-ballot",
-      "title": "Postal Ballot Voting",
-      "icon": "📮",
-      "description": "How to vote via postal ballot if you're eligible",
+      "title": "Postal Ballots",
+      "icon": "mail",
+      "description": "Voting procedure for eligible citizens via the postal service",
       "steps": [
         {
           "title": "Check Eligibility",
-          "content": "Postal ballot is available for: Service voters (armed forces, government employees posted away), Voters on election duty, Senior citizens (80+), Persons with disabilities, COVID-affected voters, and essential service workers."
+          "content": "Available for service voters, officials on duty, and specified senior citizens."
         },
         {
           "title": "Apply for Postal Ballot",
-          "content": "Submit Form 12 to the Returning Officer of your constituency. The application must be submitted within the prescribed time after notification of election."
+          "content": "Submit Form 12 to the Returning Officer within the designated timeline."
         },
         {
           "title": "Receive Ballot Paper",
-          "content": "The Returning Officer will dispatch the postal ballot paper to your registered address along with instructions and a declaration form."
+          "content": "The ballot paper and instructions will be sent to your registered address."
         },
         {
           "title": "Mark Your Vote",
-          "content": "Mark your vote on the ballot paper in privacy. Place it in the inner cover, then in the outer cover along with the signed declaration."
+          "content": "Mark your choice in privacy and sign the mandatory declaration form."
         },
         {
           "title": "Return the Ballot",
-          "content": "Post the sealed cover back to the Returning Officer. It must reach before the counting date to be valid."
-        }
-      ]
-    },
-    {
-      "id": "election-complaints",
-      "title": "Filing Election Complaints",
-      "icon": "⚖️",
-      "description": "How to report election violations and file complaints",
-      "steps": [
-        {
-          "title": "Identify the Violation",
-          "content": "Common violations include: voter bribery, booth capturing, hate speech, misuse of government machinery, exceeding expenditure limits, and campaign during silence period."
-        },
-        {
-          "title": "Use cVIGIL App",
-          "content": "Download the cVIGIL app by ECI. Take a photo or video of the violation with GPS location. Submit it through the app for immediate action."
-        },
-        {
-          "title": "Contact Election Commission",
-          "content": "Call the ECI helpline at 1950, email complaints@eci.gov.in, or visit the National Grievance Services portal at ngsp.in."
-        },
-        {
-          "title": "Track Your Complaint",
-          "content": "Every complaint gets a unique tracking ID. You can track the status through the cVIGIL app or the ECI website. Flying squads respond within minutes."
+          "content": "Send the sealed ballot back via post to reach before counting starts."
         }
       ]
     }
   ],
   "faqs": [
     {
+      "id": "faq-1",
       "question": "What is the minimum voting age in India?",
-      "answer": "18 years. You must be at least 18 years old on the qualifying date (January 1st of the year of revision of electoral roll)."
+      "answer": "The minimum voting age in India is 18 years. You must be at least 18 years old on the qualifying date (usually January 1st of the year the electoral roll is prepared).",
+      "icon": "user-check"
     },
     {
+      "id": "faq-2",
       "question": "What is NOTA?",
-      "answer": "NOTA stands for 'None Of The Above'. It is an option on the EVM that allows voters to reject all candidates. However, even if NOTA gets the most votes, the candidate with the next highest votes wins."
+      "answer": "NOTA stands for 'None Of The Above'. It is an option on the Electronic Voting Machine (EVM) that allows voters to officially register a rejection of all candidates contesting in their constituency.",
+      "icon": "ban"
     },
     {
+      "id": "faq-3",
+      "question": "Is the 2026 election concluded?",
+      "answer": "Yes, the 2026 Assembly Elections for West Bengal, Tamil Nadu, Kerala, Assam, and Puducherry concluded with the counting of votes on May 4, 2026.",
+      "icon": "check-circle"
+    },
+    {
+      "id": "faq-4",
+      "question": "How do I check my name in the voter list?",
+      "answer": "You can check your name in the electoral roll online at the ECI Voter Portal (voters.eci.gov.in) or by using the Voter Helpline App. You can search by details or by your EPIC number.",
+      "icon": "search"
+    },
+    {
+      "id": "faq-5",
+      "question": "What is an EPIC card?",
+      "answer": "EPIC stands for Electors Photo Identity Card. It is the official identity document issued by the Election Commission of India to all eligible voters to facilitate voting and prevent electoral fraud.",
+      "icon": "id-card"
+    },
+    {
+      "id": "faq-6",
+      "question": "Can I vote without a Voter ID card?",
+      "answer": "Yes, if your name is in the electoral roll, you can vote by showing any of the 12 alternative photo identity documents approved by the ECI, such as Aadhaar Card, PAN Card, Driving License, or Passport.",
+      "icon": "file-text"
+    },
+    {
+      "id": "faq-7",
+      "question": "How can I register to vote?",
+      "answer": "New voters can register by filling Form 6 online on the Voter Portal or Voter Helpline App. You need to provide proof of age, proof of residence, and a photograph.",
+      "icon": "user-plus"
+    },
+    {
+      "id": "faq-8",
+      "question": "What is VVPAT?",
+      "answer": "Voter Verifiable Paper Audit Trail (VVPAT) is an independent system attached to the EVM that allows voters to verify that their vote was cast correctly. It prints a paper slip showing the candidate's name and symbol for 7 seconds.",
+      "icon": "printer"
+    },
+    {
+      "id": "faq-9",
+      "question": "What are 'Service Voters'?",
+      "answer": "Service voters are individuals serving in the Armed Forces, Central Armed Police Forces, or government employees posted outside India. They can cast their votes via postal ballots.",
+      "icon": "shield"
+    },
+    {
+      "id": "faq-10",
+      "question": "How do I find my polling station?",
+      "answer": "You can find your assigned polling booth on your Voter Slip, via the Voter Helpline App, or by using the 'Polling Booth Finder' tool on this portal which uses your current location.",
+      "icon": "map-pin"
+    },
+    {
+      "id": "faq-11",
+      "question": "Can NRIs vote in Indian elections?",
+      "answer": "Yes, Non-Resident Indians (NRIs) can register as overseas electors. However, they must be physically present at their respective polling station in India to cast their vote.",
+      "icon": "globe"
+    },
+    {
+      "id": "faq-12",
       "question": "What is the Model Code of Conduct?",
-      "answer": "The Model Code of Conduct (MCC) is a set of guidelines issued by the Election Commission for political parties and candidates to follow during elections. It covers general conduct, meetings, processions, polling day behavior, and use of government machinery."
+      "answer": "The Model Code of Conduct (MCC) is a set of guidelines issued by the ECI to political parties and candidates during elections, ensuring free and fair polling by regulating speeches, polling day conduct, and government announcements.",
+      "icon": "gavel"
     },
     {
-      "question": "Can I vote if I don't have my Voter ID card?",
-      "answer": "Yes! You can use any of the 12 approved alternative photo IDs including Aadhaar, Passport, Driving License, PAN Card, MNREGA Job Card, or Bank Passbook with photo."
+      "id": "faq-13",
+      "question": "What is a 'Tendered Vote'?",
+      "answer": "If a voter finds that someone else has already voted in their name, they can approach the Presiding Officer. After verification, they are allowed to cast a 'Tendered Vote' on a ballot paper.",
+      "icon": "alert-circle"
     },
     {
-      "question": "What is EVM and VVPAT?",
-      "answer": "EVM (Electronic Voting Machine) is the device used for casting votes electronically. VVPAT (Voter Verifiable Paper Audit Trail) is attached to the EVM and prints a paper slip showing the candidate's name and symbol, allowing voters to verify their vote."
+      "id": "faq-14",
+      "question": "What is the maximum limit for election expenditure?",
+      "answer": "The ECI sets expenditure limits for candidates, which varies for Parliamentary and Assembly constituencies. Candidates are required to maintain a daily account of all election-related expenses.",
+      "icon": "indian-rupee"
     },
     {
-      "question": "How are election results declared?",
-      "answer": "After polling, EVMs are stored in strong rooms under CCTV. On counting day, postal ballots are counted first, followed by EVM votes. Results are declared round by round and published on the ECI website in real-time."
-    },
-    {
-      "question": "Which states are voting in the 2026 Assembly Elections?",
-      "answer": "West Bengal, Tamil Nadu, Kerala, Assam, and Puducherry are going to polls in the 2026 State Legislative Assembly Elections. Polling is conducted in multiple phases from April 9 to April 29, 2026."
-    },
-    {
-      "question": "When is the counting date for the 2026 elections?",
-      "answer": "Vote counting for all states will take place on 4 May 2026. Results will be declared on the same day and published in real-time on the ECI website."
+      "id": "faq-15",
+      "question": "How can I report a violation of election rules?",
+      "answer": "Citizens can use the 'cVIGIL' app by the Election Commission to report any violations of the Model Code of Conduct or electoral malpractices in real-time with photo/video evidence.",
+      "icon": "megaphone"
     }
   ],
   "glossary": [
     { "term": "EPIC", "definition": "Electors Photo Identity Card - the official voter ID card" },
     { "term": "EVM", "definition": "Electronic Voting Machine used for casting votes" },
     { "term": "VVPAT", "definition": "Voter Verifiable Paper Audit Trail for vote verification" },
-    { "term": "ECI", "definition": "Election Commission of India - the constitutional body conducting elections" },
-    { "term": "MCC", "definition": "Model Code of Conduct - guidelines for parties during elections" },
-    { "term": "BLO", "definition": "Booth Level Officer - the field-level election officer" },
-    { "term": "NOTA", "definition": "None Of The Above - option to reject all candidates" },
-    { "term": "RO", "definition": "Returning Officer - oversees election in a constituency" },
-    { "term": "CAPF", "definition": "Central Armed Police Forces - deployed for election security" },
-    { "term": "Lok Sabha", "definition": "The lower house of Indian Parliament (House of the People)" },
-    { "term": "Vidhan Sabha", "definition": "State Legislative Assembly" }
+    { "term": "ECI", "definition": "Election Commission of India - the constitutional body conducting elections" }
   ]
 }

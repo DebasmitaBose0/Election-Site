@@ -1,8 +1,3 @@
-/**
- * Guides Logic
- * Handles guide listings and detailed step-by-step views.
- */
-
 async function initGuides() {
     const guidesGrid = document.getElementById('guides-grid');
     const guideDetail = document.getElementById('guide-detail');
@@ -25,7 +20,7 @@ async function initGuides() {
                 const card = document.createElement('div');
                 card.className = 'feature-card guide-card';
                 card.innerHTML = `
-                    <div class="feature-icon">${guide.icon}</div>
+                    <div class="feature-icon"><i data-lucide="${guide.icon}"></i></div>
                     <h3>${guide.title}</h3>
                     <p>${guide.description}</p>
                     <div class="guide-meta">${guide.step_count} steps</div>
@@ -34,6 +29,11 @@ async function initGuides() {
                 card.onclick = () => showGuideDetail(guide.id);
                 guidesGrid.appendChild(card);
             });
+            
+            // Re-initialize Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
         } catch (error) {
             guidesGrid.innerHTML = '<div class="error">Failed to load guides.</div>';
         }
@@ -51,7 +51,7 @@ async function initGuides() {
 
             guideDetailContent.innerHTML = `
                 <div class="guide-header-full">
-                    <span class="guide-icon-large">${guide.icon}</span>
+                    <span class="guide-icon-large"><i data-lucide="${guide.icon}"></i></span>
                     <div>
                         <h2>${guide.title}</h2>
                         <p>${guide.description}</p>
@@ -69,6 +69,11 @@ async function initGuides() {
                     `).join('')}
                 </div>
             `;
+            
+            // Re-initialize Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
         } catch (error) {
             guideDetailContent.innerHTML = '<div class="error">Error loading guide content.</div>';
         }
