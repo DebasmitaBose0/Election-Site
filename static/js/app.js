@@ -380,6 +380,38 @@ document.addEventListener("DOMContentLoaded", () => {
               requestAnimationFrame(updateCount);
             } else {
               entry.target.innerText = target + suffix;
+
+    // ═══════════════════════════════════════
+    // Authentication
+    // ═══════════════════════════════════════
+    // Auth status is now handled by firebase-auth.js
+
+    // ═══════════════════════════════════════
+    // UI Effects
+    // ═══════════════════════════════════════
+    
+    // Stats Counter Animation
+    const stats = document.querySelectorAll('.stat-number');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = +entry.target.dataset.count;
+                const suffix = entry.target.dataset.suffix || '';
+                let count = 0;
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                
+                const updateCount = () => {
+                    count += increment;
+                    if (count < target) {
+                        entry.target.innerText = Math.ceil(count) + suffix;
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        entry.target.innerText = target + suffix;
+                    }
+                };
+                updateCount();
+                observer.unobserve(entry.target);
             }
           };
           updateCount();

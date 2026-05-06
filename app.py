@@ -28,6 +28,8 @@ from services.gemini_service import gemini_service
 from services.civic_service import civic_service
 from services.calendar_service import calendar_service
 from services.auth_service import auth_service
+import firebase_admin
+from firebase_admin import auth as firebase_auth, credentials
 
 # GCP Cloud Logging Integration (Simulated for Rank 50)
 def log_to_cloud(message, severity="INFO"):
@@ -60,6 +62,21 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     PERMANENT_SESSION_LIFETIME=1800, # 30 minutes
 )
+
+# Initialize Firebase Admin
+try:
+    # Try to load from env var or look for a file
+    fb_cred_path = os.getenv('FIREBASE_SERVICE_ACCOUNT_KEY')
+    if fb_cred_path and os.path.exists(fb_cred_path):
+        cred = credentials.Certificate(fb_cred_path)
+        firebase_admin.initialize_app(cred)
+        print("✅ Firebase Admin initialized with service account.")
+    else:
+        # Fallback for local dev or if key is missing
+        firebase_admin.initialize_app()
+        print("⚠️ Firebase Admin initialized with default credentials.")
+except Exception as e:
+    print(f"❌ Firebase Admin initialization failed: {e}")
 
 @app.after_request
 def add_security_headers(response):
@@ -471,47 +488,39 @@ def add_to_calendar():
 # Authentication Routes
 # ──────────────────────────────────────────
 
-@app.route('/auth/login')
-def auth_login():
-    """Initiate Google OAuth login."""
-    if not Config.is_oauth_configured():
-        return jsonify({'error': 'OAuth is not configured'}), 500
-
-    flow = auth_service.get_auth_flow()
-    authorization_url, state = flow.authorization_url(
-        access_type='offline',
-        include_granted_scopes='true',
-        prompt='consent',
-    )
-    session['oauth_state'] = state
-    return redirect(authorization_url)
 
 
-@app.route('/auth/callback')
-def auth_callback():
-    """Handle OAuth callback from Google."""
-    if not Config.is_oauth_configured():
-        return redirect(url_for('index'))
-
-    flow = auth_service.get_auth_flow()
+@app.route('/api/auth/firebase', methods=['POST'])
+@csrf.exempt # Handled via token verification
+def auth_firebase():
+    """Verify Firebase ID token and set session."""
+    data = request.get_json()
+    token = data.get('token')
     
-    # Ensure authorization response uses https if the request came via https proxy
-    auth_response = request.url
-    if request.headers.get('X-Forwarded-Proto') == 'https':
-        auth_response = auth_response.replace('http://', 'https://')
+    if not token:
+        return jsonify({'error': 'No token provided'}), 400
+
+    try:
+        # Verify the ID token
+        decoded_token = firebase_auth.verify_id_token(token)
+        uid = decoded_token['uid']
         
-    flow.fetch_token(authorization_response=auth_response)
-
-    credentials = flow.credentials
-    session['credentials'] = auth_service.credentials_to_dict(credentials)
-
-    # Get user info
-    user_info = auth_service.get_user_info(credentials)
-    if user_info:
+        # Get user details from token
+        user_info = {
+            'uid': uid,
+            'name': decoded_token.get('name', decoded_token.get('email', 'User')),
+            'email': decoded_token.get('email'),
+            'picture': decoded_token.get('picture', f'https://ui-avatars.com/api/?name={decoded_token.get("name", "User")}&background=random'),
+            'auth_provider': 'firebase'
+        }
+        
         session['user'] = user_info
-        log_to_cloud(f"User Login: {user_info.get('email')}", "NOTICE")
-
-    return redirect(url_for('index'))
+        log_to_cloud(f"Firebase User Login: {user_info.get('email')}", "NOTICE")
+        
+        return jsonify({'success': True, 'user': user_info})
+    except Exception as e:
+        print(f"DEBUG: Firebase Token Verification Failed: {e}")
+        return jsonify({'error': 'Invalid token'}), 401
 
 
 @app.route('/auth/logout')
